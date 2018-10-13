@@ -9,12 +9,13 @@ import java.util.Map;
 @Service
 public class LoggingService {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    /*@Autowired
+    JdbcTemplate jdbcTemplate;*/
 
     public short queryForUsernameAndReturnColor(String username) {
-        Map<String, Object> result = jdbcTemplate.queryForMap("some query for now");
+       /* Map<String, Object> result = jdbcTemplate.queryForMap("some query for now");
 
-        return (short)result.get("color");
+        return (short)result.get("color");*/
+       return 2;
     }
 }

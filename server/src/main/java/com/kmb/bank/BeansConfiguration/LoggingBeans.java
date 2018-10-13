@@ -9,9 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class LoggingBeans {
 
 
-    @Bean
+    /*@Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate();
-    }
+    }*/
 
 }

@@ -20,8 +20,8 @@ public class LoggingController {
         return "SIEMANKO PANIE 35";
     }
 
-    @GetMapping("/login")
+   /* @GetMapping("/login")
     public short getLoggin(@RequestParam String username) {
         return loggingService.queryForUsernameAndReturnColor(username);
-    }
+    }*/
 }
