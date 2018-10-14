@@ -1,5 +1,6 @@
 package com.kmb.bank.beans;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,12 +9,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 
 @Configuration
-public class BeansMain {
+public class PostgresConfig {
 
     @Value("${jdbc.url}")
     private String postgresUrl;
 
-    @Value("${jdbc.user}")
+    @Value("${jdbc.username}")
     private String postgresUsername;
 
     @Value("${jdbc.password}")
@@ -36,5 +37,7 @@ public class BeansMain {
 
         return jdbcTemplate;
     }
+
+
 
 }
