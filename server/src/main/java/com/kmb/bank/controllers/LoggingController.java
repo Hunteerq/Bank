@@ -21,9 +21,23 @@ public class LoggingController {
     private LoggingService loggingService;
 
 
-    @RequestMapping("/login")
-    public ModelAndView loginController(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        return new ModelAndView("first");
+    @RequestMapping("/log-in")
+    public String loginController() throws Exception {
+        return "log-in";
     }
 
+    @RequestMapping("/password")
+    public String passwordController() throws Exception {
+        return "password";
+    }
+
+    @RequestMapping("/dashboard")
+    public String dashboardController() throws Exception {
+        return "dashboard";
+    }
+
+    @RequestMapping("/sign-out")
+    public String signoutController() throws Exception {
+        return "sign-out";
+    }
 }
