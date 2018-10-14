@@ -1,4 +1,15 @@
+DROP TABLE IF EXISTS client_account;
+DROP TABLE IF EXISTS currency_exchange;
+DROP TABLE IF EXISTS loan;
+DROP TABLE IF EXISTS card;
+DROP TABLE IF EXISTS card_type;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS login;
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS account_type;
+DROP TABLE IF EXISTS currency;
+
 
 CREATE TABLE login (
 	username VARCHAR(20) PRIMARY KEY,
@@ -76,11 +87,26 @@ CREATE TABLE client_account (
 
 CREATE TABLE loan(
 	id SERIAL PRIMARY KEY,
-	client_pesel VARCHAR(11) NOT NULL, FOREIGN KEY(client_pesel) REFERENCES client(pesel),
+	account_number VARCHAR(16) NOT NULL, FOREIGN KEY(account_number) REFERENCES account(number),
 	amount DOUBLE PRECISION NOT NULL,
 	begin_date DATE NOT NULL,
 	months_amount SMALLINT NOT NULL,
 	already_paid DOUBLE PRECISION NOT NULL CHECK(already_paid<=amount),
 	id_currency SMALLINT NOT NULL
 );
+
+INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
+VALUES ('Andrych', 398, NULL, '35-691', 'Krakow', 'Poland');
+
+INSERT INTO login
+VALUES('fmerta', 'flak35');
+
+INSERT INTO client(pesel, name, surname, email, address_id, username, color)
+VALUES('96121935590', 'Filip', 'Merta', 'filip.merta@gmail.com', 1, 'fmerta', 110);
+
+
+-- Testing query
+SELECT * FROM client
+INNER JOIN login ON login.username = client.username
+INNER JOIN address ON address.id = client.address_id
 
