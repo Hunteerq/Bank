@@ -25,7 +25,6 @@ public class LoggingController {
     public void testRabbit() {
         Address address = new Address(1, "Podchorazych", 15, 6, "30-711", "Poland");
         Transaction transaction = new Transaction(1, "666223452626", "15523632673470", LocalDateTime.now(), 421.53, "Za Merte", 1, address );
-
         loggingService.testRabbitMq(transaction);
 
     }
