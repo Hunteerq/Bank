@@ -52,6 +52,12 @@ public class LoggingController {
         }
     }
 
+    @GetMapping("/check")
+    public String check(){
+        return "redirect:login";
+    }
+
+
     @RequestMapping(value="/password", method=RequestMethod.GET)
     public String passwordGet(){
         return "redirect:login";
