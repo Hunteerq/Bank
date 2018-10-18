@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+rabbitmq.url = localhost
+rabbitmq.exchange = bank
+rabbitmq.username = guest
+rabbitmq.password = guest
+
+=======
+rabbimtq.url = localhost:15672
+server.servlet.session.timeout=10s
+>>>>>>> sasu
+
+jdbc.driver = org.postgresql.Driver
+jdbc.url = jdbc:postgresql://localhost:5432/bank
+jdbc.username = postgres
+jdbc.password = kmb35
+
