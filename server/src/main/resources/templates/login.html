@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<span th:if="${param.error}">Invalid username</span>
+<span th:if="${param.logout}">Logout</span>
+<form th:action="@{/password}" method="post">
+    <label>Login</label>:<br>
+    <input type="text"
+           id="username"
+           name="username"
+           class="form-control"
+           autofocus="autofocus"
+           placeholder="Username"><br>
+    <input type="submit"
+           name="next"
+           id="next"
+           class="form-control btn btn-info"
+           value="Next">
+</form>
+</body>
+</html>

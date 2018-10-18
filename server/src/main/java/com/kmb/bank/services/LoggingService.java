@@ -20,7 +20,7 @@ public class LoggingService {
     private Sender rabbitmq;
 
     public Integer queryForUsernameAndReturnColor(String username) {
-        log.info("Query invoked");
+        //log.info("Query invoked");
         Map<String, Object> result = jdbcTemplate.queryForMap("SELECT client.color FROM client " +
                 "WHERE client.username LIKE '" + username + "'" );
 

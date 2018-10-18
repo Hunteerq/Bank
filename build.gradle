@@ -16,6 +16,7 @@ subprojects{
 
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
+	apply plugin: 'war'
 
 
 	group = 'com.kmb'
@@ -28,13 +29,26 @@ subprojects{
 		maven { url "https://repo.spring.io/milestone" }
 	}
 
-
+	//ext['thymeleaf.version'] = '3.0.1.RELEASE'
+	//ext['thymeleaf-layout-dialect.version'] = '2.0.0'
 	dependencies {
 		//throws an exception
 		//implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
-
+		
 		implementation('org.springframework.boot:spring-boot-starter-amqp')
 		implementation('org.springframework.boot:spring-boot-starter-web')
+		compile("org.springframework.boot:spring-boot-devtools")
+		compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+		compile ('org.springframework.boot:spring-boot-starter-security')
+		// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+		compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.10.RELEASE'
+
+
+		// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4
+		compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.3.RELEASE'
+
+		compile("javax.servlet:jstl")
+		compile("org.apache.tomcat.embed:tomcat-embed-jasper")
 		runtimeOnly('org.postgresql:postgresql')
 		compileOnly('org.projectlombok:lombok')
 		testImplementation('org.springframework.boot:spring-boot-starter-test')
