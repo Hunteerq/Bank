@@ -1,4 +1,4 @@
-package com.kmb.bank.beans;
+package com.kmb.bank.config;
 
 import com.kmb.bank.sender.Sender;
 import com.kmb.bank.sender.rabbitmq.Rabbit;

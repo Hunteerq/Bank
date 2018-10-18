@@ -1,4 +1,4 @@
-package com.kmb.bank.beans;
+package com.kmb.bank.config;
 
 
 import org.springframework.beans.factory.annotation.Value;

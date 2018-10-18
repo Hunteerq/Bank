@@ -16,6 +16,7 @@ subprojects{
 
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
+	apply plugin: 'war'
 
 
 	group = 'com.kmb'
@@ -38,5 +39,7 @@ subprojects{
 		runtimeOnly('org.postgresql:postgresql')
 		compileOnly('org.projectlombok:lombok')
 		testImplementation('org.springframework.boot:spring-boot-starter-test')
+		compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+		compile ('org.springframework.boot:spring-boot-starter-security')
 	}
 }

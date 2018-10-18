@@ -35,4 +35,28 @@ public class LoggingService {
             log.error("Error sending client to rabbitMq, " +  E.getMessage());
         }
     }
+
+    public Integer validateUsername(String username) {
+        try {
+            Map<String, Object> color = jdbcTemplate.queryForMap("SELECT client.color FROM client " +
+                    "INNER JOIN login ON login.username = client.username " +
+                    "WHERE login.username LIKE '" + username + "'");
+
+            log.info("Color = " + (Integer) color.get("color"));
+            return (Integer) color.get("color");
+        } catch (Exception E ) {
+            return -200;
+        }
+
+    }
+
+    public boolean validatePassword(String username, String password) {
+        try {
+            Map<String, Object> color = jdbcTemplate.queryForMap("SELECT * FROM login " +
+                    "WHERE login.username LIKE '" + username + "' AND login.password LIKE '" + password + "'");
+            return true;
+        } catch (Exception E) {
+            return false;
+        }
+    }
 }

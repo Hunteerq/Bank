@@ -1,32 +1,55 @@
 package com.kmb.bank.controllers;
 
-import com.kmb.bank.models.Address;
-import com.kmb.bank.models.Transaction;
 import com.kmb.bank.services.LoggingService;
+
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@Log4j2
+@Controller
 public class LoggingController {
 
     @Autowired
     private LoggingService loggingService;
 
-    @RequestMapping("/login")
-    public String test() {
-        Integer color = loggingService.queryForUsernameAndReturnColor("fmerta");
-        return "SIEMANKO PANIE 35, oto Twoj kolor = " + color;
+
+    @RequestMapping("/")
+    public String login() {
+        return "login";
     }
 
-    @RequestMapping("/testRabbit")
-    public void testRabbit() {
-        Address address = new Address(1, "Podchorazych", 15, 6, "30-711", "Poland");
-        Transaction transaction = new Transaction(1, "666223452626", "15523632673470", LocalDateTime.now(), 421.53, "Za Merte", 1, address );
-        loggingService.testRabbitMq(transaction);
+    @RequestMapping(value = "/username" , method= RequestMethod.POST)
+    public String login(HttpServletRequest req,
+                        @RequestParam(value = "username", required = false) String username,
+                        @RequestParam(value = "error", required = false) String error){
 
+        Integer value = loggingService.validateUsername(username);
+        if (value!= -200) {
+            return "password";
+        } else {
+            return "login_unsuccessful";
+        }
     }
+
+
+    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    public String password(HttpServletRequest req,
+                           @RequestParam(value = "username", required = false) String username,
+                           @RequestParam(value="password", required = false) String password,
+                           @RequestParam(value = "error", required = false) String error) {
+
+        if (loggingService.validatePassword(username, password)) {
+            return "dashboard";
+        } else {
+            return "password_unsuccessful";
+        }
+    }
+
 
 }
