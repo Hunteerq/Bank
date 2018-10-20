@@ -19,23 +19,6 @@ public class LoggingService {
     @Autowired
     private Sender rabbitmq;
 
-    public Integer queryForUsernameAndReturnColor(String username) {
-        log.info("Query invoked");
-        Map<String, Object> result = jdbcTemplate.queryForMap("SELECT client.color FROM client " +
-                "WHERE client.username LIKE '" + username + "'" );
-
-
-        return (Integer)result.get("color");
-    }
-
-    public <E> void testRabbitMq(E c1) {
-        try {
-            rabbitmq.send(c1);
-        } catch (Exception E) {
-            log.error("Error sending client to rabbitMq, " +  E.getMessage());
-        }
-    }
-
     public Integer validateUsername(String username) {
         try {
             Map<String, Object> color = jdbcTemplate.queryForMap("SELECT client.color FROM client " +

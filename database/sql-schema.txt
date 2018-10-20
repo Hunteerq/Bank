@@ -9,11 +9,12 @@ DROP TABLE IF EXISTS login;
 DROP TABLE IF EXISTS account;
 DROP TABLE IF EXISTS account_type;
 DROP TABLE IF EXISTS currency;
-
+DROP TABLE IF EXISTS recurring_transfer;
 
 CREATE TABLE login (
 	username VARCHAR(20) PRIMARY KEY,
-	password VARCHAR(20) NOT NULL
+	password VARCHAR(20) NOT NULL,
+	color SMALLINT NOT NULL DEFAULT 100
 );
 
 CREATE TABLE currency (
@@ -75,8 +76,7 @@ CREATE TABLE client (
 	surname VARCHAR(20) NOT NULL,
 	email VARCHAR(40) NOT NULL,
 	address_id INTEGER NOT NULL, FOREIGN KEY(address_id) REFERENCES address(id),
-	username VARCHAR(20) NOT NULL, FOREIGN KEY(username) REFERENCES login(username),
-	color SMALLINT NOT NULL DEFAULT 100
+	username VARCHAR(20) NOT NULL, FOREIGN KEY(username) REFERENCES login(username)
 );
 
 CREATE TABLE client_account (
@@ -95,18 +95,39 @@ CREATE TABLE loan(
 	id_currency SMALLINT NOT NULL
 );
 
+CREATE TABLE recurring_transfer ( 
+	id SERIAL PRIMARY KEY,
+	begin_date BIGINT NOT NULL,
+	cycle BIGINT NOT NULL,
+	account_number VARCHAR(16) NOT NULL,
+	amount DOUBLE PRECISION NOT NULL
+); 
+
 INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
 VALUES ('Andrych', 398, NULL, '35-691', 'Krakow', 'Poland');
 
-INSERT INTO login
-VALUES('fmerta', 'flak35');
+INSERT INTO login VALUES('fmerta', 'flak35', 35);
 
-INSERT INTO client(pesel, name, surname, email, address_id, username, color)
-VALUES('96121935590', 'Filip', 'Merta', 'filip.merta@gmail.com', 1, 'fmerta', 110);
+INSERT INTO client(pesel, name, surname, email, address_id, username)
+VALUES('96121935590', 'Filip', 'Merta', 'filip.merta@gmail.com', 1, 'fmerta');
+
+INSERT INTO account_type VALUES (1, 'student_account');
+
+INSERT INTO currency VALUES (1, 'PLN');
+
+INSERT INTO account VALUES ('2222444466661111', 35695, 1, 1, now(), false, false);
+
+INSERT INTO client_account VALUES (1, '96121935590', '2222444466661111');
 
 
--- Testing query
-SELECT * FROM client
-INNER JOIN login ON login.username = client.username
-INNER JOIN address ON address.id = client.address_id
+--Getting all info about clients and accounts
+SELECT client.*, account.* FROM client
+INNER JOIN client_account ON client.pesel = client_account.client_pesel
+INNER JOIN account ON account.number = client_account.account_number
 
+--Getting all info about clients and cards
+
+SELECT client.*, card.* FROM client
+INNER JOIN client_account ON client_account.client_pesel = client.pesel
+INNER JOIN account ON account.number = client_account.account_number
+INNER JOIN card ON card.account_number = account.number

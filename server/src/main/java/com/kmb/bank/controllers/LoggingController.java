@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Log4j2
 @Controller
@@ -17,7 +18,6 @@ public class LoggingController {
 
     @Autowired
     private LoggingService loggingService;
-
 
     @RequestMapping("/")
     public String login() {
@@ -50,6 +50,13 @@ public class LoggingController {
             return "password_unsuccessful";
         }
     }
+
+
+    /*@RequestMapping("/*")
+    public void unknown(HttpServletResponse response)throws Exception{
+        response.sendRedirect("/");
+    }*/
+
 
 
 }
