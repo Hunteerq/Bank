@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
@@ -14,9 +15,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .loginPage("/")
-                .failureUrl("/login-error.html")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/index");
     }
+
 }

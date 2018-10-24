@@ -1,0 +1,27 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /*overflow: hidden; */
+}
+
+@font-face {
+    font-family: Andis;
+    src: url("../fonts/Andis.ttf");
+}
+
+nav {
+    margin-left: 20%;
+    margin-right: 20%;
+    height: 8vh;
+    background-color: rgba(192, 192, 192, 0.4);
+    border-radius: 2vh;
+}
+
+nav h1 {
+    margin-left: 0.5%;
+    font-family: Andis;
+    font-weight: normal;
+    font-size: 86px;
+}
+

@@ -52,10 +52,10 @@ public class LoggingController {
     }
 
 
-    /*@RequestMapping("/*")
+    @RequestMapping("/*")
     public void unknown(HttpServletResponse response)throws Exception{
         response.sendRedirect("/");
-    }*/
+    }
 
 
 
