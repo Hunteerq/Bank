@@ -28,8 +28,8 @@ public class LoggingController {
     public String login(HttpServletRequest req,
                         @RequestParam(value = "username", required = false) String username,
                         @RequestParam(value = "error", required = false) String error){
-
-        Integer value = loggingService.validateUsername(username);
+        log.info(username);
+        Short value = loggingService.validateUsername(username);
         if (value!= -200) {
             return "password";
         } else {
@@ -53,10 +53,6 @@ public class LoggingController {
 
 
     @RequestMapping("/*")
-    public void unknown(HttpServletResponse response)throws Exception{
-        response.sendRedirect("/");
-    }
-
-
+    public void unknown(HttpServletResponse response)throws Exception{  response.sendRedirect("/"); }
 
 }

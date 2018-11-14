@@ -2,6 +2,7 @@ package com.kmb.bank.services;
 
 
 import com.kmb.bank.sender.Sender;
+import com.kmb.bank.sender.rabbitmq.Rabbit;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,15 +20,19 @@ public class LoggingService {
     @Autowired
     private Sender rabbitmq;
 
-    public Integer validateUsername(String username) {
-        try {
-            Map<String, Object> color = jdbcTemplate.queryForMap("SELECT client.color FROM client " +
-                    "INNER JOIN login ON login.username = client.username " +
-                    "WHERE login.username LIKE '" + username + "'");
 
-            log.info("Color = " + (Integer) color.get("color"));
-            return (Integer) color.get("color");
+    public Short validateUsername(String username) {
+        try {
+
+            Short color = jdbcTemplate.queryForObject("SELECT login.color FROM login " +
+                    "WHERE login.username LIKE '" + username + "'", Short.class);
+
+            rabbitmq.send(color.toString());
+
+            log.info("Color = " + color);
+            return color;
         } catch (Exception E ) {
+            log.error("WYJEBALO COS KURWA " + E.getMessage());
             return -200;
         }
 
