@@ -2,6 +2,8 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: Andis;
+    text-decoration: none;
     /*overflow: hidden; */
 }
 
@@ -10,12 +12,21 @@
     src: url("../fonts/Andis.ttf");
 }
 
+a {
+    color: inherit;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    text-decoration-color: #007FFF;
+    text-decoration-style: initial;
+}
+
 nav {
-    margin-left: 20%;
-    margin-right: 20%;
-    height: 8vh;
-    background-color: rgba(192, 192, 192, 0.4);
-    border-radius: 2vh;
+    margin-left: 0;
+    margin-right: 0%;
+    height: 10vh;
+    border-bottom: 1.5px solid black;
 }
 
 nav h1 {
@@ -25,3 +36,121 @@ nav h1 {
     font-size: 86px;
 }
 
+nav ul li {
+    float: left;
+    list-style-type: none;
+    font-size: 40px;
+    padding-top: 1vw;
+    padding-left: 4vw;
+
+}
+
+
+nav ul li a {
+    display: block;
+    font-size: 40px;
+}
+
+#interface {
+    border-right: 1px solid black;    
+}
+
+#logo {
+    color: #007FFF;
+    font-size:  120px;
+    padding-left: 3vw;
+    margin-right: 20vw;
+    text-decoration: none;
+    width: 3vw;
+}
+
+nav ul div li a {
+    padding-right: 4vw;
+}
+
+.currencies {
+    display: block;
+    height: 3vh;
+    width:  100vw;
+    border-bottom: 1px solid black;
+}
+
+.currencies .normal {
+    float: left;
+    width: 50vw;
+    height: inherit;
+    border-right: 1px solid black;
+}
+
+.currencies .crypto {
+    padding-left: 5vw;
+    float: left;
+    height: inherit;
+    width: 50vw;
+}
+
+.bars-container {
+    width: 100vw;
+    height: 87vh;
+}
+
+.bars-container .left-bar {
+    
+    float: left;
+    width: 35vw;
+    height: inherit;
+}
+
+.bars-container .left-bar .small-bars {
+    text-align: center;
+    margin-top: 10vh;
+    margin-left: 10vw;
+    height: 15vh;
+    width: 15vw;
+    border: 2px solid black;
+    font-size: 60px;
+    color: black;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+}
+
+.small-bars:hover {
+    animation: small-bars 5s linear;
+}
+
+.bars-container .right-bar {
+    float: left;
+    width: 60vw;
+    height: inherit;
+}
+
+.bars-container .right-bar .history {
+    margin-top: 10vh;
+    width:  inherit;
+    height: 67vh;
+    
+}
+.bars-container .right-bar .history .title {
+    width: 59.7vw;
+    height: 10vh;
+    font-size: 42px;
+    border-bottom: 2px solid black;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+
+}
+
+
+@keyframes small-bars {
+    0% {
+        background-color: white;
+    }
+    10% {
+        background-color: blue;
+    }
+    100% {
+        background-color: blue;
+    }
+}

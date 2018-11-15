@@ -3,11 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../static/styles/dashboard.css">
+    <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
 </head>
 <body>
     <nav>
-        <h1>KMB</h1>
+        <ul>
+            <li id="logo" class="col-md-4 col-lg-4"><a>KMB</a></li>
+            <div>
+                <li><a th:href="@{/account}" class="interface">Konta</a></li>
+                <li><a th:href="@{/card}" class="interface">Karty</a></li>
+                <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
+                <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
+            </div>
+            <li><a th:href>Filip Merta</a></li> 
+        </ul>
     </nav>
+    <div class="currencies">
+        <div class="normal">Waluty </div>
+        <div class="crypto">Kryptowaluty</div>
+    </div>
+
+    <div class="bars-container">
+        <div class="left-bar">
+            <a th:href="@{/transfer}" ><div class="small-bars">Transfer</div></a>
+            <a th:href="@{/credit}"><div class="small-bars">Kredyty</div></a>
+            <a th:href="@{/advanced}"><div class="small-bars">Advanced Options</div></a>
+        </div>
+
+        <div class="right-bar">
+            <div class="history">
+                <div class="title">Historia przelewów</div>
+                <div class="transfers"></div>
+            </div>                        
+        </div>
+    </div>
 </body>
 </html>

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Log4j2
 @Controller
 public class LoggingController {
 
@@ -28,7 +27,7 @@ public class LoggingController {
     public String login(HttpServletRequest req,
                         @RequestParam(value = "username", required = false) String username,
                         @RequestParam(value = "error", required = false) String error){
-        log.info(username);
+
         Short value = loggingService.validateUsername(username);
         if (value!= -200) {
             return "password";
