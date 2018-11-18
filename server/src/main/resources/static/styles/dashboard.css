@@ -17,12 +17,11 @@ a {
 }
 
 nav a:hover {
-    text-decoration: underline;
-    text-decoration-color: #007FFF;
     text-decoration-style: initial;
 }
 
 nav {
+    background-color: rgba(229, 230, 236, 0.3);
     margin-left: 0;
     margin-right: 0%;
     height: 10vh;
@@ -31,7 +30,6 @@ nav {
 
 nav h1 {
     margin-left: 0.5%;
-    font-family: Andis;
     font-weight: normal;
     font-size: 86px;
 }
@@ -42,33 +40,39 @@ nav ul li {
     font-size: 40px;
     padding-top: 1vw;
     padding-left: 4vw;
-
 }
 
 
 nav ul li a {
+    transition: all .2s ease-in-out;
     display: block;
     font-size: 40px;
 }
 
-#interface {
-    border-right: 1px solid black;    
-}
-
-#logo {
-    color: #007FFF;
-    font-size:  120px;
+#logo a {
+    padding-top: 0.3vh;
+    transform: scale(1.5);
+    transition: all .2s ease-in-out;
+    text-align: center;
+    color: #26c6da;
     padding-left: 3vw;
     margin-right: 20vw;
     text-decoration: none;
     width: 3vw;
+
 }
 
 nav ul div li a {
     padding-right: 4vw;
 }
 
+nav ul li a:hover {
+    color: #26c6da;;
+    transform: scale(1.15);
+}
+
 .currencies {
+    background-color: rgba(229, 230, 236, 0.3);
     display: block;
     height: 3vh;
     width:  100vw;
@@ -90,24 +94,31 @@ nav ul div li a {
 }
 
 .bars-container {
+    padding-top: 10vh;
+    background-image: url("../assets/landscape.jpg");  
     width: 100vw;
     height: 87vh;
 }
 
+.wrapper {
+    margin-left: 10vw;
+    padding-left: 2vw;
+    height: 70vh;
+    background-color:rgba(229, 230, 236, 0.5);
+    width: 80vw;
+}
+
 .bars-container .left-bar {
-    
     float: left;
-    width: 35vw;
     height: inherit;
+    margin-right: 7vw;
 }
 
 .bars-container .left-bar .small-bars {
     text-align: center;
-    margin-top: 10vh;
-    margin-left: 10vw;
+    margin-top: 7vh;
     height: 15vh;
     width: 15vw;
-    border: 2px solid black;
     font-size: 60px;
     color: black;
     display:flex;
@@ -115,42 +126,69 @@ nav ul div li a {
     justify-content:center;
 }
 
-.small-bars:hover {
-    animation: small-bars 5s linear;
-}
 
 .bars-container .right-bar {
     float: left;
-    width: 60vw;
+    width: 50vw;  
     height: inherit;
 }
 
 .bars-container .right-bar .history {
-    margin-top: 10vh;
+    margin-top: 5vh;
     width:  inherit;
     height: 67vh;
     
 }
+
 .bars-container .right-bar .history .title {
-    width: 59.7vw;
+    width: inherit;
     height: 10vh;
     font-size: 42px;
-    border-bottom: 2px solid black;
     display:flex;
     align-items: center;
     justify-content:center;
 
 }
 
-
-@keyframes small-bars {
-    0% {
-        background-color: white;
-    }
-    10% {
-        background-color: blue;
-    }
-    100% {
-        background-color: blue;
-    }
+.bars-container .right-bar .history .transfers {
+    background-color: #26c6da;
+    width: inherit;
+    height: inherit
 }
+
+
+.small-bars{
+    background-color: #25C28B;
+    border:none;
+    position:relative;
+    height:60px;
+    font-size:1.6em;
+    padding:0 2em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+  }
+ .small-bars:hover{
+    background: rgba(229, 230, 236, 0);
+    color:#25BBAF;
+  }
+  .small-bars:before,.small-bars:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #26c6da;
+    transition:400ms ease all;
+  }
+  .small-bars:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+  }
+  .small-bars:hover:before,.small-bars:hover:after{
+    width:100%;
+    transition:800ms ease all;
+  }
