@@ -1,0 +1,47 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+
+}
+
+@font-face {
+    font-family: Andis;
+    src: url("../fonts/Andis.ttf");
+}
+
+legend {
+    top: 0;
+    left: 4%;
+    margin-bottom: 2%;
+
+    margin-left: 0.5%;
+    font-family: Andis;
+    font-weight: normal;
+    font-size: 86px;
+    width: 50%;
+
+}
+
+fieldset {
+    font-size: 18px;
+    position: relative;
+    left: 5%;
+    margin-top: 10%;
+    z-index: 1;
+    width: 50%;
+}
+
+
+img {
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: -30%;
+    z-index: 2;
+}
+
+button {
+    float:left;
+}

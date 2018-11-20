@@ -1,13 +1,12 @@
 package com.kmb.bank.services;
 
 
-import com.kmb.bank.sender.Sender;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 @Log4j2
@@ -16,23 +15,34 @@ public class LoggingService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private Sender rabbitmq;
 
-    public Integer queryForUsernameAndReturnColor(String username) {
-        log.info("Query invoked");
-        Map<String, Object> result = jdbcTemplate.queryForMap("SELECT client.color FROM client " +
-                "WHERE client.username LIKE '" + username + "'" );
+    public Short validateUsername(String username) {
+        try {
+            Short color = jdbcTemplate.queryForObject("SELECT login.color FROM login " +
+                    "WHERE login.username = '" + username + "'", Short.class);
+            log.info("Color = " + color);
 
+            return color;
+        } catch (DataAccessException E) {
+            log.error("Error, too many users with the same username " + E.getMessage());
 
-        return (Integer)result.get("color");
+            return -1;
+        }
+
     }
 
-    public <E> void testRabbitMq(E c1) {
+    public boolean validatePassword(String username, String password) {
         try {
-            rabbitmq.send(c1);
-        } catch (Exception E) {
-            log.error("Error sending client to rabbitMq, " +  E.getMessage());
+            String encodedPassword = DigestUtils.md5Hex(password);
+            String ifValidated =  jdbcTemplate.queryForObject("SELECT login.username FROM login " +
+                    "WHERE login.username = '" + username + "' AND login.password = '" + encodedPassword + "'", String.class);
+            log.info("After validating = " + ifValidated);
+
+            return true;
+        } catch (DataAccessException E) {
+            log.info("Not validated " + E.getMessage());
+
+            return false;
         }
     }
 }

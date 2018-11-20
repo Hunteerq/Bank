@@ -16,6 +16,7 @@ subprojects{
 
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
+	apply plugin: 'war'
 
 
 	group = 'com.kmb'
@@ -38,5 +39,11 @@ subprojects{
 		runtimeOnly('org.postgresql:postgresql')
 		compileOnly('org.projectlombok:lombok')
 		testImplementation('org.springframework.boot:spring-boot-starter-test')
+		compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+		compile ('org.springframework.boot:spring-boot-starter-security')
+       // compile('io.springfox:springfox-swagger2:2.6.1')
+		compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+		compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+        //compile('io.springfox:springfox-swagger-ui:2.6.1')
 	}
 }

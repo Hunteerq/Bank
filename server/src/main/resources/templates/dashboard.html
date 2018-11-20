@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- TH links -->
+    <link th:href="@{/styles/dashboard.css}" rel="stylesheet"> 
+    <link th:href="@{/styles/table.css}" rel="stylesheet">
+    <script th:src="@{/scripts/table.js}"></script>
+    <!-- Ordinary links -->
+    <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
+    <link href="../static/styles/table.css" rel="stylesheet" type="text/css">
+    <script src="../static/scripts/table.js"></script>
+<head>
+<body>
+    <nav>
+        <ul>
+            <li id="logo"><a href="#">KMB</a></li>
+            <div>
+                <li><a th:href="@{/account}" class="interface">Konta</a></li>
+                <li><a th:href="@{/card}" class="interface">Karty</a></li>
+                <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
+                <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
+            </div>
+            <li><a href="#">Filip Merta</a></li>
+        </ul>
+    </nav>
+    <div class="currencies">
+        <div class="normal">Waluty </div>
+        <div class="crypto">Kryptowaluty</div>
+    </div>
+
+    <div class="bars-container">
+        <div class = "wrapper">
+        <div class="left-bar">
+            <a th:href="@{/transfer}" ><div class="small-bars">Przelew</div></a>
+            <a th:href="@{/credit}"><div class="small-bars">Kredyty</div></a>
+            <a th:href="@{/advanced}"><div class="small-bars">Advanced Options</div></a>
+        </div>
+
+        <div class="right-bar">
+            <div class="history">
+                <div class="title">Operacje</div>
+                <div class="table">
+                    <div class="table-header">
+                        <div class="header__item"><a id="name" class="filter__link" href="#">Nadawca/Odbiorca</a></div>
+                        <div class="header__item"><a id="title" class="filter__link filter__link--number" href="#">Tytuł</a></div>
+                        <div class="header__item"><a id="account" class="filter__link filter__link--number" href="#">Nr konta</a></div>
+                        <div class="header__item"><a id="amount" class="filter__link filter__link--number" href="#">Kwota</a></div>
+                        <div class="header__item"><a id="date" class="filter__link filter__link--number" href="#">Data</a></div>
+                        <div class="header__item"><a id="type" class="filter__link filter__link--number" href="#">Typ</a></div>
+
+                    </div>
+                    <div class="table-content">	
+                        <div class="table-row">		
+                            <div class="table-data">Filip Merta</div>
+                            <div class="table-data">Za współżycie</div>
+                            <div class="table-data">2</div>
+                            <div class="table-data">2.50</div>
+                            <div class="table-data">21.10.2018</div>
+                            <div class="table-data">Uznanie</div>
+
+
+                        </div>
+                        <div class="table-row">
+                            <div class="table-data">Amadeusz Bubniak</div>
+                            <div class="table-data">Za wydalanie</div>
+                            <div class="table-data">1</div>
+                            <div class="table-data">5000</div>
+                            <div class="table-data">11.37.2018</div>
+                            <div class="table-data">Uznanie</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-data">Michał Josek</div>
+                            <div class="table-data">Kupno masła</div>
+                            <div class="table-data">2222 4444 5552 1111</div>
+                            <div class="table-data">31.50</div>
+                            <div class="table-data">21.37.2018</div>
+                            <div class="table-data">Obciążenie</div>
+
+                        </div>
+                        <div class="table-row">
+                            <div class="table-data">Szymon Borkowski</div>
+                            <div class="table-data">Kampania wyborcza mamy</div>
+                            <div class="table-data">5552 4444 1111 4444</div>
+                            <div class="table-data">400 000 000</div>
+                            <div class="table-data">21.05.2018</div>
+                            <div class="table-data">Uznanie</div>
+
+                        </div>
+                    </div>	
+                </div>
+            
+            </div>                        
+        </div>
+        </div>
+    </div>
+</body>
+</html>
