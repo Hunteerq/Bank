@@ -4,7 +4,7 @@
     box-sizing: border-box;
     font-family: Andis;
     text-decoration: none;
-    /*overflow: hidden; */
+    /* overflow: hidden; */
 }
 
 @font-face {
@@ -126,7 +126,6 @@ nav ul li a:hover {
     justify-content:center;
 }
 
-
 .bars-container .right-bar {
     float: left;
     width: 50vw;  
@@ -156,7 +155,6 @@ nav ul li a:hover {
     height: inherit
 }
 
-
 .small-bars{
     background-color: #25C28B;
     border:none;
@@ -168,10 +166,12 @@ nav ul li a:hover {
     transition:800ms ease all;
     outline:none;
   }
+
  .small-bars:hover{
     background: rgba(229, 230, 236, 0);
     color:#25BBAF;
   }
+  
   .small-bars:before,.small-bars:after{
     content:'';
     position:absolute;
@@ -182,12 +182,14 @@ nav ul li a:hover {
     background: #26c6da;
     transition:400ms ease all;
   }
+  
   .small-bars:after{
     right:inherit;
     top:inherit;
     left:0;
     bottom:0;
   }
+  
   .small-bars:hover:before,.small-bars:hover:after{
     width:100%;
     transition:800ms ease all;

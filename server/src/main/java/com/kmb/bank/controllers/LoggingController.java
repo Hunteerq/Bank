@@ -29,11 +29,7 @@ public class LoggingController {
                         @RequestParam(value = "error", required = false) String error){
 
         Short value = loggingService.validateUsername(username);
-        if (value!= -200) {
-            return "password";
-        } else {
-            return "login_unsuccessful";
-        }
+        return value!= -200 ? "password" : "login_unsuccessful";
     }
 
 
@@ -43,11 +39,7 @@ public class LoggingController {
                            @RequestParam(value="password", required = false) String password,
                            @RequestParam(value = "error", required = false) String error) {
 
-        if (loggingService.validatePassword(username, password)) {
-            return "dashboard";
-        } else {
-            return "password_unsuccessful";
-        }
+        return loggingService.validatePassword(username, password) ? "dashboard" :  "password_unsuccessful";
     }
 
 
