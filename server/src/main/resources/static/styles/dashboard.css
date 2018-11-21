@@ -17,7 +17,9 @@ a {
 }
 
 nav a:hover {
-    text-decoration-style: initial;
+    /* text-decoration-style: initial; */
+    text-decoration: none;
+
 }
 
 nav {

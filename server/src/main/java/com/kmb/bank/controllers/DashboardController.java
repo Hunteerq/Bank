@@ -9,6 +9,6 @@ public class DashboardController{
 
     @RequestMapping(value = "/transfer", method = RequestMethod.GET)
     public String getTransfer() {
-        return "nothing_yet";
+        return "transfer";
     }
 }
