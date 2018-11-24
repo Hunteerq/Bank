@@ -63,7 +63,7 @@ CREATE TABLE card (
 CREATE TABLE address (
 	id SERIAL PRIMARY KEY,
 	street VARCHAR(30) NOT NULL,
-	street_number INTEGER NOT NULL,
+	street_number VARCHAR(12) NOT NULL,
 	flat_number INTEGER,
 	postal_code VARCHAR(8) NOT NULL,
 	city VARCHAR(30) NOT NULL,
@@ -103,8 +103,10 @@ CREATE TABLE recurring_transfer (
 	amount DOUBLE PRECISION NOT NULL
 ); 
 
+
+--Merta
 INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
-VALUES ('Andrych', 398, NULL, '35-691', 'Krakow', 'Poland');
+VALUES ('Andrych', '398', NULL, '35-691', 'Krakow', 'Poland');
 
 INSERT INTO login VALUES('fmerta', 'flak35', 35);
 
@@ -118,6 +120,11 @@ INSERT INTO currency VALUES (1, 'PLN');
 INSERT INTO account VALUES ('2222444466661111', 35695, 1, 1, now(), false, false);
 
 INSERT INTO client_account VALUES (1, '96121935590', '2222444466661111');
+
+
+--Kulig
+
+INSERT INTO address VALUES('Sarmacka', '1a', 4, '30-711', 'Kraków', 'Poland');
 
 
 --Getting all info about clients and accounts

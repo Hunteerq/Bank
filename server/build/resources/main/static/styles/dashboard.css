@@ -4,7 +4,6 @@
     box-sizing: border-box;
     font-family: Andis;
     text-decoration: none;
-    /* overflow: hidden; */
 }
 
 @font-face {
@@ -17,7 +16,8 @@ a {
 }
 
 nav a:hover {
-    text-decoration-style: initial;
+    text-decoration: none;
+
 }
 
 nav {
@@ -66,8 +66,8 @@ nav ul div li a {
     padding-right: 4vw;
 }
 
-nav ul li a:hover {
-    color: #26c6da;;
+nav ul li:hover  {
+    color: #26c6da;
     transform: scale(1.15);
 }
 
@@ -194,3 +194,10 @@ nav ul li a:hover {
     width:100%;
     transition:800ms ease all;
   }
+
+  .name-surname {
+      text-align: center;
+      margin-top: -1vh;
+
+  }
+

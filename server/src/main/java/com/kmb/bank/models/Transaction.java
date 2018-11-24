@@ -6,12 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class Transaction {
 
     @Getter @Setter
     private long id;
+    @Getter @Setter
+    private String nadawca;
     @Getter @Setter
     private String senderAccountNumber;
     @Getter @Setter
@@ -23,7 +26,7 @@ public class Transaction {
     @Getter @Setter
     private String title;
     @Getter @Setter
-    private long cardId;
-    @Getter @Setter
-    private Address address;
+    private Optional<Long> cardId;
+//    @Getter @Setter
+//    private Address address;
 }

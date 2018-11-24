@@ -8,11 +8,13 @@
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet"> 
     <link th:href="@{/styles/table.css}" rel="stylesheet">
     <script th:src="@{/scripts/table.js}"></script>
+    <script th:src="@{/scripts/date.js}"></script>
     <!-- Ordinary links -->
     <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
     <link href="../static/styles/table.css" rel="stylesheet" type="text/css">
     <script src="../static/scripts/table.js"></script>
-<head>
+    <srcipt src="../static/srcipts/date.js"></srcipt>
+    <head>
 <body>
     <nav>
         <ul>
@@ -23,7 +25,14 @@
                 <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
                 <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
             </div>
-            <li><a href="#">Filip Merta</a></li>
+            <li>
+                <div class="name-surname">
+                    <a href="#">
+                        <div th:text="${session.nameSurname}"></div>
+                        <div id="dateTime"></div>
+                    </a>
+                </div>
+            </li>
         </ul>
     </nav>
     <div class="currencies">
@@ -60,9 +69,8 @@
                             <div class="table-data">2.50</div>
                             <div class="table-data">21.10.2018</div>
                             <div class="table-data">Uznanie</div>
-
-
                         </div>
+
                         <div class="table-row">
                             <div class="table-data">Amadeusz Bubniak</div>
                             <div class="table-data">Za wydalanie</div>
@@ -71,6 +79,7 @@
                             <div class="table-data">11.37.2018</div>
                             <div class="table-data">Uznanie</div>
                         </div>
+
                         <div class="table-row">
                             <div class="table-data">Michał Josek</div>
                             <div class="table-data">Kupno masła</div>
@@ -78,8 +87,8 @@
                             <div class="table-data">31.50</div>
                             <div class="table-data">21.37.2018</div>
                             <div class="table-data">Obciążenie</div>
-
                         </div>
+
                         <div class="table-row">
                             <div class="table-data">Szymon Borkowski</div>
                             <div class="table-data">Kampania wyborcza mamy</div>
@@ -87,9 +96,8 @@
                             <div class="table-data">400 000 000</div>
                             <div class="table-data">21.05.2018</div>
                             <div class="table-data">Uznanie</div>
-
                         </div>
-                    </div>	
+                    </div>
                 </div>
             
             </div>                        

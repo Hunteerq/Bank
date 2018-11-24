@@ -1,8 +1,67 @@
+/*  Bootstrap rozwala */
+
+body {
+    overflow: hidden;
+} 
+
+nav {
+    margin-top: -1vh;
+}
+nav ul li {
+     margin-top: -1vh; 
+}
+
+.navbar-top ul div li a {
+    color: black;
+}
+.navbar-top ul li .name-surname a {
+    color: black;
+}
+
+.navbar-top ul div li a:hover{
+    color: #26c6da;
+    transform: scale(1.15);
+}
+.navbar-top ul li .name-surname a:hover {
+    color: #26c6da;
+}
+
+.transfer-background {
+    width: 100vw;
+    height: 87vh;
+    background-image: url("../assets/landscape.jpg");
+    padding: 10vh 20vw;
+}
+
 .transfer-container {
-    margin-left: 20vw;
-    margin-right: 20vw;
     width: 60vw;
-    margin-top: 10vh;
     height: 67vh;
-    color: blue;
+    background-color:rgba(229, 230, 236, 0.5);
+    text-align: center;
+   
+}
+
+.transfer-container h1 {
+    padding-top: 5vh;
+    font-family: Roboto;
+}
+.form {
+    padding-left: 25%;
+    padding-top: 5%;
+    width: inherit;
+    height: inherit; 
+}
+
+.form-group .col-md-4 button {
+    margin-left: 10vw;
+    width: 5vw;
+}
+
+.col-sm-8 .col-sm-5 {
+    padding: 0;
+}
+
+#response {
+    font-family: Roboto;
+    font-size: .9em;
 }

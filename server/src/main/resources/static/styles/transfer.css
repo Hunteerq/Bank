@@ -1,16 +1,36 @@
+/*  Bootstrap rozwala */
+
 body {
     overflow: hidden;
+} 
+
+nav {
     margin-top: -1vh;
+}
+nav ul li {
+     margin-top: -1vh; 
+}
+
+.navbar-top ul div li a {
+    color: black;
+}
+.navbar-top ul li .name-surname a {
+    color: black;
+}
+
+.navbar-top ul div li a:hover{
+    color: #26c6da;
+    transform: scale(1.15);
+}
+.navbar-top ul li .name-surname a:hover {
+    color: #26c6da;
 }
 
 .transfer-background {
     width: 100vw;
     height: 87vh;
-    background-image: url("../assets/landscape.jpg");  
-    padding-left: 20vw;
-    padding-right: 20vw;
-    padding-top: 10vh;
-    padding-bottom: 10vh;
+    background-image: url("../assets/landscape.jpg");
+    padding: 10vh 20vw;
 }
 
 .transfer-container {
@@ -34,7 +54,6 @@ body {
 
 .form-group .col-md-4 button {
     margin-left: 10vw;
-    /* margin-top: 2vh; */
     width: 5vw;
 }
 
