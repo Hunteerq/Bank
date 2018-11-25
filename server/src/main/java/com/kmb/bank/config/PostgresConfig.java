@@ -1,6 +1,7 @@
 package com.kmb.bank.config;
 
 
+import com.kmb.bank.models.AccountDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,5 @@ public class PostgresConfig {
 
         return new JdbcTemplate(dataSource);
     }
-
-
 
 }

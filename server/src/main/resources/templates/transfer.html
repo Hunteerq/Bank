@@ -56,30 +56,30 @@
         <div class="transfer-container">
             <h1>PRZELEW</h1>
             <div class="form">
-                <form class="col-sm-8">
+                <form class="col-sm-8" th:action="@{/transfer/normal}" method="post">
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Wybierz konto</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option th:each="account: ${accountDTOS}" th:value="${account.number}" th:text="${account.number} + ' (' + ${account.balance} + ')'"></option>
+                        <select class="form-control" id="exampleFormControlSelect1" name="userAccountNumber">
+                            <option th:each="account: ${accountDTOS}" th:value="${account.number}" th:text="${account.number} + ' (' + ${account.balance} + ')'" ></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Tytuł przelewu</label>
-                        <input type="title" class="form-control" placeholder="np. 'Rachunki' ">
+                        <input name="title" type="title" class="form-control" placeholder="np. 'Rachunki' ">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Imię i nazwisko odbiorcy</label>
-                        <input type="name-surname" class="form-control" placeholder="Jan Kowalski">
+                        <input name = "recipientName" type="name-surname" class="form-control" placeholder="Jan Kowalski">
                      </div>
                      <div class="form-group" id="number">
                             <label for="exampleFormControlInput1">Numer konta odbiorcy</label>
-                            <input type="account-number" class="form-control" id="account-number" placeholder="1234 5678 1234 5678">
+                            <input name="recipientAccountNumber" type="account-number" class="form-control" id="account-number" placeholder="1234 5678 1234 5678">
                     </div>
                     <div id="response"></div>
                     
                     <div class="form-group col-sm-5">
                             <label for="exampleFormControlInput1">Wpisz kwotę</label>
-                            <input type="amount" class="form-control" id="exampleFormControlInput1" placeholder="35.35">
+                            <input name="amount" type="amount" class="form-control" id="exampleFormControlInput1" placeholder="35.35">
                     </div>
                     
                     <div class="form-group">

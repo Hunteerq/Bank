@@ -1,6 +1,8 @@
 package com.kmb.bank.services;
 
 import com.kmb.bank.models.AccountDTO;
+import com.kmb.bank.models.TransferDTO;
+import com.kmb.bank.sender.Sender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,34 +21,53 @@ public class TransfersService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private Sender rabbitmq;
+
     private List<AccountDTO> accountDTOS = new ArrayList<>();
 
     public void registerAccountNumbers(HttpServletRequest request, Model model) {
-        log.info("Entering  register");
         String username = (String) request.getSession().getAttribute("username");
-
         accountDTOS.clear();
-        log.info("Status of accountDTOS " +  accountDTOS.toString());
 
         jdbcTemplate.query("SELECT account.number, account.balance FROM account "+
                         "INNER JOIN client_account ON client_account.account_number = account.number " +
                         "INNER JOIN client ON client.pesel = client_account.client_pesel " +
                         "WHERE client.username = ?", new Object[] {username},
-                        ((rs, rownum) -> AccountDTO.builder()
+                        (rs, rownum) -> AccountDTO.builder()
                                                     .setBalance(rs.getInt("balance"))
                                                     .setNumber(rs.getString("number"))
-                                                    .build()))
-                                                    .forEach(this::add);
+                                                    .build())
+                        .forEach(this::addToCollection);
+
         register(model);
     }
 
     private void register(Model model) {
-        log.info("Registering everything");
+        log.info("Registering account numbers for transfer view");
         model.addAttribute("accountDTOS", accountDTOS);
     }
 
-    private void add(AccountDTO accountDTO) {
-        log.info("Creating our DTO: " +accountDTO.toString());
+    private void addToCollection(AccountDTO accountDTO) {
         accountDTOS.add(accountDTO);
+    }
+
+    public void sendNormalTransfer(String userAccountNumber, String title, String recipientName, String recipientAccountNumber, String amount) {
+        TransferDTO transfer = TransferDTO.builder()
+                .setUserAccountNumber(userAccountNumber)
+                .setTitle(title)
+                .setRecipientName(recipientName)
+                .setRecipientAccountNumber(recipientAccountNumber)
+                .setAmount(Double.valueOf(amount))
+                .build();
+
+        log.info(recipientName);
+
+        try {
+            rabbitmq.send(transfer);
+            log.info("Transfer sent");
+        } catch (Exception e) {
+            log.debug("Error sending transfer " + e.getMessage());
+        }
     }
 }
