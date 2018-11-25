@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,12 +60,8 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Wybierz konto</label>
                         <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>                               
+                            <option th:each="account: ${accountDTOS}" th:value="${account.number}" th:text="${account.number} + ' (' + ${account.balance} + ')'"></option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Tytuł przelewu</label>
