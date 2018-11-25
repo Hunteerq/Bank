@@ -25,8 +25,8 @@ public class Transaction {
     private double amount;
     @Getter @Setter
     private String title;
-    @Getter @Setter
-    private Optional<Long> cardId;
 //    @Getter @Setter
+//    private Optional<Long> cardId;
+//   @Getter @Setter
 //    private Address address;
 }

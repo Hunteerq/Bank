@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Service
 @Log4j2
+@Service
 public class LoggingService {
 
     @Autowired
@@ -21,11 +21,11 @@ public class LoggingService {
     public Short validateUsername(String username) {
         try {
             Short color = jdbcTemplate.queryForObject("SELECT login.color FROM login " +
-                    "WHERE login.username = '" + username + "'", Short.class);
+                    "WHERE login.username = ?", new Object[] {username}, Short.class);
             log.info("Color = " + color);
             return color;
         } catch (DataAccessException E) {
-            log.error("Error, too many users with the same username " + E.getMessage());
+            log.debug("Error, too many users with the same username " + E.getMessage());
             return -1;
         }
 
@@ -35,7 +35,7 @@ public class LoggingService {
         try {
             String encodedPassword = DigestUtils.md5Hex(password);
             String ifValidated =  jdbcTemplate.queryForObject("SELECT login.username FROM login " +
-                    "WHERE login.username = '" + username + "' AND login.password = '" + encodedPassword + "'", String.class);
+                    "WHERE login.username = ? AND login.password = ?", new Object[] {username, encodedPassword},  String.class);
             saveSession(request, username, password);
             return true;
         } catch (DataAccessException E) {
@@ -51,9 +51,10 @@ public class LoggingService {
 
     public String getNameFromUsername(String username) {
         String name = jdbcTemplate.queryForObject("SELECT CONCAT(name, ' ',surname) FROM client " +
-                "WHERE '" + username + "' = client.username", String.class);
+                "WHERE username = ?", new Object[] {username}, String.class);
         log.info("Name+ surname = " + name);
         return name;
     }
+
 
 }

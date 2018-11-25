@@ -11,6 +11,5 @@ public class Client {
     private String surname;
     private String email;
     private long addressId;
-    private long loginId;
-    private short color;
+    private String username;
 }

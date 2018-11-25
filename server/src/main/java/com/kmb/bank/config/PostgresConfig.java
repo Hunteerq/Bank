@@ -26,16 +26,13 @@ public class PostgresConfig {
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
-
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(postgresDriver);
         dataSource.setUrl(postgresUrl);
         dataSource.setUsername(postgresUsername);
         dataSource.setPassword(postgresPassword);
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-        return jdbcTemplate;
+        return new JdbcTemplate(dataSource);
     }
 
 
