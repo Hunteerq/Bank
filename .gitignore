@@ -1,6 +1,7 @@
 *.class
 .gradle
 /build/
+server/build/*
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -25,5 +26,3 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-
-server/build/*
