@@ -10,6 +10,6 @@ public class Client {
     private String name;
     private String surname;
     private String email;
-    private long addressId;
+    private Long addressId;
     private String username;
 }

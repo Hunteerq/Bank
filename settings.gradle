@@ -1,3 +1,3 @@
 rootProject.name = 'bank'
 include 'server'
-
+include 'transaction_logger'

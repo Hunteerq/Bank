@@ -18,8 +18,11 @@ jdbc:
   username: postgres
   password: kmb35
 
-mongo:
-  db: Bank
-  username: mongo
-  password: kmb35
-  port: 27017
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bank
+
+

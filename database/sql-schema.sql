@@ -107,7 +107,7 @@ CREATE TABLE recurring_transfer (
 --Merta
 INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
 VALUES ('Andrych', '398', NULL, '35-691', 'Krakow', 'Poland');
-INSERT INTO login VALUES('fmerta', 'flak35', 35);
+INSERT INTO login VALUES('fmerta', MD5('flak35'), 35);
 INSERT INTO client(pesel, name, surname, email, address_id, username)
 VALUES('96121935590', 'Filip', 'Merta', 'filip.merta@gmail.com', 1, 'fmerta');
 INSERT INTO account_type VALUES (1, 'student_account');
@@ -130,6 +130,12 @@ INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '
 INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '4444555522228888');
 INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '9999111122223333');
 
+--Krzemień
+INSERT INTO login VALUES ('fkamien', MD5('dupa'), 2);
+INSERT INTO address VALUES(3, 'Felicjanek', '16', 7, '31-104', 'Kraków', 'Poland');
+INSERT INTO client VALUES('97022512512', 'Filip', 'Krzemień', 'filip.krz@interia.pl', 3, 'fkamien');
+INSERT INTO account VALUES('6911221371488420', 100000000, 1, 1, now(), false, false)
+INSERT INTO client_account(client_pesel, account_number) VALUES('97022512512', '6911221371488420');
 
 --Getting all info about clients and accounts
 SELECT client.*, account.* FROM client

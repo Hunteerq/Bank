@@ -31,19 +31,11 @@ subprojects{
 
 
 	dependencies {
-		//throws an exception
-		//implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
-
-		implementation('org.springframework.boot:spring-boot-starter-amqp')
-		implementation('org.springframework.boot:spring-boot-starter-web')
-		runtimeOnly('org.postgresql:postgresql')
 		compileOnly('org.projectlombok:lombok')
+		runtimeOnly('org.postgresql:postgresql')
+		compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.0.RELEASE'
 		testImplementation('org.springframework.boot:spring-boot-starter-test')
-		compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-		compile ('org.springframework.boot:spring-boot-starter-security')
-       // compile('io.springfox:springfox-swagger2:2.6.1')
 		compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 		compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-        //compile('io.springfox:springfox-swagger-ui:2.6.1')
 	}
 }
