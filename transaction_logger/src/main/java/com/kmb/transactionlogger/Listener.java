@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 
 @Log4j2
@@ -27,44 +28,44 @@ public class Listener  {
 
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void listen(TransferDTO transfer) {
-        updateDatabase(transfer);
+        updateDatabases(transfer);
     }
 
-    private boolean updateDatabase(TransferDTO transferDTO) {
+    private void updateDatabases(TransferDTO transferDTO) {
         try {
-            Double currentAmount = jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
-                    "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber() }, Double.class);
-
-            if ((currentAmount != null && currentAmount - transferDTO.getAmount() >= 0)) {
-                return updateTables(transferDTO);
-            } else {
-                log.info("Not enough funds");
-                return false;
-            }
+           Optional.of(jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
+                    "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber()}, Double.class))
+                    .ifPresentOrElse(balance -> testBalance(balance, transferDTO),
+                                     () -> log.error("Error querying database"));
         } catch(Exception e) {
             log.error("Error asking for balance " + e.getMessage());
-            return false;
+        }
+    }
+
+    private void testBalance(Double balance, TransferDTO transferDTO) {
+        if(balance - transferDTO.getAmount() >= 0) {
+            updateTables(transferDTO);
+        } else {
+            log.error("Not enough funds");
         }
     }
 
     @Transactional
-    public boolean updateTables(TransferDTO transferDTO)  {
+    public void updateTables(TransferDTO transferDTO)  {
         try {
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance - ? WHERE number = ?",
-                    new Object[]{transferDTO.getAmount(), transferDTO.getUserAccountNumber()});
+                    transferDTO.getAmount(), transferDTO.getUserAccountNumber());
 
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance + ? WHERE number = ?",
-                    new Object[]{transferDTO.getAmount(), transferDTO.getRecipientAccountNumber()});
+                    transferDTO.getAmount(), transferDTO.getRecipientAccountNumber());
 
             mongoTransactionRepository.save(transferDTO);
 
             log.info("Databases successfully updated");
         } catch(Exception e) {
-            log.error("Erorr updating tables " + e.getMessage());
-            return false;
+            log.error("Error updating tables " + e.getMessage());
         }
-        return true;
     }
 }
