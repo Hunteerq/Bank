@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Log4j2
 @Service
-public class Listener  {
+public class Listener {
 
     @Autowired
     private Jackson2JsonMessageConverter jackson2JsonMessageConverter;
@@ -33,17 +33,17 @@ public class Listener  {
 
     private void updateDatabases(TransferDTO transferDTO) {
         try {
-           Optional.of(jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
+            Optional.ofNullable(jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
                     "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber()}, Double.class))
                     .ifPresentOrElse(balance -> testBalance(balance, transferDTO),
-                                     () -> log.error("Error querying database"));
-        } catch(Exception e) {
+                            () -> log.error("Error querying database"));
+        } catch (Exception e) {
             log.error("Error asking for balance " + e.getMessage());
         }
     }
 
     private void testBalance(Double balance, TransferDTO transferDTO) {
-        if(balance - transferDTO.getAmount() >= 0) {
+        if (balance - transferDTO.getAmount() >= 0) {
             updateTables(transferDTO);
         } else {
             log.error("Not enough funds");
@@ -51,7 +51,7 @@ public class Listener  {
     }
 
     @Transactional
-    public void updateTables(TransferDTO transferDTO)  {
+    public void updateTables(TransferDTO transferDTO) {
         try {
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance - ? WHERE number = ?",
@@ -64,7 +64,7 @@ public class Listener  {
             mongoTransactionRepository.save(transferDTO);
 
             log.info("Databases successfully updated");
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error updating tables " + e.getMessage());
         }
     }
