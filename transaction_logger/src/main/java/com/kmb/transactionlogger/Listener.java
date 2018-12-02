@@ -1,5 +1,6 @@
 package com.kmb.transactionlogger;
 
+import com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.transactionlogger.models.TransferDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -21,15 +22,12 @@ public class Listener  {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private MongoTransactionRepository mongoTransactionRepository;
+
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void listen(TransferDTO transfer) {
-
-        if(updateDatabase(transfer)) {
-            log.info("Modifying tables completed");
-        } else  {
-            log.error("Error modifying tables");
-        }
-
+        updateDatabase(transfer);
     }
 
     private boolean updateDatabase(TransferDTO transferDTO) {
@@ -59,6 +57,8 @@ public class Listener  {
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance + ? WHERE number = ?",
                     new Object[]{transferDTO.getAmount(), transferDTO.getRecipientAccountNumber()});
+
+            mongoTransactionRepository.save(transferDTO);
 
             log.info("Databases successfully updated");
         } catch(Exception e) {
