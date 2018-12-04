@@ -169,6 +169,13 @@ INSERT INTO currency_exchange VALUES(20, 5.33, 20);
 INSERT INTO currency VALUES(21, 'XRB', 'crypto');
 INSERT INTO currency_exchange VALUES(21, 6.21, 21);
 
+INSERT INTO currency VALUES(22, 'ZEC', 'crypto');
+INSERT INTO currency_exchange VALUES (22, 278.84, 22);
+
+INSERT INTO currency VALUES(23, 'BCN', 'crypto');
+INSERT INTO currency_exchange VALUES(23, 0.00280, 23);
+
+
 
 --Merta
 INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
