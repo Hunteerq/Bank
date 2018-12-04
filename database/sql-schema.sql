@@ -19,7 +19,8 @@ CREATE TABLE login (
 
 CREATE TABLE currency (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(3) NOT NULL
+  name VARCHAR(3) NOT NULL,
+  type VARCHAR(16) NOT NULL
 );
 
 CREATE TABLE currency_exchange (
@@ -103,6 +104,71 @@ CREATE TABLE recurring_transfer (
   amount DOUBLE PRECISION NOT NULL
 );
 
+--Currencies
+INSERT INTO currency VALUES(1, 'PLN', 'currency');
+INSERT INTO currency_exchange VALUES(1, 1.0, 1);
+
+INSERT INTO currency VALUES(2, 'USD', 'currency');
+INSERT INTO currency_exchange VALUES(2, 3.7782, 2);
+
+INSERT INTO currency VALUES(3, 'GBP', 'currency');
+INSERT INTO currency_exchange VALUES(3, 4.7933, 3);
+
+INSERT INTO currency VALUES(4, 'EUR', 'currency');
+INSERT INTO currency_exchange VALUES(4, 4.2853, 4);
+
+INSERT INTO currency VALUES(5, 'CHF', 'currency');
+INSERT INTO currency_exchange VALUES(5, 3.7765, 5);
+
+INSERT INTO currency VALUES(6, 'KRW', 'currency');
+INSERT INTO currency_exchange VALUES(6, 0.003393, 6);
+
+INSERT INTO currency VALUES(7, 'JPY', 'currency');
+INSERT INTO currency_exchange VALUES(7, 0.03326, 7);
+
+INSERT INTO currency VALUES(8, 'RUB', 'currency');
+INSERT INTO currency_exchange VALUES(8, 0.0566, 8);
+
+INSERT INTO currency VALUES(9, 'HKD', 'currency');
+INSERT INTO currency_exchange VALUES(9, 0.4807, 9);
+
+INSERT INTO currency VALUES(10, 'SGD', 'currency');
+INSERT INTO currency_exchange VALUES(10, 2.7514, 10);
+
+INSERT INTO currency VALUES (11, 'NZD', 'currency');
+INSERT INTO currency_exchange VALUES (11, 2.6141, 11);
+
+INSERT INTO currency VALUES(12, 'RON', 'currency');
+INSERT INTO currency_exchange VALUES(12, 0.9202, 12);
+
+--Cryptocurrencies
+INSERT INTO currency VALUES(13, 'BTC', 'crypto');
+INSERT INTO currency_exchange VALUES(13, 14835.58, 13);
+
+INSERT INTO currency VALUES(14, 'ETH', 'crypto');
+INSERT INTO currency_exchange VALUES(14, 413.10, 14);
+
+INSERT INTO currency VALUES(15, 'BCH', 'crypto');
+INSERT INTO currency_exchange VALUES(15, 597.52, 15);
+
+INSERT INTO currency VALUES(16, 'LTC', 'crypto');
+INSERT INTO currency_exchange VALUES(16, 120.72, 16);
+
+INSERT INTO currency VALUES(17, 'ADA', 'crypto');
+INSERT INTO currency_exchange VALUES(17, 0.14, 17);
+
+INSERT INTO currency VALUES(18, 'NEO', 'crypto');
+INSERT INTO currency_exchange VALUES(18, 28.34, 18);
+
+INSERT INTO currency VALUES(19, 'IOT', 'crypto');
+INSERT INTO currency_exchange VALUES(19, 1.02, 19);
+
+INSERT INTO currency VALUES(20, 'LSK', 'crypto');
+INSERT INTO currency_exchange VALUES(20, 5.33, 20);
+
+INSERT INTO currency VALUES(21, 'XRB', 'crypto');
+INSERT INTO currency_exchange VALUES(21, 6.21, 21);
+
 
 --Merta
 INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
@@ -148,3 +214,9 @@ SELECT client.*, card.* FROM client
 INNER JOIN client_account ON client_account.client_pesel = client.pesel
 INNER JOIN account ON account.number = client_account.account_number
 INNER JOIN card ON card.account_number = account.number
+
+
+--Getting all currencies info
+
+SELECT currency.name, currency_exchange.rate FROM currency
+INNER JOIN currency_exchange on currency.id = currency_exchange.currency_id

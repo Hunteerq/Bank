@@ -81,16 +81,38 @@ nav ul li:hover  {
 
 .currencies .normal {
     float: left;
-    width: 50vw;
+    width: 49vw;
     height: inherit;
     border-right: 1px solid black;
+    margin-left: 1vw;
+}
+
+.currencies .normal .wrapIt {
+    display: flex;
+    align-items: center;
+    height: inherit;
+    width: 48vw;
+    overflow: hidden;
+}
+
+.currencies .normal .wrapIt pre {
+    transform: translateX(-100%);
+    animation: moveSlideshow 13s linear infinite;
 }
 
 .currencies .crypto {
-    padding-left: 5vw;
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
     float: left;
+    width: 48vw;
     height: inherit;
-    width: 50vw;
+}
+
+.currencies .crypto pre {
+    transform: translateX(-100%);
+    animation: moveSlideshow 13s linear infinite;
 }
 
 .bars-container {
@@ -201,3 +223,8 @@ nav ul li:hover  {
 
   }
 
+@keyframes moveSlideshow {
+    100% {
+        transform: translateX(100%);
+    }
+}

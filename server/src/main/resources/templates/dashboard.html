@@ -36,8 +36,8 @@
         </ul>
     </nav>
     <div class="currencies">
-        <div class="normal">Waluty </div>
-        <div class="crypto">Kryptowaluty</div>
+        <div class="normal"><div class="wrapIt"><pre th:text="${session.currencies}"></pre></div></div>
+        <div class="crypto"><pre th:text="${session.crypto}"></pre></div>
     </div>
 
     <div class="bars-container">
@@ -45,7 +45,7 @@
         <div class="left-bar">
             <a th:href="@{/transfer/normal}" ><div class="small-bars">Przelew</div></a>
             <a th:href="@{/credit}"><div class="small-bars">Kredyty</div></a>
-            <a th:href="@{/advanced}"><div class="small-bars">Advanced Options</div></a>
+            <a th:href="@{/transfer/recurring}"><div class="small-bars">Przelew Cykliczny</div></a>
         </div>
 
         <div class="right-bar">

@@ -16,7 +16,7 @@ public class DashboardController{
 
     @GetMapping("/dashboard")
     public String getDashboard(HttpServletRequest request, Model model) {
-        dashboardService.getTransactions();
+        dashboardService.getCurrencies(request);
         return "dashboard";
     }
 
