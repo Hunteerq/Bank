@@ -1,4 +1,4 @@
-  /*Bootstrap rozwala*/
+  /* Bootstrap rozwala */
 
 body {
     overflow: hidden;
@@ -10,6 +10,8 @@ nav {
 nav ul li {
      margin-top: -1vh;
 }
+
+/* Bootstrap dalej rozwala, ale jeszcze nie wiem w jaki sposób naprawić */
 
 .navbar-top ul div li a {
     color: black;

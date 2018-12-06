@@ -1,7 +1,7 @@
 package com.kmb.bank.services;
 
 import com.kmb.bank.models.AccountDTO;
-import com.kmb.bank.models.Transfer;
+import com.kmb.bank.models.TransferDTO;
 import com.kmb.bank.sender.Sender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class TransfersService {
     }
 
     public void sendNormalTransfer(String userAccountNumber, String title, String recipientName, String recipientAccountNumber, String amount) {
-        Transfer transfer = Transfer.builder()
+        TransferDTO transferDTO = TransferDTO.builder()
                 .setUserAccountNumber(userAccountNumber)
                 .setTitle(title)
                 .setRecipientName(recipientName)
@@ -66,10 +66,10 @@ public class TransfersService {
         log.info(recipientName);
 
         try {
-            rabbitmq.send(transfer);
-            log.info("Transfer sent");
+            rabbitmq.send(transferDTO);
+            log.info("TransferDTO sent");
         } catch (Exception e) {
-            log.debug("Error sending transfer " + e.getMessage());
+            log.debug("Error sending transferDTO " + e.getMessage());
         }
 
 

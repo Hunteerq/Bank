@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.kmb.transactionlogger.config.PostgresConfig</OriginalElement>
+  <nodes>
+    <node x="473.0454545454545" y="158.0">org.springframework.context.annotation.Configuration</node>
+    <node x="19.75" y="158.0">com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository</node>
+    <node x="0.0" y="311.0">com.kmb.transactionlogger.TransactionLogger</node>
+    <node x="303.0" y="79.0">com.kmb.transactionlogger.currency.CurrencyDTO</node>
+    <node x="497.5454545454545" y="237.0">com.kmb.transactionlogger.config.PostgresConfig</node>
+    <node x="164.0" y="79.0">com.kmb.transactionlogger.models.TransferDTO</node>
+    <node x="348.5454545454545" y="237.0">com.kmb.transactionlogger.config.ListenerBeans</node>
+    <node x="205.79545454545453" y="237.0">com.kmb.transactionlogger.Listener</node>
+    <node x="289.0" y="158.0">com.kmb.transactionlogger.currency.CurrencyConverter</node>
+    <node x="283.5" y="0.0">com.kmb.transactionlogger.currency.CurrencyDTO.CurrencyDTOBuilder</node>
+    <node x="0.0" y="79.0">org.springframework.data.mongodb.repository.MongoRepository</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.kmb.transactionlogger.currency.CurrencyDTO.CurrencyDTOBuilder" target="com.kmb.transactionlogger.currency.CurrencyDTO">
+      <point x="32.19999999999999" y="14.5" />
+      <point x="396.2" y="54.0" />
+      <point x="388.4" y="54.0" />
+      <point x="24.399999999999977" y="-14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository" target="org.springframework.data.mongodb.repository.MongoRepository">
+      <point x="-52.25" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository" target="com.kmb.transactionlogger.models.TransferDTO">
+      <point x="52.25" y="-14.5" />
+      <point x="176.5" y="133.0" />
+      <point x="193.75" y="133.0" />
+      <point x="-29.75" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.currency.CurrencyDTO" target="com.kmb.transactionlogger.currency.CurrencyDTO.CurrencyDTOBuilder">
+      <point x="-48.80000000000001" y="-14.5" />
+      <point x="315.2" y="54.0" />
+      <point x="299.59999999999997" y="54.0" />
+      <point x="-64.4" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.Listener" target="com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository">
+      <point x="-31.0" y="-14.5" />
+      <point x="221.29545454545453" y="212.0" />
+      <point x="124.25" y="212.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.config.ListenerBeans" target="org.springframework.context.annotation.Configuration">
+      <point x="43.0" y="-14.5" />
+      <point x="456.0454545454545" y="212.0" />
+      <point x="503.5454545454545" y="212.0" />
+      <point x="-30.5" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.currency.CurrencyConverter" target="com.kmb.transactionlogger.currency.CurrencyDTO">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.config.ListenerBeans" target="com.kmb.transactionlogger.currency.CurrencyConverter">
+      <point x="-43.0" y="-14.5" />
+      <point x="370.0454545454545" y="212.0" />
+      <point x="364.0" y="212.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.Listener" target="com.kmb.transactionlogger.currency.CurrencyConverter">
+      <point x="31.0" y="-14.5" />
+      <point x="283.2954545454545" y="212.0" />
+      <point x="314.0" y="212.0" />
+      <point x="-50.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.config.PostgresConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="0.0" y="-14.5" />
+      <point x="30.5" y="14.5" />
+    </edge>
+    <edge source="com.kmb.transactionlogger.Listener" target="com.kmb.transactionlogger.models.TransferDTO">
+      <point x="0.0" y="-14.5" />
+      <point x="29.75" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="67.0" y="54.0" />
+  <SelectedNodes>
+    <node>org.springframework.context.annotation.Configuration</node>
+    <node>com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository</node>
+    <node>com.kmb.transactionlogger.TransactionLogger</node>
+    <node>com.kmb.transactionlogger.currency.CurrencyDTO</node>
+    <node>com.kmb.transactionlogger.config.PostgresConfig</node>
+    <node>com.kmb.transactionlogger.models.TransferDTO</node>
+    <node>com.kmb.transactionlogger.config.ListenerBeans</node>
+    <node>com.kmb.transactionlogger.Listener</node>
+    <node>com.kmb.transactionlogger.currency.CurrencyConverter</node>
+    <node>com.kmb.transactionlogger.currency.CurrencyDTO.CurrencyDTOBuilder</node>
+    <node>org.springframework.data.mongodb.repository.MongoRepository</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

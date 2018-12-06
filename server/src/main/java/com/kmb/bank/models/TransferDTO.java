@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 
-public final class Transfer {
+public final class TransferDTO {
 
     @Getter
     private final String userAccountNumber;
@@ -26,7 +26,7 @@ public final class Transfer {
         return new TransferDTOBuilder();
     }
 
-    private Transfer(TransferDTOBuilder transferDTOBuilder) {
+    private TransferDTO(TransferDTOBuilder transferDTOBuilder) {
         this.userAccountNumber = transferDTOBuilder.getUserAccountNumber();
         this.title = transferDTOBuilder.getTitle();
         this.recipientName = transferDTOBuilder.getRecipientName();
@@ -50,8 +50,8 @@ public final class Transfer {
         @Getter
         private LocalDateTime localDateTime;
 
-        public Transfer build () {
-            return new Transfer(this);
+        public TransferDTO build () {
+            return new TransferDTO(this);
         }
 
         public TransferDTOBuilder setUserAccountNumber(String userAccountNumber) {

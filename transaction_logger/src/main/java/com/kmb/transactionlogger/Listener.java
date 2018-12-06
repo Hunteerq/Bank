@@ -1,5 +1,6 @@
 package com.kmb.transactionlogger;
 
+import com.kmb.transactionlogger.currency.CurrencyConverter;
 import com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.transactionlogger.models.TransferDTO;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +27,9 @@ public class Listener {
     @Autowired
     private MongoTransactionRepository mongoTransactionRepository;
 
+    @Autowired
+    private CurrencyConverter currencyConverter;
+
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void listen(TransferDTO transfer) {
         updateDatabases(transfer);
@@ -34,9 +38,9 @@ public class Listener {
     private void updateDatabases(TransferDTO transferDTO) {
         try {
             Optional.ofNullable(jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
-                    "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber()}, Double.class))
+                               "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber()}, Double.class))
                     .ifPresentOrElse(balance -> testBalance(balance, transferDTO),
-                            () -> log.error("Error querying database"));
+                                     () -> log.error("Error querying database"));
         } catch (Exception e) {
             log.error("Error asking for balance " + e.getMessage());
         }
@@ -53,6 +57,8 @@ public class Listener {
     @Transactional
     public void updateTables(TransferDTO transferDTO) {
         try {
+          //  double amountExchanged = getAmountExchanged(transferDTO);
+
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance - ? WHERE number = ?",
                     transferDTO.getAmount(), transferDTO.getUserAccountNumber());
@@ -68,4 +74,23 @@ public class Listener {
             log.error("Error updating tables " + e.getMessage());
         }
     }
+
+//    private double getAmountExchanged(TransferDTO transferDTO) {
+//        String userCurrency = getCurrencyFromAccountNumber(transferDTO.getUserAccountNumber());
+//        String recipient = getCurrencyFromAccountNumber(transferDTO.getRecipientAccountNumber());
+//
+//        double userAmountInPLN = currencyConverter.convert(transferDTO.getAmount(), userCurrency);
+//        double recipientAmountInPLN = currencyConverter.convert(transferDTO.)
+//
+//        return 0;
+//    }
+//
+//    private String getCurrencyFromAccountNumber(String userAccountNumber) {
+//        return jdbcTemplate.queryForObject("SELECT currency.name FROM currency " +
+//                "INNER JOIN account ON account.currency_id = currency.id " +
+//                "WHERE account.number = ?", new Object[] {userAccountNumber}, String.class);
+//    }
+
+    // private String  getCurrencyFromAccountNumber(String acccountNumber) {
+    //}
 }
