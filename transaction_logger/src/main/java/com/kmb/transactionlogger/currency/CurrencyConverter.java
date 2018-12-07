@@ -20,6 +20,7 @@ public class CurrencyConverter {
 
     @Scheduled(fixedRate = 600000)
     public void getCurrentRates()  {
+        log.info("Setting currencies");
         hashmapForPln.clear();
         currenciesRates.clear();
 
@@ -31,11 +32,7 @@ public class CurrencyConverter {
                                             .build())
                 .forEach(this::addCurrency);
 
-        currenciesRates.put("PLN", hashmapForPln);
         createHashmapForEveryCurrency();
-
-        log.info("--------------------------------------------------");
-        log.info(currenciesRates);
     }
 
     private void addCurrency(CurrencyDTO currencyDTO) {
@@ -54,14 +51,11 @@ public class CurrencyConverter {
 
         hashmapForPln.keySet()
                 .forEach(currencyInMap -> addSingleCurrencyToMap(currencyInMap, rateOfThisCurrency, mapOfCurrentCurrency));
-
-        log.info("Currencies = " + mapOfCurrentCurrency);
         currenciesRates.put(currency, mapOfCurrentCurrency);
     }
 
     private void addSingleCurrencyToMap(String currencyInMap, double rateOfThisCurrency, Map<String, Double> mapOfCurrentCurrency) {
         mapOfCurrentCurrency.put(currencyInMap, rateOfThisCurrency / hashmapForPln.get(currencyInMap));
-
     }
 
     public double convertCurrencies(String currencyConverted, String currencyInResult, double amount) {

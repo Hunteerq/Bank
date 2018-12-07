@@ -38,5 +38,7 @@ public final class CurrencyDTO {
         public CurrencyDTO build() {
             return new CurrencyDTO(this);
         }
+
     }
+
 }

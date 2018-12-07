@@ -11,11 +11,6 @@ import org.springframework.context.annotation.Configuration;
 public class ListenerBeans {
 
     @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
-
-    @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter(objectMapper());
     }
@@ -23,6 +18,11 @@ public class ListenerBeans {
     @Bean
     public CurrencyConverter converter() {
         return new CurrencyConverter();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
 }
