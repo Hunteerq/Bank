@@ -14,10 +14,13 @@ public class CurrencyConverter {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static Map<String, Double> currenciesRates = new HashMap<>();
+    private static Map<String, Map<String, Double>> currenciesRates = new HashMap<>();
+
+    private static Map<String, Double> hashmapForPln = new HashMap<>();
 
     @Scheduled(fixedRate = 600000)
     public void getCurrentRates()  {
+        hashmapForPln.clear();
         currenciesRates.clear();
 
         jdbcTemplate.query("SELECT currency.name, currency_exchange.rate FROM currency " +
@@ -28,16 +31,42 @@ public class CurrencyConverter {
                                             .build())
                 .forEach(this::addCurrency);
 
+        currenciesRates.put("PLN", hashmapForPln);
+        createHashmapForEveryCurrency();
+
+        log.info("--------------------------------------------------");
         log.info(currenciesRates);
     }
 
     private void addCurrency(CurrencyDTO currencyDTO) {
-        currenciesRates.put(currencyDTO.getName(), currencyDTO.getRate());
+        hashmapForPln.put(currencyDTO.getName(),
+                          currencyDTO.getRate());
     }
 
-    public double convert(double amount, String currency) {
-        return amount * currenciesRates.get(currency);
+    private void createHashmapForEveryCurrency() {
+        hashmapForPln.keySet()
+                .forEach(this::addCurrencyMap);
     }
 
+    private void addCurrencyMap(String currency) {
+        Map<String, Double> mapOfCurrentCurrency = new HashMap<>();
+        double rateOfThisCurrency = hashmapForPln.get(currency);
+
+        hashmapForPln.keySet()
+                .forEach(currencyInMap -> addSingleCurrencyToMap(currencyInMap, rateOfThisCurrency, mapOfCurrentCurrency));
+
+        log.info("Currencies = " + mapOfCurrentCurrency);
+        currenciesRates.put(currency, mapOfCurrentCurrency);
+    }
+
+    private void addSingleCurrencyToMap(String currencyInMap, double rateOfThisCurrency, Map<String, Double> mapOfCurrentCurrency) {
+        mapOfCurrentCurrency.put(currencyInMap, rateOfThisCurrency / hashmapForPln.get(currencyInMap));
+
+    }
+
+    public double convertCurrencies(String currencyConverted, String currencyInResult, double amount) {
+        return amount * currenciesRates.get(currencyConverted)
+                                .get(currencyInResult);
+    }
 
 }

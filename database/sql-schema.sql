@@ -199,9 +199,11 @@ INSERT INTO client VALUES('97121004520', 'Artur', 'Kulig', 'artur.kulig6@gmail.c
 INSERT INTO account VALUES('1111444422221111', 2137, 1, 1, now(), false, false);
 INSERT INTO account VALUES('4444555522228888', 4179, 1, 1, now(), false, false);
 INSERT INTO account VALUES('9999111122223333', 9612452, 1, 1, now(), false, false);
+INSERT INTO account VALUES('9999000099990000', 0, 13, 1, now(), false, false);
 INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '1111444422221111');
 INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '4444555522228888');
 INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '9999111122223333');
+INSERT INTO client_account(client_pesel, account_number) VALUES('97121004520', '9999000099990000');
 
 --Krzemień
 INSERT INTO login VALUES ('fkamien', MD5('dupa'), 2);

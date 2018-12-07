@@ -57,7 +57,7 @@ public class Listener {
     @Transactional
     public void updateTables(TransferDTO transferDTO) {
         try {
-          //  double amountExchanged = getAmountExchanged(transferDTO);
+            double amountInRecipientCurrency = getAmountExchanged(transferDTO);
 
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance - ? WHERE number = ?",
@@ -65,7 +65,7 @@ public class Listener {
 
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance + ? WHERE number = ?",
-                    transferDTO.getAmount(), transferDTO.getRecipientAccountNumber());
+                    amountInRecipientCurrency, transferDTO.getRecipientAccountNumber());
 
             mongoTransactionRepository.save(transferDTO);
 
@@ -75,22 +75,16 @@ public class Listener {
         }
     }
 
-//    private double getAmountExchanged(TransferDTO transferDTO) {
-//        String userCurrency = getCurrencyFromAccountNumber(transferDTO.getUserAccountNumber());
-//        String recipient = getCurrencyFromAccountNumber(transferDTO.getRecipientAccountNumber());
-//
-//        double userAmountInPLN = currencyConverter.convert(transferDTO.getAmount(), userCurrency);
-//        double recipientAmountInPLN = currencyConverter.convert(transferDTO.)
-//
-//        return 0;
-//    }
-//
-//    private String getCurrencyFromAccountNumber(String userAccountNumber) {
-//        return jdbcTemplate.queryForObject("SELECT currency.name FROM currency " +
-//                "INNER JOIN account ON account.currency_id = currency.id " +
-//                "WHERE account.number = ?", new Object[] {userAccountNumber}, String.class);
-//    }
+    private double getAmountExchanged(TransferDTO transferDTO) {
+        String userCurrency = getCurrencyFromAccountNumber(transferDTO.getUserAccountNumber());
+        String recipient = getCurrencyFromAccountNumber(transferDTO.getRecipientAccountNumber());
 
-    // private String  getCurrencyFromAccountNumber(String acccountNumber) {
-    //}
+        return currencyConverter.convertCurrencies(userCurrency, recipient, transferDTO.getAmount());
+    }
+
+    private String getCurrencyFromAccountNumber(String userAccountNumber) {
+        return jdbcTemplate.queryForObject("SELECT currency.name FROM currency " +
+                "INNER JOIN account ON account.currency_id = currency.id " +
+                "WHERE account.number = ?", new Object[] {userAccountNumber}, String.class);
+    }
 }
