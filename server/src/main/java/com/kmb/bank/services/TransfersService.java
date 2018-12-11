@@ -44,13 +44,13 @@ public class TransfersService {
         register(model);
     }
 
+    private void addToCollection(AccountDTO accountDTO) {
+        accountDTOS.add(accountDTO);
+    }
+
     private void register(Model model) {
         log.info("Registering account numbers for transfer view");
         model.addAttribute("accountDTOS", accountDTOS);
-    }
-
-    private void addToCollection(AccountDTO accountDTO) {
-        accountDTOS.add(accountDTO);
     }
 
     public void sendNormalTransfer(String userAccountNumber, String title, String recipientName, String recipientAccountNumber, String amount) {
@@ -63,15 +63,12 @@ public class TransfersService {
                 .setLocalDateTime(LocalDateTime.now())
                 .build();
 
-        log.info(recipientName);
-
         try {
             rabbitmq.send(transferDTO);
             log.info("TransferDTO sent");
         } catch (Exception e) {
             log.debug("Error sending transferDTO " + e.getMessage());
         }
-
 
     }
 }
