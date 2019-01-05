@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.kmb.bank.config.HttpsConfig</OriginalElement>
+  <nodes>
+    <node x="30.75" y="479.0">com.kmb.bank.db.mongo.repository.MongoTransactionRepository</node>
+    <node x="965.8623188405797" y="158.0">com.kmb.bank.sender.rabbitmq.Rabbit</node>
+    <node x="1257.7998188405797" y="79.0">com.kmb.bank.models.TransferDTO</node>
+    <node x="0.0" y="400.0">com.kmb.bank.db.mongo.entity.TransferDTO</node>
+    <node x="7.0" y="247.0">com.kmb.bank.services.DashboardService</node>
+    <node x="177.0" y="247.0">com.kmb.bank.config.LogicConfig</node>
+    <node x="328.0" y="479.0">com.kmb.bank.controllers.LoggingController</node>
+    <node x="35.83333333333326" y="79.0">com.kmb.bank.models.CurrencyDTO</node>
+    <node x="1079.0634057971015" y="158.0">com.kmb.bank.services.TransfersService</node>
+    <node x="465.0" y="247.0">com.kmb.bank.config.SecurityConfig</node>
+    <node x="612.0" y="247.0">com.kmb.bank.config.HttpsConfig</node>
+    <node x="16.333333333333258" y="0.0">com.kmb.bank.models.CurrencyDTO.CurrencyDTOBuilder</node>
+    <node x="115.0" y="158.0">com.kmb.bank.mapper.CurrenciesMapper</node>
+    <node x="1063.2998188405797" y="0.0">com.kmb.bank.models.AccountDTO.AccountDTOBuilder</node>
+    <node x="139.0" y="400.0">org.springframework.data.mongodb.repository.MongoRepository</node>
+    <node x="335.0" y="400.0">com.kmb.bank.services.LoggingService</node>
+    <node x="898.0" y="247.0">com.kmb.bank.config.RabbitConfig</node>
+    <node x="311.0" y="247.0">com.kmb.bank.config.PostgresConfig</node>
+    <node x="1238.2998188405797" y="0.0">com.kmb.bank.models.TransferDTO.TransferDTOBuilder</node>
+    <node x="745.0" y="247.0">com.kmb.bank.config.SwaggerConfig</node>
+    <node x="1072.0634057971015" y="247.0">com.kmb.bank.controllers.TransfersController</node>
+    <node x="538.5869565217392" y="158.0">org.springframework.context.annotation.Configuration</node>
+    <node x="0.0" y="326.0">com.kmb.bank.controllers.DashboardController</node>
+    <node x="1082.7998188405797" y="79.0">com.kmb.bank.models.AccountDTO</node>
+    <node x="952.2789855072465" y="79.0">com.kmb.bank.sender.Sender</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.kmb.bank.config.RabbitConfig" target="com.kmb.bank.sender.Sender">
+      <point x="0.0" y="-14.5" />
+      <point x="958.0" y="227.0" />
+      <point x="955.3623188405797" y="227.0" />
+      <point x="955.3623188405797" y="133.0" />
+      <point x="966.945652173913" y="133.0" />
+      <point x="-29.33333333333337" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.PostgresConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="0.0" y="-14.5" />
+      <point x="378.0" y="217.0" />
+      <point x="569.0869565217392" y="217.0" />
+      <point x="-30.5" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.services.TransfersService" target="com.kmb.bank.sender.Sender">
+      <point x="-52.875" y="-14.5" />
+      <point x="1096.6884057971015" y="133.0" />
+      <point x="1025.6123188405797" y="133.0" />
+      <point x="29.33333333333337" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.models.CurrencyDTO" target="com.kmb.bank.models.CurrencyDTO.CurrencyDTOBuilder">
+      <point x="-48.80000000000001" y="-14.5" />
+      <point x="48.0333333333333" y="54.0" />
+      <point x="32.43333333333328" y="54.0" />
+      <point x="-64.4" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.RabbitConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="-40.0" y="-14.5" />
+      <point x="918.0" y="207.0" />
+      <point x="650.4202898550725" y="207.0" />
+      <point x="50.83333333333337" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.db.mongo.repository.MongoTransactionRepository" target="org.springframework.data.mongodb.repository.MongoRepository">
+      <point x="52.25" y="-14.5" />
+      <point x="187.5" y="454.0" />
+      <point x="211.0" y="454.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.services.DashboardService" target="com.kmb.bank.models.CurrencyDTO">
+      <point x="0.0" y="-14.5" />
+      <point x="82.0" y="227.0" />
+      <point x="73.88586956521749" y="227.0" />
+      <point x="73.88586956521749" y="133.0" />
+      <point x="96.83333333333326" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.services.DashboardService" target="com.kmb.bank.mapper.CurrenciesMapper">
+      <point x="50.0" y="-14.5" />
+      <point x="132.0" y="227.0" />
+      <point x="140.0" y="227.0" />
+      <point x="-50.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.controllers.LoggingController" target="com.kmb.bank.services.LoggingService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.controllers.DashboardController" target="com.kmb.bank.services.DashboardService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.RabbitConfig" target="com.kmb.bank.sender.rabbitmq.Rabbit">
+      <point x="40.0" y="-14.5" />
+      <point x="998.0" y="227.0" />
+      <point x="1007.8623188405797" y="227.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.services.TransfersService" target="com.kmb.bank.models.AccountDTO">
+      <point x="-17.625" y="-14.5" />
+      <point x="1131.9384057971015" y="133.0" />
+      <point x="1111.7998188405797" y="133.0" />
+      <point x="-29.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.mapper.CurrenciesMapper" target="com.kmb.bank.models.CurrencyDTO">
+      <point x="0.0" y="-14.5" />
+      <point x="190.0" y="133.0" />
+      <point x="137.4999999999999" y="133.0" />
+      <point x="40.66666666666666" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.SecurityConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="0.0" y="-14.5" />
+      <point x="528.5" y="227.0" />
+      <point x="589.4202898550725" y="227.0" />
+      <point x="-10.166666666666629" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.db.mongo.repository.MongoTransactionRepository" target="com.kmb.bank.db.mongo.entity.TransferDTO">
+      <point x="-52.25" y="-14.5" />
+      <point x="83.0" y="454.0" />
+      <point x="59.5" y="454.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.models.CurrencyDTO.CurrencyDTOBuilder" target="com.kmb.bank.models.CurrencyDTO">
+      <point x="64.39999999999998" y="14.5" />
+      <point x="161.23333333333323" y="54.0" />
+      <point x="145.63333333333327" y="54.0" />
+      <point x="48.80000000000001" y="-14.5" />
+    </edge>
+    <edge source="com.kmb.bank.sender.rabbitmq.Rabbit" target="com.kmb.bank.sender.Sender">
+      <point x="0.0" y="-14.5" />
+      <point x="1007.8623188405797" y="133.0" />
+      <point x="996.2789855072465" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.models.AccountDTO.AccountDTOBuilder" target="com.kmb.bank.models.AccountDTO">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.LogicConfig" target="com.kmb.bank.mapper.CurrenciesMapper">
+      <point x="0.0" y="-14.5" />
+      <point x="234.0" y="227.0" />
+      <point x="240.0" y="227.0" />
+      <point x="50.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.SwaggerConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="0.0" y="-14.5" />
+      <point x="811.5" y="217.0" />
+      <point x="630.0869565217392" y="217.0" />
+      <point x="30.5" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.models.AccountDTO" target="com.kmb.bank.models.AccountDTO.AccountDTOBuilder">
+      <point x="-46.40000000000009" y="-14.5" />
+      <point x="1094.3998188405797" y="54.0" />
+      <point x="1078.7998188405797" y="54.0" />
+      <point x="-62.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.services.TransfersService" target="com.kmb.bank.models.TransferDTO">
+      <point x="52.875" y="-14.5" />
+      <point x="1202.4384057971015" y="133.0" />
+      <point x="1317.2998188405797" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.HttpsConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="0.0" y="-14.5" />
+      <point x="668.5" y="227.0" />
+      <point x="609.7536231884058" y="227.0" />
+      <point x="10.166666666666629" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.models.TransferDTO" target="com.kmb.bank.models.TransferDTO.TransferDTOBuilder">
+      <point x="-23.799999999999955" y="-14.5" />
+      <point x="1293.4998188405798" y="54.0" />
+      <point x="1285.6998188405798" y="54.0" />
+      <point x="-31.59999999999991" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.controllers.TransfersController" target="com.kmb.bank.services.TransfersService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.kmb.bank.models.TransferDTO.TransferDTOBuilder" target="com.kmb.bank.models.TransferDTO">
+      <point x="63.200000000000045" y="14.5" />
+      <point x="1380.4998188405798" y="54.0" />
+      <point x="1364.8998188405797" y="54.0" />
+      <point x="47.59999999999991" y="-14.5" />
+    </edge>
+    <edge source="com.kmb.bank.config.LogicConfig" target="org.springframework.context.annotation.Configuration">
+      <point x="38.0" y="-14.5" />
+      <point x="272.0" y="207.0" />
+      <point x="548.7536231884058" y="207.0" />
+      <point x="-50.83333333333337" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9195652173913044" x="733.0921985815603" y="254.0" />
+  <SelectedNodes>
+    <node>com.kmb.bank.db.mongo.repository.MongoTransactionRepository</node>
+    <node>com.kmb.bank.sender.rabbitmq.Rabbit</node>
+    <node>com.kmb.bank.models.TransferDTO</node>
+    <node>com.kmb.bank.db.mongo.entity.TransferDTO</node>
+    <node>com.kmb.bank.services.DashboardService</node>
+    <node>com.kmb.bank.config.LogicConfig</node>
+    <node>com.kmb.bank.controllers.LoggingController</node>
+    <node>com.kmb.bank.models.CurrencyDTO</node>
+    <node>com.kmb.bank.services.TransfersService</node>
+    <node>com.kmb.bank.config.SecurityConfig</node>
+    <node>com.kmb.bank.config.HttpsConfig</node>
+    <node>com.kmb.bank.models.CurrencyDTO.CurrencyDTOBuilder</node>
+    <node>com.kmb.bank.mapper.CurrenciesMapper</node>
+    <node>com.kmb.bank.models.AccountDTO.AccountDTOBuilder</node>
+    <node>org.springframework.data.mongodb.repository.MongoRepository</node>
+    <node>com.kmb.bank.services.LoggingService</node>
+    <node>com.kmb.bank.config.RabbitConfig</node>
+    <node>com.kmb.bank.config.PostgresConfig</node>
+    <node>com.kmb.bank.models.TransferDTO.TransferDTOBuilder</node>
+    <node>com.kmb.bank.config.SwaggerConfig</node>
+    <node>com.kmb.bank.controllers.TransfersController</node>
+    <node>org.springframework.context.annotation.Configuration</node>
+    <node>com.kmb.bank.controllers.DashboardController</node>
+    <node>com.kmb.bank.models.AccountDTO</node>
+    <node>com.kmb.bank.sender.Sender</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

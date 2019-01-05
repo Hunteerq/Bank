@@ -1,5 +1,6 @@
 package com.kmb.bank.sender.rabbitmq;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kmb.bank.sender.Sender;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,9 +14,7 @@ public class Rabbit implements Sender {
     @Autowired
     private DirectExchange directExchange;
 
-
     public <T> void send(T object) throws Exception {
         rabbitTemplate.convertAndSend(directExchange.getName(), "", object);
-
     }
 }

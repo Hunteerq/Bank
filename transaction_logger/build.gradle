@@ -1,0 +1,22 @@
+group 'com.kmb.bank'
+version '0.0.1-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.7'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.0.RELEASE'
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation('org.springframework.boot:spring-boot-starter-amqp')
+}

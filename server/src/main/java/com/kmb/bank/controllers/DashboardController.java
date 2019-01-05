@@ -1,14 +1,24 @@
 package com.kmb.bank.controllers;
 
+import com.kmb.bank.services.DashboardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class DashboardController{
 
-    @RequestMapping(value = "/transfer", method = RequestMethod.GET)
-    public String getTransfer() {
-        return "nothing_yet";
+    @Autowired
+    private DashboardService dashboardService;
+
+    @GetMapping("/dashboard")
+    public String getDashboard(HttpServletRequest request, Model model) {
+        dashboardService.getCurrencies(request);
+        dashboardService.addTransfersToModel(request, model);
+        return "dashboard";
     }
+
 }

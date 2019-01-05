@@ -4,7 +4,6 @@
     box-sizing: border-box;
     font-family: Andis;
     text-decoration: none;
-    /* overflow: hidden; */
 }
 
 @font-face {
@@ -17,7 +16,8 @@ a {
 }
 
 nav a:hover {
-    text-decoration-style: initial;
+    text-decoration: none;
+
 }
 
 nav {
@@ -66,8 +66,8 @@ nav ul div li a {
     padding-right: 4vw;
 }
 
-nav ul li a:hover {
-    color: #26c6da;;
+nav ul li:hover  {
+    color: #26c6da;
     transform: scale(1.15);
 }
 
@@ -81,16 +81,38 @@ nav ul li a:hover {
 
 .currencies .normal {
     float: left;
-    width: 50vw;
+    width: 49vw;
     height: inherit;
     border-right: 1px solid black;
+    margin-left: 1vw;
+}
+
+.currencies .normal .wrapIt {
+    display: flex;
+    align-items: center;
+    height: inherit;
+    width: 48vw;
+    overflow: hidden;
+}
+
+.currencies .normal .wrapIt pre {
+    transform: translateX(-100%);
+    animation: moveSlideshow 13s linear infinite;
 }
 
 .currencies .crypto {
-    padding-left: 5vw;
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
     float: left;
+    width: 48vw;
     height: inherit;
-    width: 50vw;
+}
+
+.currencies .crypto pre {
+    transform: translateX(-100%);
+    animation: moveSlideshow 13s linear infinite;
 }
 
 .bars-container {
@@ -194,3 +216,16 @@ nav ul li a:hover {
     width:100%;
     transition:800ms ease all;
   }
+
+  .name-surname {
+      position: relative;
+      text-align: center;
+      margin-top: -1vh;
+
+  }
+
+@keyframes moveSlideshow {
+    100% {
+        transform: translateX(100%);
+    }
+}

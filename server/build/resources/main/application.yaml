@@ -1,0 +1,27 @@
+server:
+  port: 8443
+  ssl:
+    key-store: tomcat_certificate.jks
+    key-store-password: merta35
+    key-store-type: JKS
+    key-alias: tomcat_certificate
+
+rabbitmq:
+  url: localhost
+  exchange: bank
+  username: guest
+  password: guest
+
+jdbc:
+  driver: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/bank
+  username: postgres
+  password: kmb35
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bank
+

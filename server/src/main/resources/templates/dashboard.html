@@ -8,11 +8,13 @@
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet"> 
     <link th:href="@{/styles/table.css}" rel="stylesheet">
     <script th:src="@{/scripts/table.js}"></script>
+    <script th:src="@{/scripts/date.js}"></script>
     <!-- Ordinary links -->
     <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
     <link href="../static/styles/table.css" rel="stylesheet" type="text/css">
     <script src="../static/scripts/table.js"></script>
-<head>
+    <srcipt src="../static/srcipts/date.js"></srcipt>
+    <head>
 <body>
     <nav>
         <ul>
@@ -23,25 +25,32 @@
                 <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
                 <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
             </div>
-            <li><a href="#">Filip Merta</a></li>
+            <li>
+                <div class="name-surname">
+                    <a href="#">
+                        <div th:text="${session.nameSurname}"></div>
+                        <div id="dateTime"></div>
+                    </a>
+                </div>
+            </li>
         </ul>
     </nav>
     <div class="currencies">
-        <div class="normal">Waluty </div>
-        <div class="crypto">Kryptowaluty</div>
+        <div class="normal"><div class="wrapIt"><pre th:text="${session.currencies}"></pre></div></div>
+        <div class="crypto"><pre th:text="${session.crypto}"></pre></div>
     </div>
 
     <div class="bars-container">
         <div class = "wrapper">
         <div class="left-bar">
-            <a th:href="@{/transfer}" ><div class="small-bars">Przelew</div></a>
+            <a th:href="@{/transfer/normal}" ><div class="small-bars">Przelew</div></a>
             <a th:href="@{/credit}"><div class="small-bars">Kredyty</div></a>
-            <a th:href="@{/advanced}"><div class="small-bars">Advanced Options</div></a>
+            <a th:href="@{/transfer/recurring}"><div class="small-bars">Przelew Cykliczny</div></a>
         </div>
 
         <div class="right-bar">
             <div class="history">
-                <div class="title">Operacje</div>
+                <div class ="title" th:text="'Stan konta ' + ${accountNumber} + ' wynosi: ' + ${accountBalance} + ${accountCurrency}"></div>
                 <div class="table">
                     <div class="table-header">
                         <div class="header__item"><a id="name" class="filter__link" href="#">Nadawca/Odbiorca</a></div>
@@ -52,44 +61,16 @@
                         <div class="header__item"><a id="type" class="filter__link filter__link--number" href="#">Typ</a></div>
 
                     </div>
-                    <div class="table-content">	
-                        <div class="table-row">		
-                            <div class="table-data">Filip Merta</div>
-                            <div class="table-data">Za współżycie</div>
-                            <div class="table-data">2</div>
-                            <div class="table-data">2.50</div>
-                            <div class="table-data">21.10.2018</div>
-                            <div class="table-data">Uznanie</div>
-
-
+                    <div class = "table-content" th:each="transfer : ${transferDTOS}">
+                        <div class = "table-row">
+                            <div class= "table-data" th:text="${transfer.recipientName}"></div>
+                            <div class= "table-data" th:text="${transfer.title}"></div>
+                            <div class= "table-data" th:text="${transfer.recipientAccountNumber}"></div>
+                            <div class= "table-data" th:text="${transfer.amount}"></div>
+                            <div class= "table-data" th:text="${transfer.localDateTime}"></div>
+                            <div class = "table-data" th:text="${transfer.transferType}"></div>
                         </div>
-                        <div class="table-row">
-                            <div class="table-data">Amadeusz Bubniak</div>
-                            <div class="table-data">Za wydalanie</div>
-                            <div class="table-data">1</div>
-                            <div class="table-data">5000</div>
-                            <div class="table-data">11.37.2018</div>
-                            <div class="table-data">Uznanie</div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-data">Michał Josek</div>
-                            <div class="table-data">Kupno masła</div>
-                            <div class="table-data">2222 4444 5552 1111</div>
-                            <div class="table-data">31.50</div>
-                            <div class="table-data">21.37.2018</div>
-                            <div class="table-data">Obciążenie</div>
-
-                        </div>
-                        <div class="table-row">
-                            <div class="table-data">Szymon Borkowski</div>
-                            <div class="table-data">Kampania wyborcza mamy</div>
-                            <div class="table-data">5552 4444 1111 4444</div>
-                            <div class="table-data">400 000 000</div>
-                            <div class="table-data">21.05.2018</div>
-                            <div class="table-data">Uznanie</div>
-
-                        </div>
-                    </div>	
+                    </div>
                 </div>
             
             </div>                        
