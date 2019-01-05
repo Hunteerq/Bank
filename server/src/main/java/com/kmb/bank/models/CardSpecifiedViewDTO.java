@@ -1,6 +1,7 @@
 package com.kmb.bank.models;
 
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -12,6 +13,7 @@ public class CardSpecifiedViewDTO {
     @Getter
     private final String cardAccountNumber;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Getter
     private final LocalDate expirationDate;
 

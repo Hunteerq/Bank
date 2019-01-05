@@ -23,6 +23,6 @@ public class CardController {
 
     @GetMapping(value = "/card/{cardNumber}")
     public String getCard(HttpServletRequest request, Model model, @PathVariable String cardNumber) {
-       return cardService.addCardToModel(request, model, cardNumber)  ? "specifiedCard" : "errorPage";
+       return cardService.addCardToModel(request, model, cardNumber)  ? "specifiedCard" : "redirect:/error";
     }
 }

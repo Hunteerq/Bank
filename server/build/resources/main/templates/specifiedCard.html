@@ -10,21 +10,20 @@
 
     <!-- thymeleaf -->
     <!-- CSS -->
-    <link th:href="@{/styles/card.css}" rel="stylesheet">
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
+    <link th:href="@{/styles/specifiedCard.css}" rel="stylesheet">
     <!-- scripts -->
     <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
     <script th:src="@{/scripts/date.js}"></script>
     <script th:src="@{/scripts/addSpacingToNumbers.js}"></script>
 
     <!-- CSS -->
-    <link href="../static/styles/card.css" rel="stylesheet" type="text/css" >
     <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
-    <!-- scriptts -->
+    <link href="../static/styles/specifiedCard.css" rel="stylesheet" type="text/css" >
+    <!-- scripts -->
     <script src="../static/scripts/date.js"></script>
     <script src="../static/scripts/addSpacingToNumbers.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
 </head>
 <body>
 <nav class='navbar-top'>
@@ -52,18 +51,46 @@
 </div>
 
 <div class="card-background" >
-    <div class="card-container">
-        <div class="title">
-            <h1 th:text="'KARTA NUMER    ' +  ${cardSpecifiedViewDTO.cardNumber}"></h1>
-        </div>
-        <div class="card-info">
+    <div class="card-container" >
+        <div class="title" style="clear: both">
+                <h1 class="card-number-text">
+                    Karta numer &nbsp;&nbsp;&nbsp;
+                    <span class="spacing-number" th:text="${cardSpecifiedViewDTO.cardNumber}"></span>
+                </h1>
+          </div>
+        <div class="card-info" th:switch="${cardSpecifiedViewDTO.cardType}">
+            <img th:case="gold" th:src="@{/assets/cardGold.png}">
+            <img th:case="platinum" th:src="@{/assets/cardPlatinum.png}">
+            <img th:case="normal" th:src="@{/assets/cardNormal.png}">
+            <img th:case="basic" th:src="@{/assets/cardBasic.png}">
+            <img th:case="student" th:src="@{/assets/cardStudent.png}">
             <div class="information">
-                <p th:text="${cardSpecifiedViewDTO.cardAccountNumber}"></p>
-                <p th:text="${cardSpecifiedViewDTO.active}"></p>
-                <p th:text="${cardSpecifiedViewDTO.expirationDate}"></p>
+                <a th:href="'/account/' + ${cardSpecifiedViewDTO.cardAccountNumber}">
+                    <p>
+                        Numer konta podpięty pod kartę &nbsp;&nbsp;&nbsp
+                        <span class="spacing-number" th:text="${cardSpecifiedViewDTO.cardAccountNumber}"></span>
+                    </p>
+                </a>
+                <div th:if="${cardSpecifiedViewDTO.active}" >
+                    <p>Karta aktywna</p>
+                </div>
+                <div th:unless="${cardSpecifiedViewDTO.active}">
+                    <p>Karta zastrzeżona</p>
+                </div>
+                <p th:text="'Data ważności karty &nbsp;&nbsp;' + ${cardSpecifiedViewDTO.expirationDate}"></p>
+                <p th:text="'Limit transakcji bezdotykowych &nbsp;&nbsp;&nbsp; ' + ${cardSpecifiedViewDTO.dailyContactlessLimit}"></p>
+                <p th:text="'Limit transakcji dziennych &nbsp;&nbsp;&nbsp; ' + ${cardSpecifiedViewDTO.dailyTotalLimit}"></p>
+                <p th:text="'Limit transakcji Webowych &nbsp;&nbsp;&nbsp; ' + ${cardSpecifiedViewDTO.dailyWebLimit}"></p>
             </div>
-            <div class = "history">
-            </div>
+
+        </div>
+        <div class="blocks">
+            <a class="block-credit-card">
+                <div class="small-bars" th:text="${cardSpecifiedViewDTO.active} ? 'Zastrzeż kartę' : 'Odblokuj kartę'"></div>
+            </a>
+            <a class="edit-credit-card">
+                <div class="small-bars">Zmień limity</div>
+            </a>
         </div>
     </div>
 </div>

@@ -1,27 +1,121 @@
 a {
-text-decoration: none;
+    text-decoration: none;
 }
 
 .card-background {
-width: 100vw;
-height: 87vh;
-background-image: url("../assets/landscape.jpg");
-padding: 10vh 20vw;
+    width: 100vw;
+    height: 87vh;
+    background-image: url("../assets/landscape.jpg");
+    padding: 10vh 20vw;
 }
 
 .card-container {
-overflow-x: hidden;
-overflow-y: scroll;
-width: 60vw;
-height: 67vh;
-background-color:rgba(229, 230, 236, 0.5);
+    width: 60vw;
+    height: 67vh;
+    background-color:rgba(229, 230, 236, 0.5);
+    position: relative;
 }
 .card-container .title {
-text-align: center;
-width: inherit;
+    text-align: center;
+    width: inherit;
 }
 
 .card-container h1 {
-font-family: Roboto;
-padding-top: 5vh;
+    font-family: Roboto;
+    padding-top: 5vh;
+}
+
+.card-container .card-info {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%) ;
+}
+
+.card-container .card-info img {
+    position: relative;
+    float: left;
+    margin-left: 5vw;
+    width: 18vw;
+    height: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.card-container .card-info .information {
+    position: relative;
+    float: left;
+    padding-top: 2vh;
+    margin-left: 3vw;
+    font-size: 1.7rem;
+}
+
+.card-container .card-info .information .spacing-number:hover {
+    color: #25C28B;
+}
+
+
+.card-container .blocks .block-credit-card {
+    float: left;
+    position: absolute;
+    bottom: 13%;
+    margin-left: 16vw;
+    width: 10vw;
+}
+
+.card-container .blocks .edit-credit-card {
+    float: left;
+    position: absolute;
+    bottom: 13%;
+    margin-left: 32vw;
+    width: 10vw;
+}
+
+.small-bars{
+    background-color: #25C28B;
+    border:none;
+    /*position: relative;*/
+    height: 8vh;
+    width: inherit;
+    font-size:1.6em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content:center;
+}
+
+.small-bars:hover{
+    background: rgba(229, 230, 236, 0);
+    color:#25BBAF;
+}
+
+.small-bars:before,.small-bars:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #26c6da;
+    transition:400ms ease all;
+}
+
+.small-bars:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+
+.small-bars:hover:before,.small-bars:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
+
+@keyframes moveSlideshow {
+    100% {
+        transform: translateX(100%);
+    }
 }

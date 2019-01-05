@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -42,24 +43,44 @@ public class CardService {
     }
 
     public Boolean addCardToModel(HttpServletRequest request, Model model, String cardNumber) {
-        /* TODO: userName = cardNumber authorization, returning last card payments
-         */
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        return username.isPresent() ? testIfCardBelongsToUsername(request, model, username.get(), cardNumber) : false;
+    }
 
-        CardSpecifiedViewDTO cardSpecifiedViewDTO = jdbcTemplate.queryForObject("SELECT card.account_number, card.expiration_date, card_type.type, card.is_active, " +
-            "card.daily_contactless_limit, card.daily_total_limit, card.daily_web_limit FROM card " +
-            "INNER JOIN card_type ON card_type.id = card.type_id WHERE card.number = ? ",
-            new Object[]{cardNumber},
-            (rs, rowNum) -> CardSpecifiedViewDTO.builder()
-                                            .setCardNumber(cardNumber)
-                                            .setCardAccountNumber(rs.getString("account_number"))
-                                            .setExpirationDate((rs.getDate("expiration_date")).toLocalDate())
-                                            .setCardType(rs.getString("type"))
-                                            .setActive(rs.getBoolean("is_active"))
-                                            .setDailyContactlessLimit(rs.getDouble("daily_contactless_limit"))
-                                            .setDailyTotalLimit(rs.getDouble("daily_total_limit"))
-                                            .setDailyWebLimit(rs.getDouble("daily_web_limit"))
-                                        .build());
-        model.addAttribute("cardSpecifiedViewDTO", cardSpecifiedViewDTO);
-        return true;
+    private Boolean testIfCardBelongsToUsername(HttpServletRequest request, Model model, String username, String cardNumber) {
+        try {
+            Integer numbers = jdbcTemplate.queryForObject("SELECT count(*) FROM card " +
+                    "INNER JOIN account ON account.number = card.account_number " +
+                    "INNER JOIN client_account ON client_account.account_number = account.number " +
+                    "INNER JOIN client ON client.pesel = client_account.client_pesel AND client.username = ? " +
+                    "WHERE card.number = ?", new Object[] {username, cardNumber}, Integer.class);
+            return numbers > 0 ? addSpecifiedCardToView(request, model, cardNumber) : false;
+        } catch (Exception e ) {
+            log.error("Error while testing if card belongs to username {}", e.getMessage());
+            return false;
+        }
+    }
+
+    private Boolean addSpecifiedCardToView(HttpServletRequest request, Model model, String cardNumber) {
+        try {
+            CardSpecifiedViewDTO cardSpecifiedViewDTO = jdbcTemplate.queryForObject("SELECT card.account_number, card.expiration_date, card_type.type, card.is_active, " +
+                            "card.daily_contactless_limit, card.daily_total_limit, card.daily_web_limit FROM card " +
+                            "INNER JOIN card_type ON card_type.id = card.type_id WHERE card.number = ? ", new Object[]{cardNumber},
+                    (rs, rowNum) -> CardSpecifiedViewDTO.builder()
+                            .setCardNumber(cardNumber)
+                            .setCardAccountNumber(rs.getString("account_number"))
+                            .setExpirationDate((rs.getDate("expiration_date")).toLocalDate())
+                            .setCardType(rs.getString("type"))
+                            .setActive(rs.getBoolean("is_active"))
+                            .setDailyContactlessLimit(rs.getDouble("daily_contactless_limit"))
+                            .setDailyTotalLimit(rs.getDouble("daily_total_limit"))
+                            .setDailyWebLimit(rs.getDouble("daily_web_limit"))
+                            .build());
+            model.addAttribute("cardSpecifiedViewDTO", cardSpecifiedViewDTO);
+            return true;
+        } catch (Exception e) {
+            log.error("Error occured while getting specified card details: {}", e.getMessage());
+            return false;
+        }
     }
 }

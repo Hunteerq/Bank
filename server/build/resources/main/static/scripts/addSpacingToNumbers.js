@@ -1,5 +1,5 @@
 $(document).ready( function() {
-    var contents = $('.cardNumber').get();
+    var contents = $('.spacing-number').get();
     contents.forEach(addSpacing);
 });
 
