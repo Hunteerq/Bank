@@ -36,7 +36,7 @@ public class DashboardService {
         currencyDTOS.clear();
         cryptoCurrencyDTOS.clear();
 
-        Set<CurrencyDTO> currencyDTOS = jdbcTemplate.query("SELECT currency.name, currency_exchange.rate, currency.type FROM currency " +
+        Set<CurrencyDTO> temporaryCurrencyDTOS = jdbcTemplate.query("SELECT currency.name, currency_exchange.rate, currency.type FROM currency " +
                         "INNER JOIN currency_exchange on currency.id = currency_exchange.currency_id " +
                         "WHERE currency.name != 'PLN'",
                 (rs, rownum) -> CurrencyDTO.builder()
@@ -46,23 +46,15 @@ public class DashboardService {
                         .build())
                 .stream().collect(Collectors.toSet());
 
-        currencyDTOS.stream()
+        temporaryCurrencyDTOS.stream()
                 .filter(currency -> currency.getType().equals("currency"))
-                .forEach(this::addCurrency);
+                .forEach(currency -> currencyDTOS.add(currency));
 
-        currencyDTOS.stream()
+        temporaryCurrencyDTOS.stream()
                 .filter(currency -> currency.getType().equals("crypto"))
-                .forEach(this::addCryptoCurrency);
+                .forEach(cryptoCurrency -> cryptoCurrencyDTOS.add(cryptoCurrency));
 
         addAllCurrenciesToSession(request);
-    }
-
-    private void addCurrency(CurrencyDTO currencyDTO) {
-        currencyDTOS.add(currencyDTO);
-    }
-
-    private void addCryptoCurrency(CurrencyDTO cryptoCurrencyDTO) {
-        cryptoCurrencyDTOS.add(cryptoCurrencyDTO);
     }
 
     private void addAllCurrenciesToSession(HttpServletRequest request) {
@@ -72,8 +64,8 @@ public class DashboardService {
 
     public void addTransfersToModel(HttpServletRequest request, Model model) {
         String username = (String) request.getSession().getAttribute("username");
-
-        Optional.ofNullable(jdbcTemplate.queryForMap("SELECT account.number, account.balance FROM account " +
+        Optional.ofNullable(jdbcTemplate.queryForMap("SELECT account.number, account.balance, currency.name FROM account " +
+                    "INNER JOIN currency ON currency.id = account.currency_id " +
                     "INNER JOIN client_account ON client_account.account_number = account.number " +
                     "INNER JOIN client ON client.pesel = client_account.client_pesel " +
                     "WHERE client.username = ? " +
@@ -84,15 +76,18 @@ public class DashboardService {
     private void addNumberBalanceAndTransfers(Map <String, Object> mainAccount, Model model) {
         model.addAttribute("accountNumber", mainAccount.get("number"));
         model.addAttribute("accountBalance", mainAccount.get("balance"));
+        model.addAttribute("accountCurrency", mainAccount.get("name"));
         addTransfersToModelFromMongo((String)mainAccount.get("number"), model);
-
     }
 
     private void addTransfersToModelFromMongo(String mainAccountNumber, Model model) {
         List<TransferDTO> userTransfers = mongoTransactionRepository
-                .findTransferDTOByUserAccountNumberOrderByLocalDateTime(mainAccountNumber, new PageRequest(0, 10));
+                .findTransferDTOByUserAccountNumberOrderByLocalDateTimeDesc(mainAccountNumber, PageRequest.of(0, 10));
         List<TransferDTO> recipientTransfers = mongoTransactionRepository
-                .findTransferDTOByRecipientAccountNumberOrderByLocalDateTime(mainAccountNumber, new PageRequest(0, 10));
+                .findTransferDTOByRecipientAccountNumberOrderByLocalDateTimeDesc(mainAccountNumber, PageRequest.of(0, 10));
+
+        userTransfers.forEach(transfer -> transfer.setTransferType("Outgoing"));
+        recipientTransfers.forEach(transfer -> transfer.setTransferType("Incoming"));
 
         List<TransferDTO> allList = Stream.of(userTransfers, recipientTransfers)
                 .flatMap(List::stream)

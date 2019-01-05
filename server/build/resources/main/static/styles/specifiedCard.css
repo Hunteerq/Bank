@@ -1,0 +1,27 @@
+a {
+text-decoration: none;
+}
+
+.card-background {
+width: 100vw;
+height: 87vh;
+background-image: url("../assets/landscape.jpg");
+padding: 10vh 20vw;
+}
+
+.card-container {
+overflow-x: hidden;
+overflow-y: scroll;
+width: 60vw;
+height: 67vh;
+background-color:rgba(229, 230, 236, 0.5);
+}
+.card-container .title {
+text-align: center;
+width: inherit;
+}
+
+.card-container h1 {
+font-family: Roboto;
+padding-top: 5vh;
+}

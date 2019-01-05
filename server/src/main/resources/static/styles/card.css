@@ -1,0 +1,52 @@
+a {
+    text-decoration: none;
+}
+
+.card-background {
+    width: 100vw;
+    height: 87vh;
+    background-image: url("../assets/landscape.jpg");
+    padding: 10vh 20vw;
+}
+
+.card-container {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 60vw;
+    height: 67vh;
+    background-color:rgba(229, 230, 236, 0.5);
+}
+.card-container .title {
+    text-align: center;
+    width: inherit;
+}
+
+.card-container h1 {
+    font-family: Roboto;
+    padding-top: 5vh;
+}
+
+.table-row {
+    padding-top: 1.7vh;
+    background-color:rgba(229, 230, 236, 0.3);
+    font-family: Roboto;
+    font-size: 32px;
+    width: inherit;
+    height: 10vh;
+    margin-top: 4vh;
+}
+
+.table-row div img {
+    float: left;
+    height: 80px;
+    width: auto;
+    margin-left: 5vw;
+}
+
+.table-content a .table-row .table-data {
+    margin-left: 12vw;
+}
+
+.table-row:hover {
+    color: #25C28B;
+}

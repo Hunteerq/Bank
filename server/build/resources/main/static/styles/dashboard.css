@@ -218,6 +218,7 @@ nav ul li:hover  {
   }
 
   .name-surname {
+      position: relative;
       text-align: center;
       margin-top: -1vh;
 

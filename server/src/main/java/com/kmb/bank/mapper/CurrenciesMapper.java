@@ -8,16 +8,9 @@ import java.util.StringJoiner;
 public class CurrenciesMapper {
 
     public String mapDtosToString(Set<CurrencyDTO> currencyDTOSet) {
-
         StringJoiner joiner = new StringJoiner("");
+        currencyDTOSet.forEach(currency -> joiner.add(currency.toString()));
 
-        currencyDTOSet.forEach(currency -> addCurrencyParameters(currency, joiner));
         return joiner.toString();
     }
-
-    public void addCurrencyParameters(CurrencyDTO currencyDto, StringJoiner joiner) {
-        joiner.add(currencyDto.toString());
-    }
-
-
 }

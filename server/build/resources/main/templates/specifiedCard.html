@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+
+
+    <!-- thymeleaf -->
+    <!-- CSS -->
+    <link th:href="@{/styles/card.css}" rel="stylesheet">
+    <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
+    <!-- scripts -->
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
+    <script th:src="@{/scripts/date.js}"></script>
+    <script th:src="@{/scripts/addSpacingToNumbers.js}"></script>
+
+    <!-- CSS -->
+    <link href="../static/styles/card.css" rel="stylesheet" type="text/css" >
+    <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
+    <!-- scriptts -->
+    <script src="../static/scripts/date.js"></script>
+    <script src="../static/scripts/addSpacingToNumbers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+</head>
+<body>
+<nav class='navbar-top'>
+    <ul>
+        <li id="logo"><a href="/dashboard">KMB</a></li>
+        <div>
+            <li><a th:href="@{/account}" class="interface">Konta</a></li>
+            <li><a th:href="@{/card}" class="interface">Karty</a></li>
+            <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
+            <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
+        </div>
+        <li>
+            <div class="name-surname">
+                <a href="#">
+                    <div th:text="${session.nameSurname}"></div>
+                    <div id="dateTime"></div>
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div class="currencies">
+    <div class="normal"><div class="wrapIt"><pre th:text="${session.currencies}"></pre></div></div>
+    <div class="crypto"><pre th:text="${session.crypto}"></pre></div>
+</div>
+
+<div class="card-background" >
+    <div class="card-container">
+        <div class="title">
+            <h1 th:text="'KARTA NUMER    ' +  ${cardSpecifiedViewDTO.cardNumber}"></h1>
+        </div>
+        <div class="card-info">
+            <div class="information">
+                <p th:text="${cardSpecifiedViewDTO.cardAccountNumber}"></p>
+                <p th:text="${cardSpecifiedViewDTO.active}"></p>
+                <p th:text="${cardSpecifiedViewDTO.expirationDate}"></p>
+            </div>
+            <div class = "history">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -187,6 +187,8 @@ INSERT INTO account_type VALUES (1, 'student_account');
 INSERT INTO currency VALUES (1, 'PLN');
 INSERT INTO account VALUES ('2222444466661111', 35695, 1, 1, now(), false, false);
 INSERT INTO client_account(client_pesel, account_number) VALUES ('96121935590', '2222444466661111');
+INSERT INTO card VALUES ('2874922495120811', '2222444466661111', '978', '12-11-2022', 4, true, 250.0, 1000.0, 1000.0);
+
 
 
 
@@ -212,6 +214,23 @@ INSERT INTO client VALUES('97022512512', 'Filip', 'Krzemień', 'filip.krz@interi
 INSERT INTO account VALUES('6911221371488420', 100000000, 1, 1, now(), false, false)
 INSERT INTO client_account(client_pesel, account_number) VALUES('97022512512', '6911221371488420');
 
+
+
+
+INSERT INTO card_type VALUES (1, 'normal');
+INSERT INTO card_type VALUES (2, 'gold');
+INSERT INTO card_type VALUES (3, 'basic');
+INSERT INTO card_type VALUES (4, 'student');
+INSERT INTO card_type VALUES (5, 'platinum');
+
+--Cards Kulig
+INSERT INTO card VALUES ('4444222255551111', '9999111122223333', '421', '11-11-2021', 1, true, 250.0, 1000.0, 1000);
+INSERT INTO card VALUES ('6666222299990000', '9999000099990000', '712', '11-12-2021', 2, true, 250.0, 1000.0, 1000);
+INSERT INTO card VALUES ('3333777711112222', '9999000099990000', '123', '11-11-2022', 5, true, 250.0, 1000.0, 1000.0);
+INSERT INTO card VALUES ('6612551299880121', '9999000099990000', '742', '12-11-2022', 3, true, 250.0, 1000.0, 1000.0);
+INSERT INTO card VALUES ('8672521495820321', '9999000099990000', '478', '12-11-2022', 4, true, 250.0, 1000.0, 1000.0);
+
+
 --Getting all info about clients and accounts
 SELECT client.*, account.* FROM client
 INNER JOIN client_account ON client.pesel = client_account.client_pesel
@@ -224,8 +243,13 @@ INNER JOIN client_account ON client_account.client_pesel = client.pesel
 INNER JOIN account ON account.number = client_account.account_number
 INNER JOIN card ON card.account_number = account.number
 
+--Getting credit cards and credit cards type from specified username
+SELECT card.number, card_type.type FROM card 
+INNER JOIN account ON account.number = card.account_number
+INNER JOIN client_account ON client_account.account_number = account.number
+INNER JOIN client ON client.pesel = client_account.client_pesel AND client.username = XXXXXX
+INNER JOIN card_type ON card_type.id = card.type_id 
 
 --Getting all currencies info
-
 SELECT currency.name, currency_exchange.rate FROM currency
 INNER JOIN currency_exchange on currency.id = currency_exchange.currency_id

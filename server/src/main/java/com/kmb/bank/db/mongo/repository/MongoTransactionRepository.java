@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface MongoTransactionRepository extends MongoRepository<TransferDTO, String> {
 
-     List<TransferDTO> findTransferDTOByUserAccountNumberOrderByLocalDateTime(String id, Pageable pageable);
-     List<TransferDTO> findTransferDTOByRecipientAccountNumberOrderByLocalDateTime(String id, Pageable pagable);
+     List<TransferDTO> findTransferDTOByUserAccountNumberOrderByLocalDateTimeDesc(String id, Pageable pageable);
+     List<TransferDTO> findTransferDTOByRecipientAccountNumberOrderByLocalDateTimeDesc(String id, Pageable pagable);
 }

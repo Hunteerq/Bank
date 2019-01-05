@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Dashboard</title>
 </head>
 <body>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -13,18 +13,13 @@
 <form class="form-horizontal" action="#" th:action="@{/username}" method="post">
     <img src="assets/accounting.jpg">
     <fieldset>
-        <!-- Form Name -->
         <legend>KMB</legend>
-        <!-- Text input-->
         <div class="form-group" id = "username">
             <label class="col-md-4 control-label" for="textinput">Login</label>
             <div class="col-md-4">
                 <input id="textinput" name="username" type="text" placeholder="Type Your login here" class="form-control input-md">
             </div>
         </div>
-
-
-        <!-- Button -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="singlebutton"></label>
             <div class="col-md-4">

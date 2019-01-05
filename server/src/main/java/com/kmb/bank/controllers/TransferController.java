@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Log4j2
 @Controller
-public class TransfersController {
+public class TransferController {
 
     @Autowired
     private TransfersService transfersService;
