@@ -85,8 +85,11 @@
 
         </div>
         <div class="blocks">
-            <a class="block-credit-card">
-                <div class="small-bars" th:text="${cardSpecifiedViewDTO.active} ? 'Zastrzeż kartę' : 'Odblokuj kartę'"></div>
+            <a th:if="${cardSpecifiedViewDTO.active}" class="block-credit-card" th:href="'/card/' + ${cardSpecifiedViewDTO.cardNumber} +'/block'">
+                <div class="small-bars">Zastrzeż kartę</div>
+            </a>
+            <a th:unless="${cardSpecifiedViewDTO.active}" class="block-credit-card" th:href="'/card/' + ${cardSpecifiedViewDTO.cardNumber} +'/unblock'">
+                <div class="small-bars">Odblokuj kartę</div>
             </a>
             <a class="edit-credit-card">
                 <div class="small-bars">Zmień limity</div>

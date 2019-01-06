@@ -44,17 +44,21 @@ public class CardService {
 
     public Boolean addCardToModel(HttpServletRequest request, Model model, String cardNumber) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
-        return username.isPresent() ? testIfCardBelongsToUsername(request, model, username.get(), cardNumber) : false;
+        return username.isPresent() ? requestCardAuthorization(request, model, username.get(), cardNumber) : false;
     }
 
-    private Boolean testIfCardBelongsToUsername(HttpServletRequest request, Model model, String username, String cardNumber) {
+    private Boolean requestCardAuthorization(HttpServletRequest request, Model model, String username, String cardNumber) {
+        return testIfCardBelongsToUsername(username, cardNumber) ? addSpecifiedCardToView(request, model, cardNumber) : false;
+    }
+
+    private Boolean testIfCardBelongsToUsername(String username, String cardNumber) {
         try {
             Integer numbers = jdbcTemplate.queryForObject("SELECT count(*) FROM card " +
                     "INNER JOIN account ON account.number = card.account_number " +
                     "INNER JOIN client_account ON client_account.account_number = account.number " +
                     "INNER JOIN client ON client.pesel = client_account.client_pesel AND client.username = ? " +
                     "WHERE card.number = ?", new Object[] {username, cardNumber}, Integer.class);
-            return numbers > 0 ? addSpecifiedCardToView(request, model, cardNumber) : false;
+            return numbers > 0;
         } catch (Exception e ) {
             log.error("Error while testing if card belongs to username {}", e.getMessage());
             return false;
@@ -81,6 +85,25 @@ public class CardService {
         } catch (Exception e) {
             log.error("Error occured while getting specified card details: {}", e.getMessage());
             return false;
+        }
+    }
+
+
+    public void blockCard(HttpServletRequest request, String cardNumber) {
+       Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+       if(username.isPresent() && testIfCardBelongsToUsername(username.get(), cardNumber)) {
+           jdbcTemplate.update("UPDATE card " +
+                   "SET is_active = false " +
+                   "WHERE number = ?", new Object[] {cardNumber});
+       }
+    }
+
+    public void unblockCard(HttpServletRequest request, String cardNumber) {
+        String username = (String) request.getSession().getAttribute("username");
+        if(username != null && testIfCardBelongsToUsername(username, cardNumber)) {
+            jdbcTemplate.update("UPDATE card " +
+                    "SET is_active = true " +
+                    "WHERE number = ?", new Object[] {cardNumber});
         }
     }
 }
