@@ -17,7 +17,6 @@ a {
 
 nav a:hover {
     text-decoration: none;
-
 }
 
 nav {
@@ -60,6 +59,10 @@ nav ul li a {
     text-decoration: none;
     width: 3vw;
 
+}
+
+#logo a img {
+    width: 6vh;
 }
 
 nav ul div li a {
@@ -158,17 +161,15 @@ nav ul li:hover  {
     margin-top: 5vh;
     width:  inherit;
     height: 67vh;
-    
 }
 
 .bars-container .right-bar .history .title {
     width: inherit;
     height: 10vh;
-    font-size: 42px;
+    font-size: 2rem;
     display:flex;
     align-items: center;
     justify-content:center;
-
 }
 
 .bars-container .right-bar .history .transfers {
@@ -221,7 +222,6 @@ nav ul li:hover  {
       position: relative;
       text-align: center;
       margin-top: -1vh;
-
   }
 
 @keyframes moveSlideshow {

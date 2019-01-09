@@ -1,14 +1,15 @@
 package com.kmb.bank.controllers;
 
 import com.kmb.bank.services.CardService;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 @Controller
 public class CardController {
@@ -22,9 +23,26 @@ public class CardController {
         return "card";
     }
 
+    @GetMapping(value = "/card/add")
+    public String addCardView(HttpServletRequest request, Model model) {
+        cardService.addCardTypesAndAccountNumbersToModel(request, model);
+        return "card-add.html";
+    }
+
+    @PostMapping(value = "/card/add")
+    public String addCard(HttpServletRequest request,
+                          @PathParam(value = "userAccountNumber") String userAccountNumber,
+                          @PathParam(value = "cardType") int cardTypeId,
+                          @PathParam(value = "dailyContactlessLimit") double dailyContactlessLimit,
+                          @PathParam(value = "dailyWebLimit") double dailyWebLimit,
+                          @PathParam(value = "dailyTotalLimit") double dailyTotalLimit) {
+        cardService.addNewCard(request, userAccountNumber, cardTypeId, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit);
+        return "redirect:/card";
+    }
+
     @GetMapping(value = "/card/{cardNumber}")
     public String getCard(HttpServletRequest request, Model model, @PathVariable String cardNumber) {
-        return cardService.addCardToModel(request, model, cardNumber) ? "specifiedCard" : "redirect:/error";
+        return cardService.addCardToModel(request, model, cardNumber) ? "specified-card" : "redirect:/error";
     }
 
     @GetMapping(value = "/card/{cardNumber}/block")

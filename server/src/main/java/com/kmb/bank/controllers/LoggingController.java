@@ -22,14 +22,14 @@ public class LoggingController {
 
     @PostMapping(value="/username")
     public String login(@RequestParam(value = "username") String username){
-        return loggingService.validateUsername(username)!= -1 ? "password" : "login_unsuccessful";
+        return loggingService.validateUsername(username)!= -1 ? "password" : "login-unsuccessful";
     }
 
     @PostMapping(value="/password")
     public String password(@RequestParam(value = "username") String username,
                            @RequestParam(value = "password") String password,
                            HttpServletRequest request) {
-        return loggingService.validatePassword(request, username, password) ? "redirect:/dashboard" : "password_unsuccessful";
+        return loggingService.validatePassword(request, username, password) ? "redirect:/dashboard" : "password-unsuccessful";
     }
 
     @GetMapping(value="/*")

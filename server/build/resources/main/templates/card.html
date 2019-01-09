@@ -10,16 +10,18 @@
 
     <!-- thymeleaf -->
     <!-- CSS -->
-    <link th:href="@{/styles/card.css}" rel="stylesheet">
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
+    <link th:href="@{/styles/card.css}" rel="stylesheet">
+
     <!-- scripts -->
     <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
     <script th:src="@{/scripts/date.js}"></script>
     <script th:src="@{/scripts/addSpacingToNumbers.js}"></script>
 
     <!-- CSS -->
-    <link href="../static/styles/card.css" rel="stylesheet" type="text/css" >
     <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
+    <link href="../static/styles/card.css" rel="stylesheet" type="text/css" >
+
     <!-- scriptts -->
     <script src="../static/scripts/date.js"></script>
     <script src="../static/scripts/addSpacingToNumbers.js"></script>
@@ -54,10 +56,10 @@
 <div class="card-background" >
     <div class="card-container">
         <div class="title">
-            <h1>KARTY</h1>
+            <h1>Karty</h1>
         </div>
         <div class = "table-content" th:each="card : ${cardDTOS}">
-           <a th:href="'/card/' + ${card.cardNumber}">
+           <a th:href = "'/card/' + ${card.cardNumber}">
                <div class = "table-row">
                     <div th:switch="${card.cardType}">
                         <img th:case="gold" th:src="@{/assets/cardGold.png}">
@@ -71,6 +73,9 @@
                 </div>
             </a>
         </div>
+        <a th:href = "'/card/add'" class="edit-credit-card">
+            <div class="small-bars">Dodaj kartę</div>
+        </a>
     </div>
 </div>
 </body>

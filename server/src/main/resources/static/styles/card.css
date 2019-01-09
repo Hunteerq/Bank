@@ -50,3 +50,13 @@ a {
 .table-row:hover {
     color: #25C28B;
 }
+
+.small-bars {
+    height: 5vh;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content:center;
+}

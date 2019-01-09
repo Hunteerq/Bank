@@ -1,8 +1,12 @@
 package com.kmb.bank.services;
 
+import com.kmb.bank.db.mongo.repository.AccountRepository;
+import com.kmb.bank.db.mongo.repository.CardRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
+import com.kmb.bank.models.AccountBasicViewDTO;
 import com.kmb.bank.models.CardBasicViedDTO;
 import com.kmb.bank.models.CardSpecifiedViewDTO;
+import com.kmb.bank.models.CardTypeDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -25,8 +32,17 @@ public class CardService {
     @Autowired
     private MongoTransactionRepository mongoTransactionRepository;
 
+    @Autowired
+    private Random random;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private CardRepository cardRepository;
+
     public void addCardsToModel(HttpServletRequest request, Model model) {
-       String username = (String)request.getSession().getAttribute("username");
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
 
         List<CardBasicViedDTO> cardDTOS = jdbcTemplate.query("SELECT card.number, card_type.type FROM card " +
                "INNER JOIN account ON account.number = card.account_number " +
@@ -36,8 +52,7 @@ public class CardService {
                (rs, rowNum) -> CardBasicViedDTO.builder()
                                 .setCardNumber(rs.getString("number"))
                                 .setCardType(rs.getString("type")).
-                               build()).stream()
-                .collect(Collectors.toList());
+                               build());
 
         model.addAttribute("cardDTOS", cardDTOS);
     }
@@ -90,20 +105,77 @@ public class CardService {
 
 
     public void blockCard(HttpServletRequest request, String cardNumber) {
-       Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
-       if(username.isPresent() && testIfCardBelongsToUsername(username.get(), cardNumber)) {
-           jdbcTemplate.update("UPDATE card " +
-                   "SET is_active = false " +
-                   "WHERE number = ?", new Object[] {cardNumber});
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+       if(testIfCardBelongsToUsername(username, cardNumber)) {
+           try {
+               jdbcTemplate.update("UPDATE card " +
+                       "SET is_active = false " +
+                       "WHERE number = ?", cardNumber);
+           } catch (Exception e ) {
+               log.error("Error updating database {}", e.getMessage());
+           }
        }
     }
 
     public void unblockCard(HttpServletRequest request, String cardNumber) {
-        String username = (String) request.getSession().getAttribute("username");
-        if(username != null && testIfCardBelongsToUsername(username, cardNumber)) {
-            jdbcTemplate.update("UPDATE card " +
-                    "SET is_active = true " +
-                    "WHERE number = ?", new Object[] {cardNumber});
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+        if(testIfCardBelongsToUsername(username, cardNumber)) {
+            try {
+                jdbcTemplate.update("UPDATE card " +
+                        "SET is_active = true " +
+                     "WHERE number = ?", cardNumber);
+            } catch (Exception e ) {
+                 log.error("Error updating database {}", e.getMessage());
+             }
+
+          }
+    }
+
+    public void addCardTypesAndAccountNumbersToModel(HttpServletRequest request, Model model) {
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+        log.info("username = {}", username);
+
+        try {
+            Optional<List<AccountBasicViewDTO>> accountBasicViewDTOS = Optional.ofNullable(jdbcTemplate.query("SELECT account.number, account.balance FROM account " +
+                    "INNER JOIN client_account on account.number = client_account.account_number " +
+                    "INNER JOIN client on client_account.client_pesel = client.pesel " +
+                    "WHERE client.username = ?", new Object[]{username}, (rs, rowNum) -> AccountBasicViewDTO.builder()
+                    .setAmount(rs.getString("balance"))
+                    .setNumber(rs.getString("number"))
+                    .build()));
+            accountBasicViewDTOS.ifPresent(accounts -> model.addAttribute("accountBasicViewDTOS", accounts));
+
+            Optional<List<CardTypeDTO>> cardTypes = Optional.ofNullable(jdbcTemplate.query("SELECT id, type from card_type",
+                    (rs, rowNum) -> CardTypeDTO.builder()
+                                                .setId(rs.getInt("id"))
+                                                .setType(rs.getString("type"))
+                                                .build()));
+            cardTypes.ifPresent(types -> model.addAttribute("cardTypeDTOS", types));
+        } catch (Exception e) {
+            log.info("Exception {}", e.getMessage());
         }
+    }
+
+
+
+    public void addNewCard(HttpServletRequest request, String userAccountNumber, int cardTypeId, double dailyContactlessLimit, double dailyWebLimit,  double dailyTotalLimit) {
+        random.setSeed(System.currentTimeMillis());
+
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+        String cardNumber = returnRandomInts(16);
+        String cvv = returnRandomInts(3);
+
+        if (accountRepository.ifAccountNumberBelongsToUser(userAccountNumber, username)) {
+            cardRepository.addNewCreditCard(cardNumber, userAccountNumber, cvv, LocalDateTime.now().plusYears(4),
+                    cardTypeId, true,dailyContactlessLimit, dailyTotalLimit, dailyWebLimit);
+        }
+    }
+
+    private String returnRandomInts(int numberOfInts) {
+        StringBuilder randomString = new StringBuilder();
+        for(int i = 0; i < numberOfInts; i++) {
+            randomString.append(random.nextInt(10));
+        }
+        return randomString.toString();
     }
 }
