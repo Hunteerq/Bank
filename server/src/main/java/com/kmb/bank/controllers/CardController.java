@@ -56,4 +56,20 @@ public class CardController {
         cardService.unblockCard(request, cardNumber);
         return "redirect:/card/" + cardNumber;
     }
+
+    @GetMapping(value="/card/{cardNumber}/edit")
+    public String editCard(HttpServletRequest request, Model model,  @PathVariable String cardNumber)  {
+        cardService.createEditView(request, model, cardNumber);
+        return "card-edit";
+    }
+
+    @PostMapping(value="/card/{cardNumber}/edit")
+    public String updateCardLimits(HttpServletRequest httpServletRequest,
+                                   @PathVariable String cardNumber,
+                                   @PathParam(value = "dailyContactlessLimit") double dailyContactlessLimit,
+                                   @PathParam(value = "dailyWebLimit") double dailyWebLimit,
+                                   @PathParam(value = "dailyTotalLimit") double dailyTotalLimit) {
+        cardService.updateCardLimits(httpServletRequest, cardNumber, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit);
+        return "redirect:/card/" + cardNumber;
+    }
 }

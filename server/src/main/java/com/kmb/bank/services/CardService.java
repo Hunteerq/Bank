@@ -3,10 +3,7 @@ package com.kmb.bank.services;
 import com.kmb.bank.db.mongo.repository.AccountRepository;
 import com.kmb.bank.db.mongo.repository.CardRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
-import com.kmb.bank.models.AccountBasicViewDTO;
-import com.kmb.bank.models.CardBasicViedDTO;
-import com.kmb.bank.models.CardSpecifiedViewDTO;
-import com.kmb.bank.models.CardTypeDTO;
+import com.kmb.bank.models.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -63,22 +60,9 @@ public class CardService {
     }
 
     private Boolean requestCardAuthorization(HttpServletRequest request, Model model, String username, String cardNumber) {
-        return testIfCardBelongsToUsername(username, cardNumber) ? addSpecifiedCardToView(request, model, cardNumber) : false;
+        return cardRepository.testIfCardBelongsToUsername(username, cardNumber) ? addSpecifiedCardToView(request, model, cardNumber) : false;
     }
 
-    private Boolean testIfCardBelongsToUsername(String username, String cardNumber) {
-        try {
-            Integer numbers = jdbcTemplate.queryForObject("SELECT count(*) FROM card " +
-                    "INNER JOIN account ON account.number = card.account_number " +
-                    "INNER JOIN client_account ON client_account.account_number = account.number " +
-                    "INNER JOIN client ON client.pesel = client_account.client_pesel AND client.username = ? " +
-                    "WHERE card.number = ?", new Object[] {username, cardNumber}, Integer.class);
-            return numbers > 0;
-        } catch (Exception e ) {
-            log.error("Error while testing if card belongs to username {}", e.getMessage());
-            return false;
-        }
-    }
 
     private Boolean addSpecifiedCardToView(HttpServletRequest request, Model model, String cardNumber) {
         try {
@@ -106,7 +90,7 @@ public class CardService {
 
     public void blockCard(HttpServletRequest request, String cardNumber) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-       if(testIfCardBelongsToUsername(username, cardNumber)) {
+       if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
            try {
                jdbcTemplate.update("UPDATE card " +
                        "SET is_active = false " +
@@ -119,7 +103,7 @@ public class CardService {
 
     public void unblockCard(HttpServletRequest request, String cardNumber) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        if(testIfCardBelongsToUsername(username, cardNumber)) {
+        if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
             try {
                 jdbcTemplate.update("UPDATE card " +
                         "SET is_active = true " +
@@ -177,5 +161,21 @@ public class CardService {
             randomString.append(random.nextInt(10));
         }
         return randomString.toString();
+    }
+
+    public void createEditView(HttpServletRequest request, Model model, String cardNumber) {
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+        if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+            Optional<CardLimitsDTO> cardLimitsDTO = Optional.ofNullable(cardRepository.getLimitsFromCreditNumber(cardNumber));
+            cardLimitsDTO.ifPresent( limits -> model.addAttribute("cardLimitsDTO", limits));
+            model.addAttribute("cardNumber", cardNumber);
+        }
+    }
+
+    public void updateCardLimits(HttpServletRequest request, String cardNumber, double dailyContactlessLimit, double dailyWebLimit, double dailyTotalLimit) {
+        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+        if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+            cardRepository.updateCardLimits(cardNumber, dailyContactlessLimit, dailyTotalLimit, dailyWebLimit);
+        }
     }
 }

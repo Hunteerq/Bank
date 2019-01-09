@@ -91,7 +91,7 @@
             <a th:unless="${cardSpecifiedViewDTO.active}" class="block-credit-card" th:href="'/card/' + ${cardSpecifiedViewDTO.cardNumber} +'/unblock'">
                 <div class="small-bars">Odblokuj kartę</div>
             </a>
-            <a class="edit-credit-card">
+            <a class="edit-credit-card" th:href="'/card/' + ${cardSpecifiedViewDTO.cardNumber} +'/edit'">
                 <div class="small-bars">Zmień limity</div>
             </a>
         </div>

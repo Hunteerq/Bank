@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add card</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+
+
+    <!-- thymeleaf -->
+    <!-- CSS -->
+    <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
+    <link th:href="@{/styles/transfer.css}" rel="stylesheet">
+    <!-- scripts -->
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
+    <script th:src="@{/scripts/validator.js}"></script>
+    <script th:src="@{/scripts/date.js}"></script>
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
+    <link href="../static/styles/transfer.css" rel="stylesheet" type="text/css">
+    <!-- scriptts -->
+    <script src="../static/scripts/date.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../static/scripts/validator.js"></script>
+
+</head>
+<body>
+<nav class='navbar-top'>
+    <ul>
+        <li id="logo"><a href="/dashboard">KMB</a></li>
+        <div>
+            <li><a th:href="@{/account}" class="interface">Konta</a></li>
+            <li><a th:href="@{/card}" class="interface">Karty</a></li>
+            <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
+            <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
+        </div>
+        <li>
+            <div class="name-surname">
+                <a href="#">
+                    <div th:text="${session.nameSurname}"></div>
+                    <div id="dateTime"></div>
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div class="currencies">
+    <div class="normal">Waluty </div>
+    <div class="crypto">Kryptowaluty</div>
+</div>
+<div class="transfer-background" >
+    <div class="transfer-container">
+        <h1 th:text="'Edytik kartę ' + ${cardNumber}"></h1>
+        <div class="form">
+            <form class="col-sm-8" th:action="@{/card} + '/' +  ${cardNumber} + '/edit'" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Dzienny limit transakcji bezdotykowych</label>
+                    <input name = "dailyContactlessLimit" type="daily-contactless-limit" class="form-control" th:placeholder="${cardLimitsDTO.dailyContactlessLimit}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Dzienny limit transakcji internetowych</label>
+                    <input name="dailyWebLimit" type="daily-web-limit" class="form-control" th:placeholder="${cardLimitsDTO.dailyWebLimit}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Dzienny limit całkowity </label>
+                    <input name="dailyTotalLimit" type="daily-total-limit" class="form-control" th:placeholder="${cardLimitsDTO.dailyTotalLimit}">
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <div class="col-md-4">
+                        <button id="singlebutton" name="singlebutton" class="btn btn-primary">Wyślij</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
