@@ -47,6 +47,12 @@ nav ul li {
     padding-top: 5vh;
     font-family: Roboto;
 }
+
+.transfer-container h1 span {
+    font-size: inherit;
+    font-family: Roboto;
+}
+
 .form {
     padding-left: 25%;
     padding-top: 5%;

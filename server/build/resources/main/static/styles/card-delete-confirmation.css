@@ -1,0 +1,30 @@
+.confirmation {
+    width: inherit;
+    height: inherit;
+}
+
+.confirmation a {
+    position: absolute;
+    bottom: 10%;
+    width: 10vw;
+    height: 4vh;
+
+}
+
+.confirmation a .small-bars {
+    font-family: Roboto;
+    color: black;
+    position: relative;
+}
+
+.confirmation a .small-bars .left-bar {
+    position: relative;
+    float: left;
+    margin-left: 10vw;
+}
+
+.confirmation a .small-bars .right-bar {
+    position: relative;
+    float: left;
+    margin-right: 10vw;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>delete card</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+
+
+    <!-- thymeleaf -->
+    <!-- CSS -->
+    <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
+    <link th:href="@{/styles/specified-card.css}" rel="stylesheet">
+    <!-- scripts -->
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
+    <script th:src="@{/scripts/validator.js}"></script>
+    <script th:src="@{/scripts/date.js}"></script>
+    <script th:src="@{/scripts/addSpacingToNumbers.js}"></script>
+    <!-- /thymeleaf -->
+    <!-- normal -->
+
+    <!-- CSS -->
+    <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
+    <link href="../static/styles/specified-card.css" rel="stylesheet" type="text/css">
+    <!-- scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../static/scripts/date.js"></script>
+    <script src="../static/scripts/validator.js"></script>
+    <script src="../static/scripts/addSpacingToNumbers.js"></script>
+    <!-- /normal -->
+</head>
+<body>
+<nav class='navbar-top'>
+    <ul>
+        <li id="logo"><a href="/dashboard">KMB</a></li>
+        <div>
+            <li><a th:href="@{/account}" class="interface">Konta</a></li>
+            <li><a th:href="@{/card}" class="interface">Karty</a></li>
+            <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
+            <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
+        </div>
+        <li>
+            <div class="name-surname">
+                <a href="#">
+                    <div th:text="${session.nameSurname}"></div>
+                    <div id="dateTime"></div>
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div class="currencies">
+    <div class="normal">Waluty </div>
+    <div class="crypto">Kryptowaluty</div>
+</div>
+<div class="card-background" >
+    <div class="card-container">
+        <div class="title"><
+            <h1 class="card-number-text">Czy na pewno chcesz usunąć kartę  &nbsp;&nbsp;&nbsp;<span class = "spacing-number" th:text="${cardNumber}"></span>&nbsp;?</h1>
+        </div>
+        <div class="blocks">
+            <a class="left-block" th:href="'/card/' + ${cardNumber} +'/delete/accepted'">
+                <div class="small-bars">Potwierdzam usunięciey</div>
+            </a>
+            <a class="right-block" th:href="'/card/' + ${cardNumber}">
+                <div  class="small-bars">Rezygnuję</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

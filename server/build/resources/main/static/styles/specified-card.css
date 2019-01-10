@@ -25,9 +25,14 @@ a {
     padding-top: 5vh;
 }
 
+.card-container h1 span {
+    font-size: inherit;
+    font-family: inherit;
+}
+
 .card-container .card-info {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translate(0, -50%) ;
 }
 
@@ -54,26 +59,25 @@ a {
 }
 
 
-.card-container .blocks .block-credit-card {
+.card-container .blocks .left-block {
     float: left;
     position: absolute;
-    bottom: 13%;
-    margin-left: 16vw;
+    bottom: 17%;
+    margin-left: 13vw;
     width: 10vw;
 }
 
-.card-container .blocks .edit-credit-card {
+.card-container .blocks .right-block {
     float: left;
     position: absolute;
-    bottom: 13%;
-    margin-left: 32vw;
+    bottom: 17%;
+    margin-left: 37vw;
     width: 10vw;
 }
 
 .small-bars{
     background-color: #25C28B;
     border:none;
-    /*position: relative;*/
     height: 8vh;
     width: inherit;
     font-size:1.6em;
@@ -112,6 +116,14 @@ a {
 .small-bars:hover:before,.small-bars:hover:after{
     width:100%;
     transition:800ms ease all;
+}
+
+#delete-card {
+    height: 4vh;
+    width: 100%;
+    position: absolute;
+    bottom: 5%;
+    margin-top: 4vh;
 }
 
 @keyframes moveSlideshow {

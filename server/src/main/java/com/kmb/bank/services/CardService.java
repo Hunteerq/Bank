@@ -11,13 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
-
 
 @Log4j2
 @Service
@@ -41,15 +38,7 @@ public class CardService {
     public void addCardsToModel(HttpServletRequest request, Model model) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
 
-        List<CardBasicViedDTO> cardDTOS = jdbcTemplate.query("SELECT card.number, card_type.type FROM card " +
-               "INNER JOIN account ON account.number = card.account_number " +
-               "INNER JOIN client_account ON client_account.account_number = account.number " +
-               "INNER JOIN client ON client.pesel = client_account.client_pesel AND client.username = ?" +
-               "INNER JOIN card_type ON card_type.id = card.type_id ", new Object[]{username},
-               (rs, rowNum) -> CardBasicViedDTO.builder()
-                                .setCardNumber(rs.getString("number"))
-                                .setCardType(rs.getString("type")).
-                               build());
+        List<CardBasicViedDTO> cardDTOS = cardRepository.getCardsWithBasicInformation(username);
 
         model.addAttribute("cardDTOS", cardDTOS);
     }
@@ -117,8 +106,6 @@ public class CardService {
 
     public void addCardTypesAndAccountNumbersToModel(HttpServletRequest request, Model model) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        log.info("username = {}", username);
-
         try {
             Optional<List<AccountBasicViewDTO>> accountBasicViewDTOS = Optional.ofNullable(jdbcTemplate.query("SELECT account.number, account.balance FROM account " +
                     "INNER JOIN client_account on account.number = client_account.account_number " +
@@ -174,8 +161,26 @@ public class CardService {
 
     public void updateCardLimits(HttpServletRequest request, String cardNumber, double dailyContactlessLimit, double dailyWebLimit, double dailyTotalLimit) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+        if(dailyContactlessLimit >= 0 && dailyWebLimit >= 0 && dailyTotalLimit >=0
+                && cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
             cardRepository.updateCardLimits(cardNumber, dailyContactlessLimit, dailyTotalLimit, dailyWebLimit);
+        }
+    }
+
+    public Boolean createCardDeleteAcceptationView(HttpServletRequest request, Model model, String cardNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
+            model.addAttribute("cardNumber", cardNumber);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public void performCardDelete(HttpServletRequest request, Model model, String cardNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
+            cardRepository.deleteCard(cardNumber);
         }
     }
 }

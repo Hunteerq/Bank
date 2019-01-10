@@ -72,4 +72,18 @@ public class CardController {
         cardService.updateCardLimits(httpServletRequest, cardNumber, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit);
         return "redirect:/card/" + cardNumber;
     }
+
+    @GetMapping(value="/card/{cardNumber}/delete")
+    public String createCardDeleteAcceptationView(HttpServletRequest httpServletRequest, Model model, @PathVariable String cardNumber) {
+        boolean authorization = cardService.createCardDeleteAcceptationView(httpServletRequest, model, cardNumber);
+        return authorization ? "card-delete-confirmation" : "redirect:/card";
+    }
+
+    @GetMapping(value="/card/{cardNumber}/delete/accepted")
+    public String performCardDelete(HttpServletRequest httpServletRequest, Model model, @PathVariable String cardNumber) {
+        cardService.performCardDelete(httpServletRequest, model, cardNumber);
+        return "redirect:/card";
+    }
+
+
 }
