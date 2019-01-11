@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -75,4 +76,23 @@ public class AccountRepository {
             return Collections.emptyList();
         }
     }
+
+    public String getUserPesel(String username) throws Exception{
+        return jdbcTemplate.queryForObject("SELECT client.pesel FROM client " +
+                "WHERE username = ?", new Object[] {username}, String.class);
+    }
+
+    @Transactional
+    public void createAccount(String newNumberAccountNumber, String userPesel, int accountTypeId, int currencyId) {
+        try {
+            jdbcTemplate.update("INSERT INTO account VALUES(?, 0.0, ?, ?, now(), true, true)",
+                    newNumberAccountNumber, currencyId, accountTypeId);
+            jdbcTemplate.update("INSERT INTO client_account VALUES(DEFAULT, ?, ?)"
+                    ,userPesel, newNumberAccountNumber);
+        } catch (Exception e) {
+            log.error("Error adding new account {}", e.getMessage());
+        }
+    }
+
+
 }

@@ -183,7 +183,7 @@ nav ul li:hover  {
 }
 
 .small-bars{
-    background-color: #25C28B;
+    background-color: #25BBAF;
     border:none;
     position:relative;
     height:60px;
@@ -196,7 +196,6 @@ nav ul li:hover  {
 
  .small-bars:hover{
     background: rgba(229, 230, 236, 0);
-    color:#25BBAF;
   }
   
   .small-bars:before,.small-bars:after{

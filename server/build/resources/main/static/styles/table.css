@@ -38,7 +38,7 @@ h1,h2,h3,h4,h5,h6 {
 .table-header {
 	display:flex;
 	width:100%;
-	background:#25C28B;
+	background:#25BBAF;
 	padding:($half-spacing-unit * 1.5) 0;
 }
 

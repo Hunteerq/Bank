@@ -2,12 +2,12 @@ package com.kmb.bank.services;
 
 import com.kmb.bank.db.mongo.repository.AccountRepository;
 import com.kmb.bank.db.mongo.repository.CardRepository;
-import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.card.CardBasicViedDTO;
 import com.kmb.bank.models.card.CardLimitsDTO;
 import com.kmb.bank.models.card.CardSpecifiedViewDTO;
 import com.kmb.bank.models.card.CardTypeDTO;
+import com.kmb.bank.random.NumberGenerator;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Log4j2
 @Service
@@ -28,16 +27,13 @@ public class CardService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private MongoTransactionRepository mongoTransactionRepository;
-
-    @Autowired
-    private Random random;
-
-    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
     private CardRepository cardRepository;
+
+    @Autowired
+    private NumberGenerator numberGenerator;
 
     public void addCardsToModel(HttpServletRequest request, Model model) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
@@ -134,11 +130,9 @@ public class CardService {
 
 
     public void addNewCard(HttpServletRequest request, String userAccountNumber, int cardTypeId, double dailyContactlessLimit, double dailyWebLimit,  double dailyTotalLimit) {
-        random.setSeed(System.currentTimeMillis());
-
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        String cardNumber = returnRandomInts(16);
-        String cvv = returnRandomInts(3);
+        String cardNumber = numberGenerator.returnRandomInts(16);
+        String cvv = numberGenerator.returnRandomInts(3);
 
         if (accountRepository.ifAccountNumberBelongsToUser(userAccountNumber, username)) {
             cardRepository.addNewCreditCard(cardNumber, userAccountNumber, cvv, LocalDateTime.now().plusYears(4),
@@ -146,13 +140,6 @@ public class CardService {
         }
     }
 
-    private String returnRandomInts(int numberOfInts) {
-        StringBuilder randomString = new StringBuilder();
-        for(int i = 0; i < numberOfInts; i++) {
-            randomString.append(random.nextInt(10));
-        }
-        return randomString.toString();
-    }
 
     public void createEditView(HttpServletRequest request, Model model, String cardNumber) {
         String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");

@@ -80,7 +80,7 @@ body {
 }
 
 .small-bars{
-    background-color: #25C28B;
+    background-color: #25BBAF;
     border:none;
     height: 8vh;
     width: inherit;
@@ -96,7 +96,7 @@ body {
 
 .small-bars:hover{
     background: rgba(229, 230, 236, 0);
-    color:#25BBAF;
+    color: black;
 }
 
 .small-bars:before,.small-bars:after{

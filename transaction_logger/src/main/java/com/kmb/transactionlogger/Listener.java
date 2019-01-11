@@ -39,8 +39,8 @@ public class Listener {
         try {
             Optional.ofNullable(jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
                                "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber()}, Double.class))
-                    .ifPresentOrElse(balance -> testBalance(balance, transferDTO),
-                                     () -> log.error("Error querying database"));
+                                 .ifPresentOrElse(balance -> testBalance(balance, transferDTO),
+                                                    () -> log.error("Error querying database"));
         } catch (Exception e) {
             log.error("Error asking for balance " + e.getMessage());
         }
