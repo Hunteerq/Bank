@@ -13,6 +13,11 @@ nav ul li {
 
 /* Bootstrap dalej rozwala, ale jeszcze nie wiem w jaki sposób naprawić */
 
+  body {
+      background-image: url("../assets/back-main4.jpg");
+      background-size: cover;
+  }
+
 .navbar-top ul div li a {
     color: black;
 }
@@ -31,14 +36,13 @@ nav ul li {
 .transfer-background {
     width: 100vw;
     height: 87vh;
-    background-image: url("../assets/landscape.jpg");
     padding: 10vh 20vw;
 }
 
 .transfer-container {
     width: 60vw;
     height: 67vh;
-    background-color:rgba(229, 230, 236, 0.5);
+    background-color:rgba(229, 230, 236, 0.6);
     text-align: center;
    
 }

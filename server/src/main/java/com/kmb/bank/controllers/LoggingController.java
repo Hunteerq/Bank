@@ -3,6 +3,7 @@ package com.kmb.bank.controllers;
 import com.kmb.bank.services.LoggingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,13 +17,13 @@ public class LoggingController {
     private LoggingService loggingService;
 
     @GetMapping(value="/")
-    public String login() {
-        return "login";
+    public String login(HttpServletRequest request) {
+        return loggingService.ifUserLogged(request) ? "redirect:/dashboard" : "login";
     }
 
     @PostMapping(value="/username")
-    public String login(@RequestParam(value = "username") String username){
-        return loggingService.validateUsername(username)!= -1 ? "password" : "login-unsuccessful";
+    public String login(@RequestParam(value = "username") String username, Model model){
+        return loggingService.validateUsername(username, model) ? "password" : "login-unsuccessful";
     }
 
     @PostMapping(value="/password")

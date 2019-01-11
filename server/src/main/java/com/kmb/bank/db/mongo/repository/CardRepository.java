@@ -1,7 +1,7 @@
 package com.kmb.bank.db.mongo.repository;
 
-import com.kmb.bank.models.CardBasicViedDTO;
-import com.kmb.bank.models.CardLimitsDTO;
+import com.kmb.bank.models.card.CardBasicViedDTO;
+import com.kmb.bank.models.card.CardLimitsDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

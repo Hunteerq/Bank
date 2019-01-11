@@ -3,7 +3,11 @@ package com.kmb.bank.services;
 import com.kmb.bank.db.mongo.repository.AccountRepository;
 import com.kmb.bank.db.mongo.repository.CardRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
-import com.kmb.bank.models.*;
+import com.kmb.bank.models.account.AccountBasicViewDTO;
+import com.kmb.bank.models.card.CardBasicViedDTO;
+import com.kmb.bank.models.card.CardLimitsDTO;
+import com.kmb.bank.models.card.CardSpecifiedViewDTO;
+import com.kmb.bank.models.card.CardTypeDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -111,7 +115,7 @@ public class CardService {
                     "INNER JOIN client_account on account.number = client_account.account_number " +
                     "INNER JOIN client on client_account.client_pesel = client.pesel " +
                     "WHERE client.username = ?", new Object[]{username}, (rs, rowNum) -> AccountBasicViewDTO.builder()
-                    .setAmount(rs.getString("balance"))
+                    .setBalance(rs.getDouble("balance"))
                     .setNumber(rs.getString("number"))
                     .build()));
             accountBasicViewDTOS.ifPresent(accounts -> model.addAttribute("accountBasicViewDTOS", accounts));

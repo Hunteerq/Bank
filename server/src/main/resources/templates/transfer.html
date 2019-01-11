@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Wybierz konto</label>
                         <select class="form-control" id="exampleFormControlSelect1" name="userAccountNumber">
-                            <option th:each="account: ${accountDTOS}" th:value="${account.number}" th:text="${account.number} + ' (' + ${account.balance} + ')'" ></option>
+                            <option th:each="account: ${accountDTOS}" th:value="${account.number}" th:text="${account.number} + ' (' + ${account.balance} + ') &nbsp;' + ${account.currency}" ></option>
                         </select>
                     </div>
                     <div class="form-group">

@@ -20,8 +20,7 @@ public class TransferController {
 
     @GetMapping(value="/transfer/normal")
     public String getTransfer(HttpServletRequest request, Model model) {
-        transfersService.registerAccountNumbers(request, model);
-        return "transfer";
+        return transfersService.registerAccountNumbers(request, model)? "transfer" : "redirect:/login";
     }
 
     @PostMapping(value="/transfer/normal")

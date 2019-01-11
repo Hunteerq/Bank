@@ -3,7 +3,7 @@ package com.kmb.bank.services;
 import com.kmb.bank.db.mongo.entity.TransferDTO;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.CurrenciesMapper;
-import com.kmb.bank.models.CurrencyDTO;
+import com.kmb.bank.models.currency.CurrencyDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

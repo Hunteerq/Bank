@@ -1,6 +1,6 @@
 package com.kmb.bank.mapper;
 
-import com.kmb.bank.models.CurrencyDTO;
+import com.kmb.bank.models.currency.CurrencyDTO;
 
 import java.util.Set;
 import java.util.StringJoiner;

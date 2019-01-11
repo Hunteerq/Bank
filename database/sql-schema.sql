@@ -176,6 +176,11 @@ INSERT INTO currency VALUES(23, 'BCN', 'crypto');
 INSERT INTO currency_exchange VALUES(23, 0.00280, 23);
 
 
+--Account types
+INSERT INTO account_type VALUES(1, 'student');
+INSERT INTO account_type VALUES(2, 'normal');
+INSERT INTO account_type VALUES(3, 'business');
+
 
 --Merta
 INSERT INTO address(street, street_number, flat_number, postal_code, city, country)
@@ -183,7 +188,6 @@ VALUES ('Andrych', '398', NULL, '35-691', 'Krakow', 'Poland');
 INSERT INTO login VALUES('fmerta', MD5('flak35'), 35);
 INSERT INTO client(pesel, name, surname, email, address_id, username)
 VALUES('96121935590', 'Filip', 'Merta', 'filip.merta@gmail.com', 1, 'fmerta');
-INSERT INTO account_type VALUES (1, 'student_account');
 INSERT INTO currency VALUES (1, 'PLN');
 INSERT INTO account VALUES ('2222444466661111', 35695, 1, 1, now(), false, false);
 INSERT INTO client_account(client_pesel, account_number) VALUES ('96121935590', '2222444466661111');
@@ -216,7 +220,7 @@ INSERT INTO client_account(client_pesel, account_number) VALUES('97022512512', '
 
 
 
-
+--Card types
 INSERT INTO card_type VALUES (1, 'normal');
 INSERT INTO card_type VALUES (2, 'gold');
 INSERT INTO card_type VALUES (3, 'basic');

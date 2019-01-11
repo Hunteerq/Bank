@@ -6,6 +6,11 @@
     text-decoration: none;
 }
 
+body {
+    background-image: url("../assets/back-main4.jpg");
+    background-size: cover;
+}
+
 @font-face {
     font-family: Andis;
     src: url("../fonts/Andis.ttf");
@@ -120,7 +125,6 @@ nav ul li:hover  {
 
 .bars-container {
     padding-top: 10vh;
-    background-image: url("../assets/landscape.jpg");  
     width: 100vw;
     height: 87vh;
 }
@@ -129,7 +133,7 @@ nav ul li:hover  {
     margin-left: 10vw;
     padding-left: 2vw;
     height: 70vh;
-    background-color:rgba(229, 230, 236, 0.5);
+    background-color:rgba(229, 230, 236, 0.6);
     width: 80vw;
 }
 

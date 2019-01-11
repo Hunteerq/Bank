@@ -2,33 +2,37 @@ a {
     text-decoration: none;
 }
 
-.card-background {
+body {
+    background-image: url("../assets/back-main4.jpg");
+    background-size: cover;
+}
+
+.table-background {
     width: 100vw;
     height: 87vh;
-    background-image: url("../assets/landscape.jpg");
     padding: 10vh 20vw;
 }
 
-.card-container {
+.table-container {
     overflow-x: hidden;
     overflow-y: scroll;
     width: 60vw;
     height: 67vh;
-    background-color:rgba(229, 230, 236, 0.5);
+    background-color:rgba(229, 230, 236, 0.6);
 }
-.card-container .title {
+.table-container .title {
     text-align: center;
     width: inherit;
 }
 
-.card-container h1 {
+.table-container h1 {
     font-family: Roboto;
     padding-top: 5vh;
 }
 
 .table-row {
     padding-top: 1.7vh;
-    background-color:rgba(229, 230, 236, 0.3);
+    background-color:rgba(229, 230, 236, 0.85);
     font-family: Roboto;
     font-size: 32px;
     width: inherit;
