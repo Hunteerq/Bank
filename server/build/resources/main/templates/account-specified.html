@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Specified Account</title>
     <!-- TH links -->
-    <link th:href="@{/styles/dashboard.css}" rel="stylesheet"> 
+    <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
     <link th:href="@{/styles/table.css}" rel="stylesheet">
     <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
     <script th:src="@{/scripts/addSpacingToNumbers.js}"></script>
@@ -20,38 +20,31 @@
     <script src="../static/scripts/date.js"></script>
     <head>
 <body>
-    <nav>
-        <ul>
-            <li id="logo"><a href="#">KMB</a></li>
-            <div>
-                <li><a th:href="@{/account}" class="interface">Konta</a></li>
-                <li><a th:href="@{/card}" class="interface">Karty</a></li>
-                <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
-                <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
-            </div>
-            <li>
-                <div class="name-surname">
-                    <a href="#">
-                        <div th:text="${session.nameSurname}"></div>
-                        <div id="dateTime"></div>
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </nav>
-    <div class="currencies">
-        <div class="normal"><div class="wrapIt"><pre th:text="${session.currencies}"></pre></div></div>
-        <div class="crypto"><pre th:text="${session.crypto}"></pre></div>
-    </div>
-
-    <div class="bars-container">
-        <div class = "wrapper">
-        <div class="left-bar">
-            <a th:href="@{/transfer/normal}" ><div class="small-bars">Przelew</div></a>
-            <a th:href="@{/credit}"><div class="small-bars">Kredyty</div></a>
-            <a th:href="@{/transfer/recurring}"><div class="small-bars">Przelew Cykliczny</div></a>
+<nav>
+    <ul>
+        <li id="logo"><a href="#">KMB</a></li>
+        <div>
+            <li><a th:href="@{/account}" class="interface">Konta</a></li>
+            <li><a th:href="@{/card}" class="interface">Karty</a></li>
+            <li><a th:href="@{/contact}" class="interface">Kontakt</a></li>
+            <li><a th:href="@{/settings}" class="interface">Ustawienia</a></li>
         </div>
+        <li>
+            <div class="name-surname">
+                <a href="#">
+                    <div th:text="${session.nameSurname}"></div>
+                    <div id="dateTime"></div>
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div class="currencies">
+    <div class="normal"><div class="wrapIt"><pre th:text="${session.currencies}"></pre></div></div>
+    <div class="crypto"><pre th:text="${session.crypto}"></pre></div>
+</div>
 
+<div class="bars-container">
         <div class="right-bar">
             <div class="history">
                 <div class ="title">Stan konta &nbsp;&nbsp; <span class="spacing-number" th:text="${accountCurrencyDTO.number}"></span>
@@ -77,10 +70,10 @@
                         </div>
                     </div>
                 </div>
-            
-            </div>                        
-        </div>
+
+            </div>
         </div>
     </div>
+</div>
 </body>
 </html>

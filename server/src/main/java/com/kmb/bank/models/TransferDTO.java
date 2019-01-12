@@ -10,15 +10,23 @@ import java.time.LocalDateTime;
 public final class TransferDTO {
 
     @Getter
-    private final String userAccountNumber;
+    private final String senderName;
+
     @Getter
-    private final String title;
+    private final String senderAccountNumber;
+
     @Getter
     private final String recipientName;
+
     @Getter
     private final String recipientAccountNumber;
+
+    @Getter
+    private final String title;
+
     @Getter
     private final double amount;
+
     @Getter @JsonSerialize(using = LocalDateTimeSerializer.class)
     private final LocalDateTime localDateTime;
 
@@ -27,9 +35,10 @@ public final class TransferDTO {
     }
 
     private TransferDTO(TransferDTOBuilder transferDTOBuilder) {
-        this.userAccountNumber = transferDTOBuilder.getUserAccountNumber();
+        this.senderAccountNumber = transferDTOBuilder.getSenderAccountNumber();
         this.title = transferDTOBuilder.getTitle();
         this.recipientName = transferDTOBuilder.getRecipientName();
+        this.senderName = transferDTOBuilder.getSenderName();
         this.recipientAccountNumber = transferDTOBuilder.getRecipientAccountNumber();
         this.amount = transferDTOBuilder.getAmount();
         this.localDateTime = transferDTOBuilder.getLocalDateTime();
@@ -38,15 +47,23 @@ public final class TransferDTO {
     public static final class TransferDTOBuilder {
 
         @Getter
-        private String userAccountNumber;
+        private String senderName;
+
         @Getter
-        private String title;
+        private String senderAccountNumber;
+
         @Getter
         private String recipientName;
+
         @Getter
         private String recipientAccountNumber;
+
+        @Getter
+        private String title;
+
         @Getter
         private double amount;
+
         @Getter
         private LocalDateTime localDateTime;
 
@@ -54,8 +71,8 @@ public final class TransferDTO {
             return new TransferDTO(this);
         }
 
-        public TransferDTOBuilder setUserAccountNumber(String userAccountNumber) {
-            this.userAccountNumber = userAccountNumber;
+        public TransferDTOBuilder setSenderAccountNumber(String senderAccountNumber) {
+            this.senderAccountNumber = senderAccountNumber;
             return this;
         }
 
@@ -68,6 +85,12 @@ public final class TransferDTO {
             this.recipientName = recipientName;
             return this;
         }
+
+        public TransferDTOBuilder setSenderName(String senderName) {
+            this.senderName = senderName;
+            return this;
+        }
+
 
         public TransferDTOBuilder setRecipientAccountNumber(String recipientAccountNumber) {
             this.recipientAccountNumber = recipientAccountNumber;

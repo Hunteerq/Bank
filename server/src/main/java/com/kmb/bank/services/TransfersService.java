@@ -1,13 +1,11 @@
 package com.kmb.bank.services;
 
 import com.kmb.bank.db.mongo.repository.AccountRepository;
-import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.TransferDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
 import com.kmb.bank.sender.Sender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -38,20 +36,25 @@ public class TransfersService {
         return false;
     }
 
-    public void sendNormalTransfer(String userAccountNumber, String title, String recipientName, String recipientAccountNumber, String amount) {
+    public boolean sendNormalTransfer(HttpServletRequest request, String senderAccountNumber, String title, String recipientName, String recipientAccountNumber, String amount) {
         try {
-            TransferDTO transferDTO = TransferDTO.builder()
-                    .setUserAccountNumber(userAccountNumber)
-                    .setTitle(title)
-                    .setRecipientName(recipientName)
-                    .setRecipientAccountNumber(recipientAccountNumber)
-                    .setAmount(Double.valueOf(amount))
-                    .setLocalDateTime(LocalDateTime.now())
-                    .build();
-            rabbitmq.send(transferDTO);
+            Optional<String> senderName = Optional.ofNullable((String) request.getSession().getAttribute("nameSurname"));
+            if (senderName.isPresent()) {
+                TransferDTO transferDTO = TransferDTO.builder()
+                        .setSenderAccountNumber(senderAccountNumber)
+                        .setTitle(title)
+                        .setRecipientName(recipientName)
+                        .setSenderName(senderName.get())
+                        .setRecipientAccountNumber(recipientAccountNumber)
+                        .setAmount(Double.valueOf(amount))
+                        .setLocalDateTime(LocalDateTime.now())
+                        .build();
+                rabbitmq.send(transferDTO);
+                return true;
+            }
         } catch (Exception e) {
             log.error("Error sending transferDTO {}", e.getMessage());
         }
-
+        return false;
     }
 }

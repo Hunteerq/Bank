@@ -59,7 +59,7 @@
                 <form class="col-sm-8" th:action="@{/transfer/normal}" method="post">
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Wybierz konto</label>
-                        <select class="form-control" id="exampleFormControlSelect1" name="userAccountNumber">
+                        <select class="form-control" id="exampleFormControlSelect1" name="senderAccountNumber">
                             <option th:each="account: ${accountDTOS}" th:value="${account.number}" th:text="${account.number} + ' (' + ${account.balance} + ') &nbsp;' + ${account.currency}" ></option>
                         </select>
                     </div>

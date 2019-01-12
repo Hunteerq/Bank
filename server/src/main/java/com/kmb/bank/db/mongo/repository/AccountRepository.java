@@ -2,6 +2,7 @@ package com.kmb.bank.db.mongo.repository;
 
 import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
+import com.kmb.bank.models.account.AccountSpecifiedViewDTO;
 import com.kmb.bank.models.account.AccountTypeDTO;
 import com.kmb.bank.models.currency.CurrencyChooseDTO;
 import lombok.extern.log4j.Log4j2;
@@ -36,14 +37,16 @@ public class AccountRepository {
 
     public List<AccountCurrencyDTO> getAccountNumbersWithBalanceAndCurrency(String username) {
         try {
-            return jdbcTemplate.query("SELECT account.number, currency.name, account.balance FROM account " +
+            return jdbcTemplate.query("SELECT account.number, currency.name, account_type.type, account.balance FROM account " +
                             "INNER JOIN client_account ON client_account.account_number = account.number " +
                             "INNER JOIN client ON client.pesel = client_account.client_pesel " +
                             "INNER JOIN currency ON account.currency_id = currency.id " +
+                            "INNER JOIN account_type ON account_type.id = account.account_type_id " +
                             "WHERE client.username = ?", new Object[]{username},
-                    (rs, rownum) -> AccountCurrencyDTO.builder()
+                    (rs, rowNum) -> AccountCurrencyDTO.builder()
                             .setNumber(rs.getString("number"))
                             .setCurrency(rs.getString("name"))
+                            .setType(rs.getString("type"))
                             .setBalance(rs.getDouble("balance"))
                             .build());
         } catch (Exception e) {
@@ -57,10 +60,11 @@ public class AccountRepository {
             return jdbcTemplate.query("SELECT account.number, account.balance FROM account " +
                     "INNER JOIN client_account on account.number = client_account.account_number " +
                     "INNER JOIN client on client_account.client_pesel = client.pesel " +
-                    "WHERE client.username = ?", new Object[]{username}, (rs, rowNum) -> AccountBasicViewDTO.builder()
-                    .setBalance(rs.getDouble("balance"))
-                    .setNumber(rs.getString("number"))
-                    .build());
+                    "WHERE client.username = ?", new Object[]{username},
+                    (rs, rowNum) -> AccountBasicViewDTO.builder()
+                        .setBalance(rs.getDouble("balance"))
+                        .setNumber(rs.getString("number"))
+                        .build());
         } catch(Exception e) {
             log.error("Error getting Account number and balance for adding card view {}", e.getMessage());
             return Collections.emptyList();
@@ -111,4 +115,23 @@ public class AccountRepository {
     }
 
 
+    public AccountSpecifiedViewDTO getSpecifiedAccountWithTypeBalanceAndCurrency(String accountNumber) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT currency.name, account_type.type, account.balance, account.opening_date, account.active FROM account " +
+                            "INNER JOIN currency ON account.currency_id = currency.id " +
+                            "INNER JOIN account_type ON account_type.id = account.account_type_id " +
+                            "WHERE account.number = ?", new Object[] {accountNumber},
+                    (rs, rowNum) -> AccountSpecifiedViewDTO.builder()
+                            .setNumber(rs.getString(accountNumber))
+                            .setBalance(rs.getDouble("balance"))
+                            .setCurrency(rs.getString("name"))
+                            .setType(rs.getString("type"))
+                            .setOpeningDate(rs.getDate("opening_date"))
+                            .setActive(rs.getBoolean("active"))
+                            .build());
+        } catch (Exception e) {
+            log.error("Error asking database for basic account number and balance {}", e.getMessage());
+        }
+        return null;
+    }
 }

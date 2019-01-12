@@ -16,9 +16,7 @@ public class DashboardController{
 
     @GetMapping("/dashboard")
     public String getDashboard(HttpServletRequest request, Model model) {
-        dashboardService.getCurrencies(request);
-        dashboardService.addTransfersToModel(request, model);
-        return "dashboard";
+        return dashboardService.prepareDashboardView(request, model) ? "dashboard" : "redirect:/login";
     }
 
 }

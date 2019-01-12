@@ -1,0 +1,8 @@
+.table-row #account-logo {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    margin-top: 0.5vh;
+    margin-left: 5vw;
+}

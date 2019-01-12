@@ -66,11 +66,11 @@
                         <div class="header__item"><a id="type" class="filter__link filter__link--number" href="#">Typ</a></div>
 
                     </div>
-                    <div class = "table-content" th:each="transfer : ${transferDTOS}">
+                    <div class = "table-content" th:each="transfer : ${transferViewDTOS}">
                         <div class = "table-row">
-                            <div class= "table-data" th:text="${transfer.recipientName}"></div>
+                            <div class= "table-data" th:text="${transfer.name}"></div>
                             <div class= "table-data" th:text="${transfer.title}"></div>
-                            <div class= "table-data spacing-number" th:text="${transfer.recipientAccountNumber}"></div>
+                            <div class= "table-data spacing-number" th:text="${transfer.accountNumber}"></div>
                             <div class= "table-data" th:text="${transfer.amount}"></div>
                             <div class= "table-data" th:text="${transfer.localDateTime}"></div>
                             <div class = "table-data" th:text="${transfer.transferType}"></div>

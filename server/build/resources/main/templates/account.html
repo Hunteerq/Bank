@@ -6,12 +6,14 @@
     <title>Account</title>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
     <!-- thymeleaf -->
     <!-- CSS -->
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
     <link th:href="@{/styles/card.css}" rel="stylesheet">
+    <link th:href="@{/styles/account.css}" rel="stylesheet">
+
 
     <!-- scripts -->
     <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
@@ -20,7 +22,9 @@
 
     <!-- CSS -->
     <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
-    <link href="../static/styles/card.css" rel="stylesheet" type="text/css" >
+    <link href="../static/styles/card.css" rel="stylesheet" type="text/css">
+    <link href="../static/styles/account.css" rel="stylesheet" type="text/css">
+
 
     <!-- scriptts -->
     <script src="../static/scripts/date.js"></script>
@@ -61,8 +65,10 @@
         <div class = "table-content" th:each="account : ${accountCurrencyDTOS}">
             <a th:href = "'/account/' + ${account.number}">
                 <div class = "table-row">
-                    <div>
-                        <img th:src="@{/assets/account_sign2.jpg}">
+                    <div id="account-logo" th:switch = "${account.type.get()}">
+                        <i class="fas fa-user-graduate fa-2x" th:case="student" th:src="@{/assets/account_sign2.jpg}"></i>
+                        <i class="fas fa-user-tie fa-2x" th:case="normal" th:src="@{/assets/account_sign.jpg}"></i>
+                        <i class="fas fa-briefcase fa-2x" th:case="business" th:src="@{/assets/account_sign.jpg}"></i>
                     </div>
                     <div class= "table-data spacing-number" th:text="${account.number}"></div>
                     <div class= "table-data" th:text="${account.balance} + ' &nbsp;&nbsp;' + ${account.currency}" ></div>

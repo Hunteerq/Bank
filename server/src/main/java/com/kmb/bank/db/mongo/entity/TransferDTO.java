@@ -1,5 +1,6 @@
 package com.kmb.bank.db.mongo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,31 +12,30 @@ import java.time.ZoneOffset;
 
 @Log4j2
 @AllArgsConstructor @ToString
-public class TransferDTO implements  Comparable<TransferDTO> {
+public class TransferDTO  {
+
     @Getter
-    private final String userAccountNumber;
+    private final String senderName;
+
     @Getter
-    private final String title;
+    private final String senderAccountNumber;
+
     @Getter
     private final String recipientName;
+
     @Getter
     private final String recipientAccountNumber;
+
+    @Getter
+    private final String title;
+
     @Getter
     private final double amount;
+
     @Getter
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime localDateTime;
+
     @Getter @Setter
     private String transferType;
-
-    @Override
-    public int compareTo(TransferDTO o) {
-        long subtraction = this.localDateTime.toEpochSecond(ZoneOffset.UTC) - o.localDateTime.toEpochSecond(ZoneOffset.UTC);
-        if (subtraction > 0) {
-            return -1;
-        } else if (subtraction == 0) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
 }

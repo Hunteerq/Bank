@@ -38,7 +38,7 @@ public class Listener {
     private void updateDatabases(TransferDTO transferDTO) {
         try {
             Optional.ofNullable(jdbcTemplate.queryForObject("SELECT account.balance FROM account " +
-                               "WHERE account.number = ?", new Object[]{transferDTO.getUserAccountNumber()}, Double.class))
+                                 "WHERE account.number = ?", new Object[]{transferDTO.getSenderAccountNumber()}, Double.class))
                                  .ifPresentOrElse(balance -> testBalance(balance, transferDTO),
                                                     () -> log.error("Error querying database"));
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class Listener {
 
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance - ? WHERE number = ?",
-                    transferDTO.getAmount(), transferDTO.getUserAccountNumber());
+                    transferDTO.getAmount(), transferDTO.getSenderAccountNumber());
 
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance + ? WHERE number = ?",
@@ -76,7 +76,7 @@ public class Listener {
     }
 
     private double getAmountExchanged(TransferDTO transferDTO) {
-        String userCurrency = getCurrencyFromAccountNumber(transferDTO.getUserAccountNumber());
+        String userCurrency = getCurrencyFromAccountNumber(transferDTO.getSenderAccountNumber());
         String recipient = getCurrencyFromAccountNumber(transferDTO.getRecipientAccountNumber());
 
         return currencyConverter.convertCurrencies(userCurrency, recipient, transferDTO.getAmount());

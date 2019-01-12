@@ -24,13 +24,13 @@ public class TransferController {
     }
 
     @PostMapping(value="/transfer/normal")
-    public String postTransfer(@RequestParam(value = "userAccountNumber") String userAccountNumber,
+    public String postTransfer(HttpServletRequest request,
+                             @RequestParam(value = "senderAccountNumber") String senderAccountNumber,
                              @RequestParam(value = "title") String title,
                              @RequestParam(value = "recipientName") String recipientName,
                              @RequestParam(value = "recipientAccountNumber") String recipientAccountNumber,
                              @RequestParam(value = "amount") String amount){
-
-        transfersService.sendNormalTransfer(userAccountNumber, title, recipientName, recipientAccountNumber, amount);
-        return "redirect:/dashboard";
+        return transfersService.sendNormalTransfer(request, senderAccountNumber, title, recipientName, recipientAccountNumber, amount) ?
+                "redirect:/dashboard" : "login";
     }
 }
