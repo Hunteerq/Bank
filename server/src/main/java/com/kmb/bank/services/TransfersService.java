@@ -21,8 +21,6 @@ import java.util.Optional;
 @Service
 public class TransfersService {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private Sender rabbitmq;

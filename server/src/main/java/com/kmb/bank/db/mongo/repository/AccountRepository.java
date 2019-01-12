@@ -1,5 +1,6 @@
 package com.kmb.bank.db.mongo.repository;
 
+import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
 import com.kmb.bank.models.account.AccountTypeDTO;
 import com.kmb.bank.models.currency.CurrencyChooseDTO;
@@ -47,6 +48,21 @@ public class AccountRepository {
                             .build());
         } catch (Exception e) {
             log.error("Error asking database for basic account number and balance {}", e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<AccountBasicViewDTO> getAccountNumbers(String username) {
+        try {
+            return jdbcTemplate.query("SELECT account.number, account.balance FROM account " +
+                    "INNER JOIN client_account on account.number = client_account.account_number " +
+                    "INNER JOIN client on client_account.client_pesel = client.pesel " +
+                    "WHERE client.username = ?", new Object[]{username}, (rs, rowNum) -> AccountBasicViewDTO.builder()
+                    .setBalance(rs.getDouble("balance"))
+                    .setNumber(rs.getString("number"))
+                    .build());
+        } catch(Exception e) {
+            log.error("Error getting Account number and balance for adding card view {}", e.getMessage());
             return Collections.emptyList();
         }
     }

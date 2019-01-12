@@ -14,12 +14,7 @@ public class LogicConfig {
     public CurrenciesMapper currenciesMapper() {
         return new CurrenciesMapper();
     }
-
-    @Bean
-    public Random random() {
-        return new Random(System.currentTimeMillis());
-    }
-
+    
     @Bean
     public SecureRandom secureRandom() {
         return new SecureRandom();

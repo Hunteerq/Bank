@@ -54,7 +54,8 @@
 
         <div class="right-bar">
             <div class="history">
-                <div class ="title">Stan konta &nbsp;&nbsp; <span class="spacing-number" th:text="${accountNumber}"></span><span th:text="'&nbsp;&nbsp; wynosi ' + ${accountBalance} + ${accountCurrency}"></span></div>
+                <div class ="title">Stan konta &nbsp;&nbsp; <span class="spacing-number" th:text="${accountCurrencyDTO.number}"></span>
+                    <span th:text="'&nbsp;&nbsp; wynosi ' + ${accountCurrencyDTO.balance} + ${accountCurrencyDTO.currency}"></span></div>
                 <div class="table">
                     <div class="table-header">
                         <div class="header__item"><a id="name" class="filter__link" href="#">Nadawca/Odbiorca</a></div>

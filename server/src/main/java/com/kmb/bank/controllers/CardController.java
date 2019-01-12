@@ -19,14 +19,12 @@ public class CardController {
 
     @GetMapping(value = "/card")
     public String getCards(HttpServletRequest request, Model model) {
-        cardService.addCardsToModel(request, model);
-        return "card";
+        return cardService.addCardsToModel(request, model) ? "card" : "redirect/login";
     }
 
     @GetMapping(value = "/card/add")
     public String addCardView(HttpServletRequest request, Model model) {
-        cardService.addCardTypesAndAccountNumbersToModel(request, model);
-        return "card-add.html";
+        return cardService.addCardTypesAndAccountNumbersToModel(request, model) ? "card-add.html" : "redirect/login";
     }
 
     @PostMapping(value = "/card/add")
@@ -42,19 +40,17 @@ public class CardController {
 
     @GetMapping(value = "/card/{cardNumber}")
     public String getCard(HttpServletRequest request, Model model, @PathVariable String cardNumber) {
-        return cardService.addCardToModel(request, model, cardNumber) ? "specified-card" : "redirect:/error";
+        return cardService.addCardToModel(request, model, cardNumber) ? "specified-card" : "redirect:/login";
     }
 
     @GetMapping(value = "/card/{cardNumber}/block")
     public String blockCard(HttpServletRequest request, @PathVariable String cardNumber) {
-        cardService.blockCard(request, cardNumber);
-        return "redirect:/card/" + cardNumber;
+        return cardService.blockCard(request, cardNumber) ? "redirect:/card/" + cardNumber : "redirect:/login";
     }
 
     @GetMapping(value = "/card/{cardNumber}/unblock")
     public String unblockCard(HttpServletRequest request, @PathVariable String cardNumber) {
-        cardService.unblockCard(request, cardNumber);
-        return "redirect:/card/" + cardNumber;
+        return cardService.unblockCard(request, cardNumber) ? "redirect:/card/" + cardNumber : "redirect:/login";
     }
 
     @GetMapping(value="/card/{cardNumber}/edit")

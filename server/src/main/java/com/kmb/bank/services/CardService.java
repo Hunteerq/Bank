@@ -24,9 +24,6 @@ import java.util.Optional;
 public class CardService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
@@ -35,96 +32,68 @@ public class CardService {
     @Autowired
     private NumberGenerator numberGenerator;
 
-    public void addCardsToModel(HttpServletRequest request, Model model) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-
-        List<CardBasicViedDTO> cardDTOS = cardRepository.getCardsWithBasicInformation(username);
-
-        model.addAttribute("cardDTOS", cardDTOS);
+    public boolean addCardsToModel(HttpServletRequest request, Model model) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent()) {
+            List<CardBasicViedDTO> cardDTOS = cardRepository.getCardsWithBasicInformation(username.get());
+            model.addAttribute("cardDTOS", cardDTOS);
+            return true;
+        }
+        return false;
     }
 
     public Boolean addCardToModel(HttpServletRequest request, Model model, String cardNumber) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
-        return username.isPresent() ? requestCardAuthorization(request, model, username.get(), cardNumber) : false;
-    }
-
-    private Boolean requestCardAuthorization(HttpServletRequest request, Model model, String username, String cardNumber) {
-        return cardRepository.testIfCardBelongsToUsername(username, cardNumber) ? addSpecifiedCardToView(request, model, cardNumber) : false;
-    }
-
-
-    private Boolean addSpecifiedCardToView(HttpServletRequest request, Model model, String cardNumber) {
-        try {
-            CardSpecifiedViewDTO cardSpecifiedViewDTO = jdbcTemplate.queryForObject("SELECT card.account_number, card.expiration_date, card_type.type, card.is_active, " +
-                            "card.daily_contactless_limit, card.daily_total_limit, card.daily_web_limit FROM card " +
-                            "INNER JOIN card_type ON card_type.id = card.type_id WHERE card.number = ? ", new Object[]{cardNumber},
-                    (rs, rowNum) -> CardSpecifiedViewDTO.builder()
-                            .setCardNumber(cardNumber)
-                            .setCardAccountNumber(rs.getString("account_number"))
-                            .setExpirationDate((rs.getDate("expiration_date")).toLocalDate())
-                            .setCardType(rs.getString("type"))
-                            .setActive(rs.getBoolean("is_active"))
-                            .setDailyContactlessLimit(rs.getDouble("daily_contactless_limit"))
-                            .setDailyTotalLimit(rs.getDouble("daily_total_limit"))
-                            .setDailyWebLimit(rs.getDouble("daily_web_limit"))
-                            .build());
-            model.addAttribute("cardSpecifiedViewDTO", cardSpecifiedViewDTO);
-            return true;
-        } catch (Exception e) {
-            log.error("Error occured while getting specified card details: {}", e.getMessage());
-            return false;
+        if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
+            try {
+                Optional<CardSpecifiedViewDTO> cardSpecifiedViewDTO = Optional.ofNullable(cardRepository.getDetailedCard(cardNumber));
+                cardSpecifiedViewDTO.ifPresent(card -> model.addAttribute("cardSpecifiedViewDTO", card));
+                return true;
+            } catch (Exception e) {
+                log.error("Error occured while getting specified card details: {}", e.getMessage());
+            }
         }
+        return false;
     }
 
-
-    public void blockCard(HttpServletRequest request, String cardNumber) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-       if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+    public boolean blockCard(HttpServletRequest request, String cardNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+       if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
            try {
-               jdbcTemplate.update("UPDATE card " +
-                       "SET is_active = false " +
-                       "WHERE number = ?", cardNumber);
+               cardRepository.setCardIsActiveTo(cardNumber, false);
+               return true;
            } catch (Exception e ) {
                log.error("Error updating database {}", e.getMessage());
            }
        }
+       return false;
     }
 
-    public void unblockCard(HttpServletRequest request, String cardNumber) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+    public boolean unblockCard(HttpServletRequest request, String cardNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
             try {
-                jdbcTemplate.update("UPDATE card " +
-                        "SET is_active = true " +
-                     "WHERE number = ?", cardNumber);
+                cardRepository.setCardIsActiveTo(cardNumber, true);
+                return true;
             } catch (Exception e ) {
                  log.error("Error updating database {}", e.getMessage());
              }
 
           }
+        return false;
     }
 
-    public void addCardTypesAndAccountNumbersToModel(HttpServletRequest request, Model model) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        try {
-            Optional<List<AccountBasicViewDTO>> accountBasicViewDTOS = Optional.ofNullable(jdbcTemplate.query("SELECT account.number, account.balance FROM account " +
-                    "INNER JOIN client_account on account.number = client_account.account_number " +
-                    "INNER JOIN client on client_account.client_pesel = client.pesel " +
-                    "WHERE client.username = ?", new Object[]{username}, (rs, rowNum) -> AccountBasicViewDTO.builder()
-                    .setBalance(rs.getDouble("balance"))
-                    .setNumber(rs.getString("number"))
-                    .build()));
-            accountBasicViewDTOS.ifPresent(accounts -> model.addAttribute("accountBasicViewDTOS", accounts));
-
-            Optional<List<CardTypeDTO>> cardTypes = Optional.ofNullable(jdbcTemplate.query("SELECT id, type from card_type",
-                    (rs, rowNum) -> CardTypeDTO.builder()
-                                                .setId(rs.getInt("id"))
-                                                .setType(rs.getString("type"))
-                                                .build()));
-            cardTypes.ifPresent(types -> model.addAttribute("cardTypeDTOS", types));
-        } catch (Exception e) {
-            log.info("Exception {}", e.getMessage());
+    public boolean addCardTypesAndAccountNumbersToModel(HttpServletRequest request, Model model) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent()) {
+            List<AccountBasicViewDTO> accountBasicViewDTOS = accountRepository.getAccountNumbers(username.get());
+            List<CardTypeDTO> cardTypes = cardRepository.getCardTypes();
+            model.addAttribute("accountBasicViewDTOS", accountBasicViewDTOS);
+            model.addAttribute("cardTypeDTOS", cardTypes);
+            return true;
         }
+        return false;
+
     }
 
 

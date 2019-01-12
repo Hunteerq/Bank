@@ -1,7 +1,10 @@
 package com.kmb.bank.db.mongo.repository;
 
+import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.card.CardBasicViedDTO;
 import com.kmb.bank.models.card.CardLimitsDTO;
+import com.kmb.bank.models.card.CardSpecifiedViewDTO;
+import com.kmb.bank.models.card.CardTypeDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Repository
@@ -94,5 +98,45 @@ public class CardRepository {
         } catch(Exception e) {
             log.error("Error deleting card number {}, error message {}", cardNumber, e.getMessage());
         }
+    }
+
+    public CardSpecifiedViewDTO getDetailedCard(String cardNumber) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT card.account_number, card.expiration_date, card_type.type, card.is_active, " +
+                          "card.daily_contactless_limit, card.daily_total_limit, card.daily_web_limit FROM card " +
+                          "INNER JOIN card_type ON card_type.id = card.type_id WHERE card.number = ? ", new Object[]{cardNumber},
+                  (rs, rowNum) -> CardSpecifiedViewDTO.builder()
+                          .setCardNumber(cardNumber)
+                          .setCardAccountNumber(rs.getString("account_number"))
+                          .setExpirationDate((rs.getDate("expiration_date")).toLocalDate())
+                          .setCardType(rs.getString("type"))
+                          .setActive(rs.getBoolean("is_active"))
+                          .setDailyContactlessLimit(rs.getDouble("daily_contactless_limit"))
+                          .setDailyTotalLimit(rs.getDouble("daily_total_limit"))
+                          .setDailyWebLimit(rs.getDouble("daily_web_limit"))
+                          .build());
+        } catch(Exception e) {
+           log.error("Error getting card with details {}", e.getMessage());
+          return null;
+        }
+    }
+
+    public List<CardTypeDTO> getCardTypes() {
+        try {
+            return jdbcTemplate.query("SELECT id, type from card_type",
+                    (rs, rowNum) -> CardTypeDTO.builder()
+                            .setId(rs.getInt("id"))
+                            .setType(rs.getString("type"))
+                            .build());
+        } catch (Exception e) {
+            log.error("Error getting card type in card add view {}", e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public void setCardIsActiveTo(String cardNumber, boolean condition) throws Exception{
+        jdbcTemplate.update("UPDATE card " +
+                "SET is_active = ? " +
+                "WHERE number = ?", condition, cardNumber);
     }
 }
