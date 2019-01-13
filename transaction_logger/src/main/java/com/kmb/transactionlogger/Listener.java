@@ -1,7 +1,9 @@
 package com.kmb.transactionlogger;
 
 import com.kmb.transactionlogger.currency.CurrencyConverter;
+import com.kmb.transactionlogger.db.mongo.models.TransferToLogDTO;
 import com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository;
+import com.kmb.transactionlogger.mapper.TransferToLogMapper;
 import com.kmb.transactionlogger.models.TransferDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -29,6 +31,9 @@ public class Listener {
 
     @Autowired
     private CurrencyConverter currencyConverter;
+
+    @Autowired
+    private TransferToLogMapper transferToLogMapper;
 
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void listen(TransferDTO transfer) {
@@ -58,18 +63,14 @@ public class Listener {
     public void updateTables(TransferDTO transferDTO) {
         try {
             double amountInRecipientCurrency = getAmountExchanged(transferDTO);
-
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance - ? WHERE number = ?",
                     transferDTO.getAmount(), transferDTO.getSenderAccountNumber());
-
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance + ? WHERE number = ?",
                     amountInRecipientCurrency, transferDTO.getRecipientAccountNumber());
-
-            mongoTransactionRepository.save(transferDTO);
-
-            log.info("Databases successfully updated");
+            TransferToLogDTO transferToLogDTO = transferToLogMapper.transferToTransferLog(transferDTO, amountInRecipientCurrency);
+            mongoTransactionRepository.save(transferToLogDTO);
         } catch (Exception e) {
             log.error("Error updating tables " + e.getMessage());
         }
@@ -78,7 +79,6 @@ public class Listener {
     private double getAmountExchanged(TransferDTO transferDTO) {
         String userCurrency = getCurrencyFromAccountNumber(transferDTO.getSenderAccountNumber());
         String recipient = getCurrencyFromAccountNumber(transferDTO.getRecipientAccountNumber());
-
         return currencyConverter.convertCurrencies(userCurrency, recipient, transferDTO.getAmount());
     }
 

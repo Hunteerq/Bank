@@ -12,7 +12,7 @@ import java.time.ZoneOffset;
 
 @Log4j2
 @AllArgsConstructor @ToString
-public class TransferDTO  {
+public class TransferToLogDTO {
 
     @Getter
     private final String senderName;
@@ -33,9 +33,9 @@ public class TransferDTO  {
     private final double amount;
 
     @Getter
+    private final double amountInRecipientCurrency;
+
+    @Getter
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime localDateTime;
-
-    @Getter @Setter
-    private String transferType;
 }

@@ -1,6 +1,6 @@
 package com.kmb.bank.services;
 
-import com.kmb.bank.db.mongo.entity.TransferDTO;
+import com.kmb.bank.db.mongo.entity.TransferToLogDTO;
 import com.kmb.bank.db.postgres.repository.DashboardRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.CurrenciesMapper;
@@ -72,9 +72,9 @@ public class DashboardService {
     }
 
     private void addTransfersToModelFromMongo(String mainAccountNumber, Model model) {
-        List<TransferDTO> userTransfers = mongoTransactionRepository
+        List<TransferToLogDTO> userTransfers = mongoTransactionRepository
                 .findTransferDTOBySenderAccountNumberOrderByLocalDateTimeDesc(mainAccountNumber, PageRequest.of(0, 10));
-        List<TransferDTO> recipientTransfers = mongoTransactionRepository
+        List<TransferToLogDTO> recipientTransfers = mongoTransactionRepository
                 .findTransferDTOByRecipientAccountNumberOrderByLocalDateTimeDesc(mainAccountNumber, PageRequest.of(0, 10));
 
         List<TransferViewDTO> transferViewDTOS = Stream.of(

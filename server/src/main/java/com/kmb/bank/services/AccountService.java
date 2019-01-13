@@ -1,6 +1,6 @@
 package com.kmb.bank.services;
 
-import com.kmb.bank.db.mongo.entity.TransferDTO;
+import com.kmb.bank.db.mongo.entity.TransferToLogDTO;
 import com.kmb.bank.db.postgres.repository.AccountRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.TransferViewMapper;
@@ -93,9 +93,9 @@ public class AccountService {
 
     private void addTransfersToModel(Model model, String accountNumber) {
 
-        List<TransferDTO> userTransfers = mongoTransactionRepository
+        List<TransferToLogDTO> userTransfers = mongoTransactionRepository
                 .findTransferDTOBySenderAccountNumberOrderByLocalDateTimeDesc(accountNumber, PageRequest.of(0, 10));
-        List<TransferDTO> recipientTransfers = mongoTransactionRepository
+        List<TransferToLogDTO> recipientTransfers = mongoTransactionRepository
                 .findTransferDTOByRecipientAccountNumberOrderByLocalDateTimeDesc(accountNumber, PageRequest.of(0, 10));
 
         List<TransferViewDTO> transferViewDTOS = Stream.of(

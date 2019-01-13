@@ -1,6 +1,6 @@
 package com.kmb.bank.mapper;
 
-import com.kmb.bank.db.mongo.entity.TransferDTO;
+import com.kmb.bank.db.mongo.entity.TransferToLogDTO;
 import com.kmb.bank.models.TransferViewDTO;
 import org.springframework.stereotype.Component;
 
@@ -8,26 +8,25 @@ import org.springframework.stereotype.Component;
 public class TransferViewMapper {
 
 
-    public TransferViewDTO incomingTransfer(TransferDTO transferDTO) {
+    public TransferViewDTO incomingTransfer(TransferToLogDTO transferToLogDTO) {
         return TransferViewDTO.builder()
-                .setName(transferDTO.getSenderName())
-                .setAccountNumber(transferDTO.getSenderAccountNumber())
-                .setTitle(transferDTO.getTitle())
-                .setAmount(transferDTO.getAmount())
+                .setName(transferToLogDTO.getSenderName())
+                .setAccountNumber(transferToLogDTO.getSenderAccountNumber())
+                .setTitle(transferToLogDTO.getTitle())
+                .setAmount(transferToLogDTO.getAmountInRecipientCurrency())
                 .setType("Incoming")
-                .setLocalDateTime(transferDTO.getLocalDateTime())
+                .setLocalDateTime(transferToLogDTO.getLocalDateTime())
                 .build();
-
     }
 
-    public TransferViewDTO outgoingTransfer(TransferDTO transferDTO) {
+    public TransferViewDTO outgoingTransfer(TransferToLogDTO transferToLogDTO) {
         return TransferViewDTO.builder()
-                .setName(transferDTO.getRecipientName())
-                .setAccountNumber(transferDTO.getRecipientAccountNumber())
-                .setTitle(transferDTO.getTitle())
-                .setAmount(transferDTO.getAmount())
+                .setName(transferToLogDTO.getRecipientName())
+                .setAccountNumber(transferToLogDTO.getRecipientAccountNumber())
+                .setTitle(transferToLogDTO.getTitle())
+                .setAmount(transferToLogDTO.getAmount())
                 .setType("Outgoing")
-                .setLocalDateTime(transferDTO.getLocalDateTime())
+                .setLocalDateTime(transferToLogDTO.getLocalDateTime())
                 .build();
     }
 }
