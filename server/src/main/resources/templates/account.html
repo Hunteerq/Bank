@@ -65,7 +65,7 @@
         <div class = "table-content" th:each="account : ${accountCurrencyDTOS}">
             <a th:href = "'/account/' + ${account.number}">
                 <div class = "table-row">
-                    <div id="account-logo" th:switch = "${account.type.get()}">
+                    <div id="small-pic" th:switch = "${account.type.get()}">
                         <i class="fas fa-user-graduate fa-2x" th:case="student" th:src="@{/assets/account_sign2.jpg}"></i>
                         <i class="fas fa-user-tie fa-2x" th:case="normal" th:src="@{/assets/account_sign.jpg}"></i>
                         <i class="fas fa-briefcase fa-2x" th:case="business" th:src="@{/assets/account_sign.jpg}"></i>

@@ -1,7 +1,7 @@
 package com.kmb.bank.services;
 
 import com.kmb.bank.db.postgres.repository.AccountRepository;
-import com.kmb.bank.models.TransferDTO;
+import com.kmb.bank.models.transfer.TransferDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
 import com.kmb.bank.sender.Sender;
 import lombok.extern.log4j.Log4j2;

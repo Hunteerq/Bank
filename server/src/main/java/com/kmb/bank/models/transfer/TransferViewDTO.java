@@ -1,4 +1,4 @@
-package com.kmb.bank.models;
+package com.kmb.bank.models.transfer;
 
 import lombok.Getter;
 

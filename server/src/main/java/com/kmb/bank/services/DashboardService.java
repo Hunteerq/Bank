@@ -5,7 +5,7 @@ import com.kmb.bank.db.postgres.repository.DashboardRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.CurrenciesMapper;
 import com.kmb.bank.mapper.TransferViewMapper;
-import com.kmb.bank.models.TransferViewDTO;
+import com.kmb.bank.models.transfer.TransferViewDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
 import com.kmb.bank.models.currency.CurrencyDTO;
 import lombok.extern.log4j.Log4j2;

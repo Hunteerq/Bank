@@ -4,7 +4,7 @@ import com.kmb.bank.db.mongo.entity.TransferToLogDTO;
 import com.kmb.bank.db.postgres.repository.AccountRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.TransferViewMapper;
-import com.kmb.bank.models.TransferViewDTO;
+import com.kmb.bank.models.transfer.TransferViewDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
 import com.kmb.bank.models.account.AccountSpecifiedViewDTO;
 import com.kmb.bank.models.account.AccountTypeDTO;
@@ -92,7 +92,6 @@ public class AccountService {
     }
 
     private void addTransfersToModel(Model model, String accountNumber) {
-
         List<TransferToLogDTO> userTransfers = mongoTransactionRepository
                 .findTransferDTOBySenderAccountNumberOrderByLocalDateTimeDesc(accountNumber, PageRequest.of(0, 10));
         List<TransferToLogDTO> recipientTransfers = mongoTransactionRepository
@@ -106,7 +105,6 @@ public class AccountService {
                 .flatMap(stream -> stream)
                 .sorted()
                 .collect(Collectors.toList());
-
         model.addAttribute("transferViewDTOS", transferViewDTOS);
     }
 

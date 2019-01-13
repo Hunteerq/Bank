@@ -1,7 +1,7 @@
 package com.kmb.bank.mapper;
 
 import com.kmb.bank.db.mongo.entity.TransferToLogDTO;
-import com.kmb.bank.models.TransferViewDTO;
+import com.kmb.bank.models.transfer.TransferViewDTO;
 import org.springframework.stereotype.Component;
 
 @Component

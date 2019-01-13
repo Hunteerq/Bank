@@ -87,13 +87,15 @@ CREATE TABLE client_account (
 );
 
 CREATE TABLE loan(
-  id SERIAL PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   account_number VARCHAR(16) NOT NULL, FOREIGN KEY(account_number) REFERENCES account(number),
   amount DOUBLE PRECISION NOT NULL,
   begin_date DATE NOT NULL,
   months_amount SMALLINT NOT NULL,
-  already_paid DOUBLE PRECISION NOT NULL CHECK(already_paid<=amount),
-  id_currency SMALLINT NOT NULL
+  months_left SMALLINT NOT NULL,
+  amount_left DOUBLE PRECISION NOT NULL CHECK(amount_left<=amount),
+  interest DOUBLE PRECISION NOT NULL,
+  currency_id SMALLINT NOT NULL
 );
 
 CREATE TABLE recurring_transfer (
