@@ -35,10 +35,31 @@ public class AccountController {
 
     }
 
-    @GetMapping(value="/account/{accountNumber/")
+    @GetMapping(value="/account/{accountNumber}")
     public String createSpecifiedAccountView(HttpServletRequest request, Model model,
                                              @PathVariable String accountNumber) {
-        return  accountService.createSpecifiedAccountView(request, model, accountNumber) ? "account-specified" : "login";
+        return  accountService.createSpecifiedAccountView(request, model, accountNumber) ? "account-specified" : "redirect:/login";
     }
+
+    @GetMapping(value="/account/{accountNumber}/block")
+    public String blockSpecifiedAccount(HttpServletRequest request, @PathVariable String accountNumber) {
+        return accountService.blockAccount(request, accountNumber) ? "redirect:/account/" + accountNumber : "redirect:/login";
+    }
+
+    @GetMapping(value="/account/{accountNumber}/unblock")
+    public String unblockSpecifiedAccount(HttpServletRequest request, @PathVariable String accountNumber){
+        return accountService.unblockAccount(request, accountNumber) ? "redirect:/account/" + accountNumber : "redirect:/login";
+    }
+
+    @GetMapping(value="/account/{accountNumber}/delete")
+    public String deleteSpecifiedAccountView(HttpServletRequest request, Model model, @PathVariable String accountNumber) {
+       return accountService.createDeleteView(request, model, accountNumber) ? "account-delete-confirmation" : "redirect:/login";
+    }
+
+    @GetMapping(value="/account/{accountNumber}/delete/accepted")
+    public String deleteSpecifiedAccount(HttpServletRequest request, Model model, @PathVariable String accountNumber) {
+        return accountService.deleteAccount(request, accountNumber) ? "redirect:/account" : "redirect:/login";
+    }
+
 
 }

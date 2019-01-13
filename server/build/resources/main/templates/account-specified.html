@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Specified Account</title>
+    <title>Dashboard</title>
     <!-- TH links -->
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
     <link th:href="@{/styles/table.css}" rel="stylesheet">
+    <link th:href="@{/styles/account-specified.css}" rel="stylesheet">
+
     <script th:src="@{https://code.jquery.com/jquery-3.3.1.js}"></script>
     <script th:src="@{/scripts/addSpacingToNumbers.js}"></script>
     <script th:src="@{/scripts/table.js}"></script>
@@ -14,15 +16,18 @@
     <!-- Ordinary links -->
     <link href="../static/styles/dashboard.css" rel="stylesheet" type="text/css">
     <link href="../static/styles/table.css" rel="stylesheet" type="text/css">
+    <link href="../static/styles/account-specified.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../static/scripts/addSpacingToNumbers.js"></script>
     <script src="../static/scripts/table.js"></script>
     <script src="../static/scripts/date.js"></script>
-    <head>
+</head>
 <body>
 <nav>
     <ul>
-        <li id="logo"><a href="#">KMB</a></li>
+        <li id="logo"><a href="/dashboard">KMB</a></li>
         <div>
             <li><a th:href="@{/account}" class="interface">Konta</a></li>
             <li><a th:href="@{/card}" class="interface">Karty</a></li>
@@ -45,10 +50,30 @@
 </div>
 
 <div class="bars-container">
+    <div class = "wrapper">
+        <div class="left-bar">
+            <div class="info">
+                <div id="account-logo" th:switch = "${accountSpecifiedViewDTO.type}">
+                    <i class="fas fa-user-graduate fa-4x" th:case="student" th:src="@{/assets/account_sign2.jpg}"></i>
+                    <i class="fas fa-user-tie fa-4x" th:case="normal" th:src="@{/assets/account_sign.jpg}"></i>
+                    <i class="fas fa-briefcase fa-4x" th:case="business" th:src="@{/assets/account_sign.jpg}"></i>
+                </div>
+                <p th:text="'Typ konta &nbsp;' + ${accountSpecifiedViewDTO.type}"></p>
+                <p th:if = "${accountSpecifiedViewDTO.active}">Konto jest aktywne</p>
+                <p th:unless = "${accountSpecifiedViewDTO.active}">Konto jest zablokowane</p>
+                <p th:text = "'Konto utworzone&nbsp;' + ${accountSpecifiedViewDTO.openingDate}"> </p>
+            </div>
+            <div  class="buttons">
+               <a th:if = "${accountSpecifiedViewDTO.active}" th:href="'/account/' + ${accountSpecifiedViewDTO.number} + '/block' "><div class="small-bars"> Zablokuj konto </div></a>
+               <a th:unless = "${accountSpecifiedViewDTO.active}" th:href="'/account/' + ${accountSpecifiedViewDTO.number} + '/unblock' "><div class="small-bars"> Odblokuj konto </div></a>
+               <a th:href="'/account/' + ${accountSpecifiedViewDTO.number} + '/delete' "><div class="small-bars">Usuń konto </div></a>
+            </div>
+        </div>
+
         <div class="right-bar">
             <div class="history">
-                <div class ="title">Stan konta &nbsp;&nbsp; <span class="spacing-number" th:text="${accountCurrencyDTO.number}"></span>
-                    <span th:text="'&nbsp;&nbsp; wynosi ' + ${accountCurrencyDTO.balance} + ${accountCurrencyDTO.currency}"></span></div>
+                <div class ="title">Stan konta &nbsp;&nbsp; <span class="spacing-number" th:text="${accountSpecifiedViewDTO.number}"></span>
+                    <span th:text="'&nbsp;&nbsp; wynosi ' + ${accountSpecifiedViewDTO.balance} + ${accountSpecifiedViewDTO.currency}"></span></div>
                 <div class="table">
                     <div class="table-header">
                         <div class="header__item"><a id="name" class="filter__link" href="#">Nadawca/Odbiorca</a></div>

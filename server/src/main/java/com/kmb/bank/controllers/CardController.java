@@ -19,12 +19,12 @@ public class CardController {
 
     @GetMapping(value = "/card")
     public String getCards(HttpServletRequest request, Model model) {
-        return cardService.addCardsToModel(request, model) ? "card" : "redirect/login";
+        return cardService.addCardsToModel(request, model) ? "card" : "redirect:/login";
     }
 
     @GetMapping(value = "/card/add")
     public String addCardView(HttpServletRequest request, Model model) {
-        return cardService.addCardTypesAndAccountNumbersToModel(request, model) ? "card-add.html" : "redirect/login";
+        return cardService.addCardTypesAndAccountNumbersToModel(request, model) ? "card-add.html" : "redirect:/login";
     }
 
     @PostMapping(value = "/card/add")
@@ -34,13 +34,13 @@ public class CardController {
                           @PathParam(value = "dailyContactlessLimit") double dailyContactlessLimit,
                           @PathParam(value = "dailyWebLimit") double dailyWebLimit,
                           @PathParam(value = "dailyTotalLimit") double dailyTotalLimit) {
-        cardService.addNewCard(request, userAccountNumber, cardTypeId, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit);
-        return "redirect:/card";
+        return cardService.addNewCard(request, userAccountNumber, cardTypeId, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit)
+                ? "redirect:/card" : "redirect/login";
     }
 
     @GetMapping(value = "/card/{cardNumber}")
     public String getCard(HttpServletRequest request, Model model, @PathVariable String cardNumber) {
-        return cardService.addCardToModel(request, model, cardNumber) ? "specified-card" : "redirect:/login";
+        return cardService.addCardToModel(request, model, cardNumber) ? "card-specified" : "redirect:/login";
     }
 
     @GetMapping(value = "/card/{cardNumber}/block")
@@ -55,8 +55,7 @@ public class CardController {
 
     @GetMapping(value="/card/{cardNumber}/edit")
     public String editCard(HttpServletRequest request, Model model,  @PathVariable String cardNumber)  {
-        cardService.createEditView(request, model, cardNumber);
-        return "card-edit";
+        return cardService.createEditView(request, model, cardNumber)? "card-edit" : "redirect:/login";
     }
 
     @PostMapping(value="/card/{cardNumber}/edit")
@@ -65,20 +64,18 @@ public class CardController {
                                    @PathParam(value = "dailyContactlessLimit") double dailyContactlessLimit,
                                    @PathParam(value = "dailyWebLimit") double dailyWebLimit,
                                    @PathParam(value = "dailyTotalLimit") double dailyTotalLimit) {
-        cardService.updateCardLimits(httpServletRequest, cardNumber, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit);
-        return "redirect:/card/" + cardNumber;
+        return cardService.updateCardLimits(httpServletRequest, cardNumber, dailyContactlessLimit, dailyWebLimit, dailyTotalLimit)
+                ? "redirect:/card/" + cardNumber : "redirect:/login";
     }
 
     @GetMapping(value="/card/{cardNumber}/delete")
     public String createCardDeleteAcceptationView(HttpServletRequest httpServletRequest, Model model, @PathVariable String cardNumber) {
-        boolean authorization = cardService.createCardDeleteAcceptationView(httpServletRequest, model, cardNumber);
-        return authorization ? "card-delete-confirmation" : "redirect:/card";
+        return cardService.createCardDeleteAcceptationView(httpServletRequest, model, cardNumber) ? "card-delete-confirmation" : "redirect:/card";
     }
 
     @GetMapping(value="/card/{cardNumber}/delete/accepted")
     public String performCardDelete(HttpServletRequest httpServletRequest, Model model, @PathVariable String cardNumber) {
-        cardService.performCardDelete(httpServletRequest, model, cardNumber);
-        return "redirect:/card";
+        return cardService.performCardDelete(httpServletRequest, model, cardNumber) ? "redirect:/card" : "redirect:/login";
     }
 
 

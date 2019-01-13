@@ -1,4 +1,4 @@
-package com.kmb.bank.db.mongo.repository;
+package com.kmb.bank.db.postgres.repository;
 
 import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.card.CardBasicViedDTO;

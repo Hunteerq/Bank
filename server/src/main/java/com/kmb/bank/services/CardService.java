@@ -1,7 +1,7 @@
 package com.kmb.bank.services;
 
-import com.kmb.bank.db.mongo.repository.AccountRepository;
-import com.kmb.bank.db.mongo.repository.CardRepository;
+import com.kmb.bank.db.postgres.repository.AccountRepository;
+import com.kmb.bank.db.postgres.repository.CardRepository;
 import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.card.CardBasicViedDTO;
 import com.kmb.bank.models.card.CardLimitsDTO;
@@ -10,7 +10,6 @@ import com.kmb.bank.models.card.CardTypeDTO;
 import com.kmb.bank.random.NumberGenerator;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -42,7 +41,7 @@ public class CardService {
         return false;
     }
 
-    public Boolean addCardToModel(HttpServletRequest request, Model model, String cardNumber) {
+    public boolean addCardToModel(HttpServletRequest request, Model model, String cardNumber) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
         if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
             try {
@@ -78,8 +77,7 @@ public class CardService {
             } catch (Exception e ) {
                  log.error("Error updating database {}", e.getMessage());
              }
-
-          }
+        }
         return false;
     }
 
@@ -93,41 +91,45 @@ public class CardService {
             return true;
         }
         return false;
-
     }
 
 
 
-    public void addNewCard(HttpServletRequest request, String userAccountNumber, int cardTypeId, double dailyContactlessLimit, double dailyWebLimit,  double dailyTotalLimit) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
+    public boolean addNewCard(HttpServletRequest request, String userAccountNumber, int cardTypeId, double dailyContactlessLimit, double dailyWebLimit,  double dailyTotalLimit) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
         String cardNumber = numberGenerator.returnRandomInts(16);
         String cvv = numberGenerator.returnRandomInts(3);
-
-        if (accountRepository.ifAccountNumberBelongsToUser(userAccountNumber, username)) {
+        if (username.isPresent() && accountRepository.ifAccountNumberBelongsToUser(userAccountNumber, username.get())) {
             cardRepository.addNewCreditCard(cardNumber, userAccountNumber, cvv, LocalDateTime.now().plusYears(4),
                     cardTypeId, true,dailyContactlessLimit, dailyTotalLimit, dailyWebLimit);
+            return true;
         }
+        return false;
     }
 
 
-    public void createEditView(HttpServletRequest request, Model model, String cardNumber) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        if(cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+    public boolean createEditView(HttpServletRequest request, Model model, String cardNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
             Optional<CardLimitsDTO> cardLimitsDTO = Optional.ofNullable(cardRepository.getLimitsFromCreditNumber(cardNumber));
             cardLimitsDTO.ifPresent( limits -> model.addAttribute("cardLimitsDTO", limits));
             model.addAttribute("cardNumber", cardNumber);
+            return true;
         }
+        return false;
     }
 
-    public void updateCardLimits(HttpServletRequest request, String cardNumber, double dailyContactlessLimit, double dailyWebLimit, double dailyTotalLimit) {
-        String username = Optional.ofNullable((String) request.getSession().getAttribute("username")).orElse("");
-        if(dailyContactlessLimit >= 0 && dailyWebLimit >= 0 && dailyTotalLimit >=0
-                && cardRepository.testIfCardBelongsToUsername(username, cardNumber)) {
+    public boolean updateCardLimits(HttpServletRequest request, String cardNumber, double dailyContactlessLimit, double dailyWebLimit, double dailyTotalLimit) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent() && dailyContactlessLimit >= 0 && dailyWebLimit >= 0 && dailyTotalLimit >=0
+                && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
             cardRepository.updateCardLimits(cardNumber, dailyContactlessLimit, dailyTotalLimit, dailyWebLimit);
+            return true;
         }
+        return false;
     }
 
-    public Boolean createCardDeleteAcceptationView(HttpServletRequest request, Model model, String cardNumber) {
+    public boolean createCardDeleteAcceptationView(HttpServletRequest request, Model model, String cardNumber) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
         if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
             model.addAttribute("cardNumber", cardNumber);
@@ -137,10 +139,12 @@ public class CardService {
         return true;
     }
 
-    public void performCardDelete(HttpServletRequest request, Model model, String cardNumber) {
+    public boolean performCardDelete(HttpServletRequest request, Model model, String cardNumber) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
         if(username.isPresent() && cardRepository.testIfCardBelongsToUsername(username.get(), cardNumber)) {
             cardRepository.deleteCard(cardNumber);
+            return true;
         }
+        return false;
     }
 }

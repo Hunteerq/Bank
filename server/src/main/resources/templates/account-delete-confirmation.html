@@ -7,7 +7,6 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
 
-
     <!-- thymeleaf -->
     <!-- CSS -->
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet">
@@ -57,13 +56,13 @@
 <div class="card-background" >
     <div class="card-container">
         <div class="title"><
-            <h1 class="card-number-text">Czy na pewno chcesz usunąć kartę  &nbsp;&nbsp;&nbsp;<span class = "spacing-number" th:text="${cardNumber}"></span>&nbsp;?</h1>
+            <h1 class="card-number-text">Czy na pewno chcesz usunąć konto  &nbsp;&nbsp;&nbsp;<span class = "spacing-number" th:text="${accountNumber}"></span>&nbsp;?</h1>
         </div>
         <div class="blocks">
-            <a class="left-block" th:href="'/card/' + ${cardNumber} +'/delete/accepted'">
+            <a class="left-block" th:href="'/account/' + ${accountNumber} +'/delete/accepted'">
                 <div class="small-bars">Potwierdzam usunięciey</div>
             </a>
-            <a class="right-block" th:href="'/card/'">
+            <a class="right-block" th:href="'/account/'">
                 <div  class="small-bars">Rezygnuję</div>
             </a>
         </div>

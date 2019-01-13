@@ -1,4 +1,4 @@
-package com.kmb.bank.db.mongo.repository;
+package com.kmb.bank.db.postgres.repository;
 
 import com.kmb.bank.models.account.AccountCurrencyDTO;
 import com.kmb.bank.models.currency.CurrencyDTO;

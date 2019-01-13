@@ -1,4 +1,4 @@
-package com.kmb.bank.db.mongo.repository;
+package com.kmb.bank.db.postgres.repository;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.digest.DigestUtils;

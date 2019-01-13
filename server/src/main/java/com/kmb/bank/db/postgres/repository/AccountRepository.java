@@ -1,4 +1,4 @@
-package com.kmb.bank.db.mongo.repository;
+package com.kmb.bank.db.postgres.repository;
 
 import com.kmb.bank.models.account.AccountBasicViewDTO;
 import com.kmb.bank.models.account.AccountCurrencyDTO;
@@ -27,9 +27,8 @@ public class AccountRepository {
                     "INNER JOIN client_account on client_account.account_number = account.number " +
                     "INNER JOIN client on client.pesel = client_account.client_pesel " +
                     "WHERE client.username = ? AND account.number = ?", new Object[] {username, accountNumber}, Integer.class);
-
-            return validate > 0 ? true : false;
-        } catch(Exception e) {
+            return validate > 0;
+        } catch (Exception e) {
             log.info("Error asking database if account number belongs to username {}", e.getMessage());
             return false;
         }
@@ -65,7 +64,7 @@ public class AccountRepository {
                         .setBalance(rs.getDouble("balance"))
                         .setNumber(rs.getString("number"))
                         .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error getting Account number and balance for adding card view {}", e.getMessage());
             return Collections.emptyList();
         }
@@ -78,7 +77,7 @@ public class AccountRepository {
                             .setId(rs.getInt("id"))
                             .setName(rs.getString("name"))
                             .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error asking database for currencies names and theirs ids {}", e.getMessage());
             return Collections.emptyList();
         }
@@ -91,7 +90,7 @@ public class AccountRepository {
                             .setId(rs.getInt("id"))
                             .setType(rs.getString("type"))
                             .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error asking database fo account types with their ids {}", e.getMessage());
             return Collections.emptyList();
         }
@@ -122,7 +121,7 @@ public class AccountRepository {
                             "INNER JOIN account_type ON account_type.id = account.account_type_id " +
                             "WHERE account.number = ?", new Object[] {accountNumber},
                     (rs, rowNum) -> AccountSpecifiedViewDTO.builder()
-                            .setNumber(rs.getString(accountNumber))
+                            .setNumber(accountNumber)
                             .setBalance(rs.getDouble("balance"))
                             .setCurrency(rs.getString("name"))
                             .setType(rs.getString("type"))
@@ -133,5 +132,25 @@ public class AccountRepository {
             log.error("Error asking database for basic account number and balance {}", e.getMessage());
         }
         return null;
+    }
+
+    public void changeAccountStatus(String accountNumber, boolean status) {
+        try {
+            jdbcTemplate.update("UPDATE account " +
+                    "SET active = ? " +
+                    "WHERE number = ?", status, accountNumber);
+        } catch (Exception e) {
+            log.error("Error changing account status {}", e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void deleteSpecifiedAccount(String accountNumber) {
+        try {
+            jdbcTemplate.update("DELETE FROM client_account WHERE account_number = ?", accountNumber);
+            jdbcTemplate.update("DELETE FROM account WHERE number = ?", accountNumber);
+        } catch (Exception e) {
+            log.error("Error deleting account {} : {}", accountNumber, e.getMessage());
+        }
     }
 }

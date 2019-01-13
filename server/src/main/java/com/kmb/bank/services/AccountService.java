@@ -1,7 +1,7 @@
 package com.kmb.bank.services;
 
 import com.kmb.bank.db.mongo.entity.TransferDTO;
-import com.kmb.bank.db.mongo.repository.AccountRepository;
+import com.kmb.bank.db.postgres.repository.AccountRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.TransferViewMapper;
 import com.kmb.bank.models.TransferViewDTO;
@@ -77,21 +77,21 @@ public class AccountService {
 
     public boolean createSpecifiedAccountView(HttpServletRequest request, Model model, String accountNumber) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
-        return username.isPresent() ? addAccountAndTransfersToModel(model, accountNumber) : false;
+        return username.isPresent() && addAccountAndTransfersToModel(model, accountNumber);
     }
 
     private boolean addAccountAndTransfersToModel(Model model, String accountNumber) {
         Optional<AccountSpecifiedViewDTO> accountSpecifiedViewDTO =
                 Optional.ofNullable(accountRepository.getSpecifiedAccountWithTypeBalanceAndCurrency(accountNumber));
         if (accountSpecifiedViewDTO.isPresent()) {
-            model.addAttribute("accountSpecifiedViewDTO", accountSpecifiedViewDTO);
-            addtransfersToModel(model, accountNumber);
+            model.addAttribute("accountSpecifiedViewDTO", accountSpecifiedViewDTO.get());
+            addTransfersToModel(model, accountNumber);
             return true;
         }
         return false;
     }
 
-    private void addtransfersToModel(Model model, String accountNumber) {
+    private void addTransfersToModel(Model model, String accountNumber) {
 
         List<TransferDTO> userTransfers = mongoTransactionRepository
                 .findTransferDTOBySenderAccountNumberOrderByLocalDateTimeDesc(accountNumber, PageRequest.of(0, 10));
@@ -110,4 +110,39 @@ public class AccountService {
         model.addAttribute("transferViewDTOS", transferViewDTOS);
     }
 
+    public boolean blockAccount(HttpServletRequest request, String accountNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent()) {
+            accountRepository.changeAccountStatus(accountNumber, false);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean unblockAccount(HttpServletRequest request, String accountNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent()) {
+            accountRepository.changeAccountStatus(accountNumber, true);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean createDeleteView(HttpServletRequest request, Model model, String accountNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent()) {
+            model.addAttribute("accountNumber", accountNumber);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteAccount(HttpServletRequest request, String accountNumber) {
+        Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
+        if(username.isPresent() && accountRepository.ifAccountNumberBelongsToUser(accountNumber, username.get())) {
+            accountRepository.deleteSpecifiedAccount(accountNumber);
+            return true;
+        }
+        return false;
+    }
 }

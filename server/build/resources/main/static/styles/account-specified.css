@@ -1,0 +1,36 @@
+.bars-container .wrapper .left-bar .buttons a .small-bars {
+    height: 5vh;
+    width: 15vw;
+    font-size: 30px;
+    margin-top: 3vh;
+}
+
+.bars-container .wrapper .left-bar {
+    margin-top: 3vh;
+    width: 21vw;
+    position: relative;
+}
+
+.bars-container .wrapper .left-bar  .buttons{
+    position: absolute;
+    bottom: 10%;
+}
+
+.bars-container .wrapper .right-bar {
+    position: relative;
+}
+
+@media only screen and (max-width: 1024px) {
+    .bars-container .wrapper .left-bar .buttons a .small-bars {
+        font-size: 15px;
+    }
+}
+
+.bars-container .wrapper .left-bar .info{
+    margin-top: 5vh;
+    font-size: 2rem;
+}
+
+.bars-container .wrapper .left-bar .info #account-logo {
+    margin-bottom: 4vh;
+}

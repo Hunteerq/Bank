@@ -1,7 +1,7 @@
 package com.kmb.bank.services;
 
 import com.kmb.bank.db.mongo.entity.TransferDTO;
-import com.kmb.bank.db.mongo.repository.DashboardRepository;
+import com.kmb.bank.db.postgres.repository.DashboardRepository;
 import com.kmb.bank.db.mongo.repository.MongoTransactionRepository;
 import com.kmb.bank.mapper.CurrenciesMapper;
 import com.kmb.bank.mapper.TransferViewMapper;
@@ -39,7 +39,7 @@ public class DashboardService {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
         if(username.isPresent()){
             getCurrencies(request);
-            addTransfersAndAccountToView(request, model, username.get());
+            addTransfersAndAccountToView(model, username.get());
             return true;
         }
         return false;
@@ -60,7 +60,7 @@ public class DashboardService {
     }
 
 
-    private void addTransfersAndAccountToView(HttpServletRequest request, Model model, String username) {
+    private void addTransfersAndAccountToView(Model model, String username) {
         Optional<AccountCurrencyDTO> accountCurrencyDTO = Optional.ofNullable(dashboardRepository.getMainAccount(username));
         accountCurrencyDTO.ifPresent(account -> addNumberBalanceAndTransfers(account, model));
     }
