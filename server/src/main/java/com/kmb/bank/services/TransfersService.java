@@ -49,7 +49,7 @@ public class TransfersService {
                         .setAmount(Double.valueOf(amount))
                         .setLocalDateTime(LocalDateTime.now())
                         .build();
-                rabbitmq.send(transferDTO);
+                rabbitmq.sendTransfer(transferDTO);
                 return true;
             }
         } catch (Exception e) {

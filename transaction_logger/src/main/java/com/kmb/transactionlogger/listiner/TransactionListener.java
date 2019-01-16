@@ -1,9 +1,9 @@
-package com.kmb.transactionlogger;
+package com.kmb.transactionlogger.listiner;
 
 import com.kmb.transactionlogger.currency.CurrencyConverter;
 import com.kmb.transactionlogger.db.mongo.models.TransferToLogDTO;
 import com.kmb.transactionlogger.db.mongo.repository.MongoTransactionRepository;
-import com.kmb.transactionlogger.mapper.TransferToLogMapper;
+import com.kmb.transactionlogger.mapper.RabbitObjectsMapper;
 import com.kmb.transactionlogger.models.TransferDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,10 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
 @Log4j2
 @Service
-public class Listener {
+public class TransactionListener {
 
     @Autowired
     private Jackson2JsonMessageConverter jackson2JsonMessageConverter;
@@ -33,7 +32,7 @@ public class Listener {
     private CurrencyConverter currencyConverter;
 
     @Autowired
-    private TransferToLogMapper transferToLogMapper;
+    private RabbitObjectsMapper rabbitObjectsMapper;
 
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void listen(TransferDTO transfer) {
@@ -69,7 +68,7 @@ public class Listener {
             jdbcTemplate.update("UPDATE account " +
                             "SET balance = balance + ? WHERE number = ?",
                     amountInRecipientCurrency, transferDTO.getRecipientAccountNumber());
-            TransferToLogDTO transferToLogDTO = transferToLogMapper.transferToTransferLog(transferDTO, amountInRecipientCurrency);
+            TransferToLogDTO transferToLogDTO = rabbitObjectsMapper.transferToTransferLog(transferDTO, amountInRecipientCurrency);
             mongoTransactionRepository.save(transferToLogDTO);
         } catch (Exception e) {
             log.error("Error updating tables " + e.getMessage());

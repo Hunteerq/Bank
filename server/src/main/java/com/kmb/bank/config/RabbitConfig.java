@@ -25,12 +25,14 @@ public class RabbitConfig {
     @Value("${rabbitmq.exchange}")
     private String rabbitmqExchange;
 
+    @Value("${rabbitmq.credit.exchange}")
+    private String rabbitmqCreditExchange;
+
     @Bean
     public RabbitTemplate rabbitTemplate() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitmqUrl);
         connectionFactory.setUsername(rabbitmqUsername);
         connectionFactory.setPassword(rabbitmqPassword);
-
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
 
@@ -40,6 +42,11 @@ public class RabbitConfig {
     @Bean
     public DirectExchange directExchange() {
         return new DirectExchange(rabbitmqExchange);
+    }
+
+    @Bean
+    public DirectExchange directCreditExchange() {
+        return new DirectExchange(rabbitmqCreditExchange);
     }
 
     @Bean

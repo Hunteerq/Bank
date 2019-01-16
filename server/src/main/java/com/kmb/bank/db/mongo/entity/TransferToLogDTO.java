@@ -3,12 +3,10 @@ package com.kmb.bank.db.mongo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Log4j2
 @AllArgsConstructor @ToString

@@ -20,7 +20,7 @@ public class TransferController {
 
     @GetMapping(value="/transfer/normal")
     public String getTransfer(HttpServletRequest request, Model model) {
-        return transfersService.registerAccountNumbers(request, model)? "transfer" : "redirect:/login";
+        return transfersService.registerAccountNumbers(request, model)? "transfer" : "redirect:/";
     }
 
     @PostMapping(value="/transfer/normal")
@@ -31,6 +31,6 @@ public class TransferController {
                              @RequestParam(value = "recipientAccountNumber") String recipientAccountNumber,
                              @RequestParam(value = "amount") String amount){
         return transfersService.sendNormalTransfer(request, senderAccountNumber, title, recipientName, recipientAccountNumber, amount) ?
-                "redirect:/dashboard" : "login";
+                "redirect:/dashboard" : "redirect:/";
     }
 }

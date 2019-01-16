@@ -16,7 +16,7 @@ public class DashboardController{
 
     @GetMapping("/dashboard")
     public String getDashboard(HttpServletRequest request, Model model) {
-        return dashboardService.prepareDashboardView(request, model) ? "dashboard" : "redirect:/login";
+        return dashboardService.prepareDashboardView(request, model) ? "dashboard" : "redirect:/";
     }
 
 }

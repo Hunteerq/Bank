@@ -16,8 +16,6 @@ public class CreditRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final static double creditInterest = 1.1;
-
     public List<CreditBasicViewDTO> getAllCredits(String username) {
         try {
              return jdbcTemplate.query("SELECT loan.id, loan.amount, loan.months_amount, currency.name, loan.begin_date FROM loan " +
@@ -36,15 +34,6 @@ public class CreditRepository {
         } catch (Exception e) {
             log.error("Error asking database for all credits {}", e.getMessage());
             return Collections.emptyList();
-        }
-    }
-
-    public void addCredit(String accountNumber, short currencyId, double amount, short monthsAmount) {
-        try {
-            jdbcTemplate.update("INSERT INTO loan VALUES(default , ?, ?, now(), ?, ?, ?, ?, ?)",
-                    accountNumber, amount, monthsAmount, monthsAmount, amount, creditInterest, currencyId);
-        } catch (Exception e) {
-            log.error("Error adding credit {}", e.getMessage());
         }
     }
 }

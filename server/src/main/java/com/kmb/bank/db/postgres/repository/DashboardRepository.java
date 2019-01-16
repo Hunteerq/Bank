@@ -18,6 +18,16 @@ public class DashboardRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+    public String getCurrencyNameFromCurrencyId(short id) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT currency.name FROM currency " +
+                    "WHERE currency.id = ?", String.class, id);
+        } catch (Exception e) {
+            log.error("Error asking database for currency name from id {}", e.getMessage());
+            return null;
+        }
+    }
     public Set<CurrencyDTO> getCurrencies() {
        try {
            return jdbcTemplate.query("SELECT currency.name, currency_exchange.rate, currency.type FROM currency " +

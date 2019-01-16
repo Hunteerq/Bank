@@ -11,6 +11,8 @@ rabbitmq:
   exchange: bank
   username: guest
   password: guest
+  credit:
+    exchange: creditExchange
 
 jdbc:
   driver: org.postgresql.Driver
@@ -24,4 +26,3 @@ spring:
       host: localhost
       port: 27017
       database: bank
-

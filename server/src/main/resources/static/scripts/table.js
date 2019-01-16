@@ -1,4 +1,4 @@
-var properties = [
+ivar properties = [
 	'name',
 	'title',
 	'account',

@@ -18,21 +18,21 @@ public class CreditController {
 
     @GetMapping(value="/credit")
     public String getAllCredits(HttpServletRequest request, Model model) {
-        return creditService.getAllCreditsView(request, model) ? "credit" : "redirect:/login";
+        return creditService.getAllCreditsView(request, model) ? "credit" : "redirect:/";
     }
 
     @GetMapping(value="/credit/add")
     public String createAddCreditView(HttpServletRequest request, Model model) {
-        return creditService.createAddCreditView(request, model) ? "credit-add" : "redirect:/login";
+        return creditService.createAddCreditView(request, model) ? "credit-add" : "redirect:/";
     }
 
     @PostMapping(value="/credit/add")
-    public String createCredit(HttpServletRequest request, Model model,
+    public String createCredit(HttpServletRequest request,
                                @PathParam(value = "accountNumber") String accountNumber,
                                @PathParam(value = "currencyId") short currencyId,
                                @PathParam(value = "amount") double amount,
                                @PathParam(value = "monthsAmount") short monthsAmount) {
-        return creditService.addCredit(request, model, accountNumber, currencyId, amount, monthsAmount) ? "redirect:/credit" : "login";
+        return creditService.addCredit(request, accountNumber, currencyId, amount, monthsAmount) ? "redirect:/credit" : "redirect:/";
     }
 }
 
