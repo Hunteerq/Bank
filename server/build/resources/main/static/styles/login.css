@@ -1,12 +1,13 @@
+@font-face {
+    font-family: Andis;
+    src: url("../fonts/Andis.ttf");
+}
+
 * {
     padding: 0;
     margin: 0;
     overflow: hidden;
-}
-
-@font-face {
     font-family: Andis;
-    src: url("../fonts/Andis.ttf");
 }
 
 legend {
@@ -14,7 +15,6 @@ legend {
     left: 4%;
     margin-bottom: 2%;
     margin-left: 0.5%;
-    font-family: Andis;
     font-weight: normal;
     font-size: 86px;
     width: 50%;
@@ -36,4 +36,55 @@ img {
 
 button {
     float:left;
+}
+
+.verify-color {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 1vh;
+    margin-left: 0.85vw;
+}
+
+h3 {
+    margin-bottom: 1vh;
+    margin-left: 0.85vw;
+}
+
+.small-bars{
+    background-color: #25BBAF;
+    border:none;
+    position:relative;
+    height: 5vh;
+    font-size:1.6em;
+    padding:0 2em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+}
+
+.small-bars:hover{
+    background: rgba(229, 230, 236, 0);
+}
+
+.small-bars:before,.small-bars:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #26c6da;
+    transition:400ms ease all;
+}
+
+.small-bars:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+
+.small-bars:hover:before,.small-bars:hover:after{
+    width:100%;
+    transition:800ms ease all;
 }

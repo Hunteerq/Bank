@@ -13,10 +13,10 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Short getUserColor(String username) {
+    public String getUserColor(String username) {
         try {
             return jdbcTemplate.queryForObject("SELECT login.color FROM login " +
-                       "WHERE login.username = ?", new Object[] {username}, Short.class);
+                       "WHERE login.username = ?", new Object[] {username}, String.class);
         } catch (Exception e) {
             log.error("Error getting user's color {}", e.getMessage());
             return null;

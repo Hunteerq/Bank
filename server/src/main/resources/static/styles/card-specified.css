@@ -7,40 +7,40 @@ body {
     background-size: cover;
 }
 
-.card-background {
+.background {
     width: 100vw;
     height: 87vh;
     padding: 10vh 20vw;
 }
 
-.card-container {
+.container {
     width: 60vw;
     height: 67vh;
     background-color:rgba(229, 230, 236, 0.6);
     position: relative;
 }
-.card-container .title {
+.container .title {
     text-align: center;
     width: inherit;
 }
 
-.card-container h1 {
+.container h1 {
     font-family: Roboto;
     padding-top: 5vh;
 }
 
-.card-container h1 span {
+.container h1 span {
     font-size: inherit;
     font-family: inherit;
 }
 
-.card-container .card-info {
+.container .card-info {
     position: absolute;
     top: 45%;
     transform: translate(0, -50%) ;
 }
 
-.card-container .card-info img {
+.container .card-info img {
     position: relative;
     float: left;
     margin-left: 5vw;
@@ -50,7 +50,7 @@ body {
     margin-bottom: auto;
 }
 
-.card-container .card-info .information {
+.container .card-info .information {
     position: relative;
     float: left;
     padding-top: 2vh;
@@ -58,12 +58,12 @@ body {
     font-size: 1.7rem;
 }
 
-.card-container .card-info .information .spacing-number:hover {
+.container .card-info .information .spacing-number:hover {
     color: #25C28B;
 }
 
 
-.card-container .blocks .left-block {
+.container .blocks .left-block {
     float: left;
     position: absolute;
     bottom: 17%;
@@ -71,7 +71,7 @@ body {
     width: 10vw;
 }
 
-.card-container .blocks .right-block {
+.container .blocks .right-block {
     float: left;
     position: absolute;
     bottom: 17%;

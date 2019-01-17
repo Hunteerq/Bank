@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto:300}" rel="stylesheet">
+
     <!-- TH links -->
     <link th:href="@{/styles/dashboard.css}" rel="stylesheet"> 
     <link th:href="@{/styles/table.css}" rel="stylesheet">
@@ -55,7 +59,7 @@
         <div class="right-bar">
             <div class="history">
                 <div class ="title" th:if="${accountCurrencyDTO} != null">Stan konta &nbsp;&nbsp; <span class="spacing-number" th:text="${accountCurrencyDTO.number}"></span>
-                    <span th:text="'&nbsp;&nbsp; wynosi ' + ${accountCurrencyDTO.balance} + ${accountCurrencyDTO.currency}"></span>
+                    <span th:text="'&nbsp;&nbsp; wynosi ' + ${accountCurrencyDTO.balance} + '&nbsp;' + ${accountCurrencyDTO.currency}"></span>
                 </div>
                 <div class ="title" th:unless="${accountCurrencyDTO} != null">
                     Brak konta, zachęcamy do założenia!

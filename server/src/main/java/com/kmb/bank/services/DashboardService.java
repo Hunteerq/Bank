@@ -35,6 +35,10 @@ public class DashboardService {
     @Autowired
     private TransferViewMapper transferViewMapper;
 
+    public boolean ifUserIsLogged(HttpServletRequest request) {
+        return Optional.ofNullable((String) request.getSession().getAttribute("username")).isPresent();
+    }
+
     public boolean prepareDashboardView(HttpServletRequest request, Model model) {
         Optional<String> username = Optional.ofNullable((String) request.getSession().getAttribute("username"));
         if(username.isPresent()){

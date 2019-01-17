@@ -65,8 +65,9 @@ nav ul li {
 }
 
 .form-group .col-md-4 button {
-    margin-left: 10vw;
-    width: 5vw;
+    margin-top: 1.5vh;
+    margin-left: 12vw;
+    height: 5vh;
 }
 
 .col-sm-8 .col-sm-5 {

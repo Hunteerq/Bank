@@ -1,0 +1,42 @@
+body {
+    overflow: hidden;
+}
+
+.container {
+    font-size: 1.7em;
+}
+
+.container .info {
+    margin-top: 7vh;
+    height: inherit;
+    width: inherit;
+    margin-left: 3vw;
+    display: inline-flex;
+}
+
+.container .info .wrapper {
+    margin-top: 20vh;
+}
+
+.container .info .wrapper .phone {
+    display: block;
+    margin-top: 4.5vh;
+    width: 30vw;
+}
+
+#map {
+    width: auto;
+    height: auto;
+    position:  absolute;
+    right: 20%;
+}
+
+#back {
+    height: 4vh;
+    width: 100%;
+    position: absolute;
+    bottom: 5%;
+    margin-top: 4vh;
+    font-size: 0.1rem;
+}
+

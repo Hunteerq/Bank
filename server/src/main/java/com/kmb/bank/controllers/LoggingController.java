@@ -27,10 +27,11 @@ public class LoggingController {
     }
 
     @PostMapping(value="/password")
-    public String password(@RequestParam(value = "username") String username,
-                           @RequestParam(value = "password") String password,
-                           HttpServletRequest request) {
-        return loggingService.validatePassword(request, username, password) ? "redirect:/dashboard" : "password-unsuccessful";
+    public String password(HttpServletRequest request,
+                           Model model,
+                           @RequestParam(value = "username") String username,
+                           @RequestParam(value = "password") String password) {
+        return loggingService.validatePassword(request, model, username, password) ? "redirect:/dashboard" : "password-unsuccessful";
     }
 
     @GetMapping(value="/*")

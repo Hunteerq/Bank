@@ -19,7 +19,7 @@ public class LoggingService {
     private UserRepository userRepository;
 
     public Boolean validateUsername(String username, Model model) {
-        Optional<Short> color =  Optional.ofNullable(userRepository.getUserColor(username));
+        Optional<String> color =  Optional.ofNullable(userRepository.getUserColor(username));
         if (color.isPresent()) {
             model.addAttribute("userColor", color.get());
             return true;
@@ -27,12 +27,14 @@ public class LoggingService {
         return false;
     }
 
-    public boolean validatePassword(HttpServletRequest request, String username, String password) {
+    public boolean validatePassword(HttpServletRequest request, Model model, String username, String password) {
         int validation = userRepository.validateUsernameAndPassword(username, password);
         if (validation > 0) {
             saveSession(request, username);
             return true;
         }
+        Optional <String> color = Optional.ofNullable(userRepository.getUserColor(username));
+        color.ifPresent(a -> model.addAttribute("userColor", a));
         return false;
     }
 

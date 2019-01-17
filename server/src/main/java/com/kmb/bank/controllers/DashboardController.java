@@ -19,4 +19,10 @@ public class DashboardController{
         return dashboardService.prepareDashboardView(request, model) ? "dashboard" : "redirect:/";
     }
 
+    @GetMapping("/contact")
+    public String getContact(HttpServletRequest request) {
+        return dashboardService.ifUserIsLogged(request) ? "contact" : "redirect:/";
+    }
+
+
 }
